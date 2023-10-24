@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class gruops extends Model
 {
     use HasFactory;
+    public function users()
+    {
+        return $this->belongsTo(User::class,'create_by');
+    }
 }

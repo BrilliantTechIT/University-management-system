@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use Auth;
+use App\Models\Roles;
 
 class HomeController extends Controller
 {
@@ -23,8 +26,23 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $id=User::find(Auth::id());
+        if($id->runstute==1)
+        {
+            $data=Roles::Where('id_user',Auth::id())->first();
+            // return $data;
+            return view('index',['ro'=>$data]);
 
-        return view('index');
+        }
+        else{
+            Auth::logout();
+            return redirect('/');
+        }
+    }
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/');
     }
     public function d()
     {

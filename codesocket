@@ -1,0 +1,50 @@
+  <form onsubmit="return sendevent(this)" method="post">
+        @csrf
+        <input type="hidden" name="id" value="{{Auth::id()}}">
+        <button class="btn btn-primary" type="submit">send</button>
+    </form>
+    <button class="btn btn-primary" onclick="sendevent2()" type="button">send</button>
+    
+    <script src="assets/js/lobsocket.io.js"></script>
+    <script>
+        // 
+         var id={{Auth::id()}};
+        //  alert(id);
+           var SocketIO=io("http://localhost:3000");
+           
+           SocketIO.emit("connected",id);
+        //    alert('s');
+           function sendevent(form) {
+            event.preventDefault();
+            var message=prompt("enter massge");
+            SocketIO.emit("sendEvent",{
+                "myid":"1",
+                "userId":form.id.value,
+                "message":message,
+            });
+
+            
+
+            
+            
+            
+            // alert('ss');
+           }
+
+           function sendevent2() {
+            event.preventDefault();
+               var m=prompt("enter the message");
+               SocketIO.emit('touser',{
+                "id":3,
+                "m":m
+               }); 
+            }
+
+           SocketIO.on("alls",function(data){
+                alert(data);
+            });
+
+            SocketIO.on("postoneuser",function(data){
+                alert(data);
+            });
+    </script>
