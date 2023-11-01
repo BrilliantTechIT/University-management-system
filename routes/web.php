@@ -15,6 +15,9 @@ use App\Livewire\ShowMoneyCash;
 use App\Livewire\CashStore;
 use App\Livewire\OKCashStore;
 use App\Livewire\ShowCashStore;
+use App\Livewire\AskOff;
+use App\Livewire\OkAskOff;
+use App\Livewire\ShowAskOff;
 
 // use Auth;
 /*
@@ -66,6 +69,19 @@ Route::middleware('auth')->group(function() {
     Route::get('ShowCashStore',ShowCashStore::class)->name('ShowCashStore');
     Route::Post('CashStoreDane',[ShowCashStore::class,'CashStore'])->name('CashStoreDane');
     Route::Post('BackCashStore',[ShowCashStore::class,'BackCashStore'])->name('BackCashStore');
+
+    Route::get('AskOff',AskOff::class)->name('AskOff');
+    Route::Post('StoreAskoffTable',[AskOff::class,'StoreAskoffTable'])->name('StoreAskoffTable');
+    Route::Post('DeleteAskoffTable',[AskOff::class,'DeleteAskoffTable'])->name('DeleteAskoffTable');
+
+    Route::get('OkAskOff',OkAskOff::class)->name('OkAskOff');
+    Route::Post('StoreOkAskoff',[OkAskOff::class,'StoreOkAskoff'])->name('StoreOkAskoff');
+    Route::Post('NoOkAskoff',[OkAskOff::class,'NoOkAskoff'])->name('NoOkAskoff');
+
+    Route::get('ShowAskOff',ShowAskOff::class)->name('ShowAskOff');
+    Route::Post('DoneAskOff',[ShowAskOff::class,'DoneAskOff'])->name('DoneAskOff');
+    Route::Post('BackCashMoney',[ShowAskOff::class,'BackCashMoney'])->name('BackCashMoney');
+
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/logout', [App\Http\Controllers\HomeController::class, 'logout'])->name('logout');
     Route::post('/d', [App\Http\Controllers\HomeController::class, 'd'])->name('d');

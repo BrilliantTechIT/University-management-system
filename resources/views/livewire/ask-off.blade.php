@@ -1,13 +1,13 @@
 <body>
     @php
     if (session('done')) {
-        $c=count($cash);
-        $money=$cash[$c-1]->money;
-        $omlh=$cash[$c-1]->omlh;
-        $opposite=$cash[$c-1]->opposite;
-        $date=$cash[$c-1]->created_at;
-        $createBy=$cash[$c-1]->users->name;
-        $id=$cash[$c-1]->id;
+        $c=count($off);
+        $from=$off[$c-1]->fromDate;
+        $to=$off[$c-1]->toDate;
+        $note=$off[$c-1]->note;
+        $date=$off[$c-1]->created_at;
+        $createBy=$off[$c-1]->users->name;
+        $id=$off[$c-1]->id;
         
         $userid=[];
        
@@ -31,12 +31,12 @@
         <div class="container-fluid py-4">
             <div class="row">
                 <script>
-                     function js_cashmoney(money, omlh,opposite,date,createBy,id,juserid,juserimage,sendname,sendid) {
+                     function js_askoff(fromDate, toDate,note,date,createBy,id,juserid,juserimage,sendname,sendid) {
                     
-                    SocketIO.emit("send_cashmoney", {
-                        "money": money,
-                        "omlh": omlh,
-                        "opposite": opposite,
+                    SocketIO.emit("send_askoff", {
+                        "fromDate": fromDate,
+                        "toDate": toDate,
+                        "note": note,
                         "date": date,
                         "createBy":createBy,
                         "id":id,
@@ -54,7 +54,7 @@
                 </script>
                 @if (session('done'))
                 <script>
-                      js_cashmoney('{{$money}}','{{$omlh}}','{{$opposite}}','{{$date}}','{{$createBy}}','{{$id}}',{{$juserid}},'{{$juserimage}}','{{$sendname}}','{{$sendid}}');
+                      js_askoff('{{$from}}','{{$to}}','{{$note}}','{{$date}}','{{$createBy}}','{{$id}}',{{$juserid}},'{{$juserimage}}','{{$sendname}}','{{$sendid}}');
                 </script>
                     
                 @endif
@@ -97,17 +97,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($cash as $item)
+                                        @foreach ($off as $item)
                                             <tr id="Aid{{ $item->id }}">
                                                 
                                                 <td class="align-middle text-center ">
-                                                    <span class="mb-0 text-sm">{{ $item->money }}</span>
+                                                    <span class="mb-0 text-sm">{{ $item->fromDate }}</span>
                                                 </td>
                                                 <td class="align-middle text-center ">
-                                                    <span class="mb-0 text-sm">{{ $item->omlh }}</span>
+                                                    <span class="mb-0 text-sm">{{ $item->toDate }}</span>
                                                 </td>
                                                 <td class="align-middle text-center ">
-                                                    <span class="mb-0 text-sm">{{ $item->opposite }}</span>
+                                                    <span class="mb-0 text-sm">{{ $item->note }}</span>
                                                 </td>
 
                                                 @if ($item->stute==0)
@@ -142,7 +142,7 @@
                                                 <td class="align-middle">
 
 
-                                                    <form action="{{ route('DeleteCashMoneyTable') }} " method="POST">
+                                                    <form action="{{route('DeleteAskoffTable')}}" method="POST">
                                                         
                                                         @csrf
                                                         <input type="hidden" name="id" value="{{$item->id}}" id="">
@@ -172,20 +172,20 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form id ="addccollage" action="{{ route('StoreCashMoneyTable') }}" method="post">
+                            <form id ="addccollage" action="{{ route('StoreAskoffTable') }}" method="post">
                                 @csrf
                                
                                 <div class="form-group">
-                                    <label for="name1" class="col-form-label">المبلغ</label>
-                                    <input class="form-control" name="money" type="number" id="name1" required>
+                                    <label for="name1" class="col-form-label">تاريخ البداية </label>
+                                    <input class="form-control" type="date" name="fromDate" type="number" id="name1" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="name1" class="col-form-label">العملة</label>
-                                    <input class="form-control" name="omlh" id="name1" required>
+                                    <label for="name1" class="col-form-label">تاريخ النهاية </label>
+                                    <input class="form-control" type="date" name="toDate" id="name1" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="name1" class="col-form-label">المقابل</label>
-                                    <input class="form-control" name="opposite" id="name1" required>
+                                    <label for="name1" class="col-form-label">ملاحظة</label>
+                                    <input class="form-control" name="note" id="name1" required>
                                 </div>  
 
 

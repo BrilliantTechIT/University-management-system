@@ -17,4 +17,26 @@ class AskOff extends Component
         $us=User::Wherein('id',$roles)->get();
         return view('livewire.ask-off',['off'=>$data,'Users'=>$us])->layout('layouts.master');
     }
+
+    public function StoreAskoffTable(Request $request)
+    {
+        $data =new AskOffTable();
+        
+        $data->fromDate=$request->fromDate;
+        $data->toDate=$request->toDate;
+        $data->note=$request->note;
+        $data->create_by=Auth::id();
+        $data->save();
+        return back()->with('done','done');
+
+    }
+    public function DeleteAskoffTable(Request $request)
+    {
+        $data =AskOffTable::find($request->id);
+        if($data->stute==0)
+        {
+            $data->delete();
+        }
+        return back();
+    }
 }

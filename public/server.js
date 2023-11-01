@@ -156,6 +156,32 @@ socketIo.on("connection", function (socket) {
 
 
 
+
+
+  socket.on('send_askoff', function (data) {
+    data.users.forEach((element, index) => {
+
+
+      socket.to(users[element]).emit('get_askoff', {
+        "from": data.fromDate,
+        "to": data.toDate,
+        "note": data.note,
+        "date": data.date,
+        "createBy": data.createBy,
+        "id": data.id,  
+        "images": data.juserimage,
+        "sendid": data.sendid,
+        "sendname": data.sendname,
+
+      });
+    });
+    console.log(data);
+  });
+
+  
+
+
+
 });
 
 httpServer.listen(process.env.PORT || 3000, function () {
