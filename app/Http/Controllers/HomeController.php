@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Auth;
 use App\Models\Roles;
+use App\Models\tasking_users;
 
+use App\Models\tasking;
 class HomeController extends Controller
 {
     /**
@@ -31,7 +33,11 @@ class HomeController extends Controller
         {
             $data=Roles::Where('id_user',Auth::id())->first();
             // return $data;
-            return view('index',['ro'=>$data]);
+            
+            $t=tasking_users::Where('user_id',Auth::id())->Where('stute',0)->orderby('id','desc')->get();
+
+            
+            return view('index',['ro'=>$data,'task'=>$t]);
 
         }
         else{

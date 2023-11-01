@@ -9,6 +9,12 @@ use App\Livewire\UsersScreen;
 use App\Livewire\UsersGroups;
 use App\Livewire\RolesScreen;
 use App\Livewire\Tasking;
+use App\Livewire\CashMoney;
+use App\Livewire\OkCashMoney;
+use App\Livewire\ShowMoneyCash;
+use App\Livewire\CashStore;
+use App\Livewire\OKCashStore;
+use App\Livewire\ShowCashStore;
 
 // use Auth;
 /*
@@ -39,7 +45,27 @@ Route::middleware('auth')->group(function() {
     Route::Post('set_rols',[RolesScreen::class,'set_rols'])->name('set_rols');
     Route::get('Tasking',Tasking::class)->name('Tasking');
     Route::Post('Store_task',[Tasking::class,'Store_task'])->name('Store_task');
+    Route::Post('DaneTask',[Tasking::class,'DaneTask'])->name('DaneTask');
+    Route::Post('NoTask',[Tasking::class,'NoTask'])->name('NoTask');
+    Route::get('CashMoney',CashMoney::class)->name('CashMoney');
+    Route::Post('StoreCashMoneyTable',[CashMoney::class,'StoreCashMoneyTable'])->name('StoreCashMoneyTable');
+    Route::Post('DeleteCashMoneyTable',[CashMoney::class,'DeleteCashMoneyTable'])->name('DeleteCashMoneyTable');
+    Route::get('OkCashMoney',OkCashMoney::class)->name('OkCashMoney');
+    Route::Post('StoreOkCashMoney',[OkCashMoney::class,'StoreOkCashMoney'])->name('StoreOkCashMoney');
+    Route::Post('NoOkCashMoney',[OkCashMoney::class,'NoOkCashMoney'])->name('NoOkCashMoney');
+    Route::get('ShowMoneyCash',ShowMoneyCash::class)->name('ShowMoneyCash');
+    Route::Post('CashMoney',[ShowMoneyCash::class,'CashMoney'])->name('CashMoney');
+    Route::Post('BackCashMoney',[ShowMoneyCash::class,'BackCashMoney'])->name('BackCashMoney');
 
+    Route::get('CashStore',CashStore::class)->name('CashStore');
+    Route::Post('StoreCashStoreTable',[CashStore::class,'StoreCashStoreTable'])->name('StoreCashStoreTable');
+    Route::Post('DeleteCashStoreTable',[CashStore::class,'DeleteCashStoreTable'])->name('DeleteCashStoreTable');
+    Route::get('OKCashStore',OKCashStore::class)->name('OKCashStore');
+    Route::Post('StoreOkCashstore',[OKCashStore::class,'StoreOkCashstore'])->name('StoreOkCashstore');
+    Route::Post('NoOkCashstore',[OKCashStore::class,'NoOkCashstore'])->name('NoOkCashstore');
+    Route::get('ShowCashStore',ShowCashStore::class)->name('ShowCashStore');
+    Route::Post('CashStoreDane',[ShowCashStore::class,'CashStore'])->name('CashStoreDane');
+    Route::Post('BackCashStore',[ShowCashStore::class,'BackCashStore'])->name('BackCashStore');
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/logout', [App\Http\Controllers\HomeController::class, 'logout'])->name('logout');
     Route::post('/d', [App\Http\Controllers\HomeController::class, 'd'])->name('d');
