@@ -6,17 +6,28 @@ use Livewire\Component;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Roles;
-
+use Auth;
 class UsersScreen extends Component
 {
     public function render()
     {
+        $r4=Roles::Where('id_user',Auth::id())->first();
+        if($r4->Users==0)
+        {
+            return view('lock')->layout('layouts.s');
+        }
         $data=User::Select('id','name','phone','email','image','runstute')->get();
         return view('livewire.users-screen',['user'=>$data])->layout('layouts.master');
     }
 
     public function Store_user(Request $request)
     {
+        $r4=Roles::Where('id_user',Auth::id())->first();
+        if($r4->Users==0)
+        {
+            return view('lock')->layout('layouts.s');
+        }
+        
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '.' . $image->extension();
@@ -64,6 +75,11 @@ class UsersScreen extends Component
     }
     public function Stop_user(Request $request)
     {
+        $r4=Roles::Where('id_user',Auth::id())->first();
+        if($r4->Users==0)
+        {
+            return view('lock')->layout('layouts.s');
+        }
         // return $request->id_user;
         $data=User::find($request->id_user);
         // return $data->runstute;

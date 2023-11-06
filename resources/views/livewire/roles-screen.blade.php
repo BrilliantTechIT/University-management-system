@@ -1,4 +1,5 @@
 <body>
+  
     @section('contain')
         <div class="container-fluid py-4">
             <div class="row">
@@ -413,7 +414,7 @@
                                             </td>
 
                                         </tr>
-                                        <tr>
+                                        {{-- <tr>
 
                                             <td>
                                                 <div class="d-flex flex-column justify-content-center">
@@ -432,7 +433,7 @@
 
                                             </td>
 
-                                        </tr>
+                                        </tr> --}}
 
 
                                     </tbody>

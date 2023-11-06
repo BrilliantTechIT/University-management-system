@@ -12,7 +12,7 @@
 
                         <div class="card-header pb-0">
 
-                            <h6> اوامر صرف</h6>
+                            <h6> اوامر شراء</h6>
 
                         </div>
                         <div class="card-body px-0 pt-0 pb-2">
@@ -95,13 +95,13 @@
                                                     </span>
                                                 </td>
                                                 <td class="align-middle">
-                                                    <form action="{{ route('CashStoreDane') }} " method="POST">
+                                                    <form action="{{ route('AskBuyTableDone') }} " method="POST">
 
                                                         @csrf
                                                         <input type="hidden" name="id" value="{{ $item->id }}"
                                                             id="">
                                                         <button type="submit" name="delete"
-                                                            class="mb-0 text-md fa fa-check fa-2x btn btn-success">صرف</button>
+                                                            class="mb-0 text-md fa fa-check fa-2x btn btn-success">شراء</button>
                                                     </form>
 
                                                 </td>
@@ -127,7 +127,7 @@
 
                         <div class="card-header pb-0">
 
-                            <h6> طلبات الصرف تحت موافقات</h6>
+                            <h6> طلبات الشراء تحت موافقات</h6>
 
                         </div>
                         <div class="card-body px-0 pt-0 pb-2">
@@ -151,7 +151,7 @@
                                             <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
                                                 تم الموافقة بواسطة</th>
                                             <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
-                                                تم الصرف بواسطة</th>
+                                                تم الشراء بواسطة</th>
 
                                             <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
                                                 تاريخ</th>
@@ -218,14 +218,14 @@
                                                     </span>
                                                 </td>
                                                 <td class="align-middle">
-                                                    <form action="{{ route('BackCashStore') }} " method="POST">
+                                                    <form action="{{ route('BackAskBuyTable') }} " method="POST">
 
                                                         @csrf
                                                         <input type="hidden" name="id" value="{{ $item->id }}"
                                                             id="">
                                                         <button type="submit" name="delete"
                                                             class="mb-0 text-md fa fa-times fa-2x btn btn-danger">رد
-                                                            الصرف</button>
+                                                            الشراء</button>
                                                     </form>
                                                 </td>
                                             </tr>
@@ -260,8 +260,8 @@
 
 
             <script>
-                SocketIO.on("get_cashstore", function(data) {
-                    alert(data.name);
+                SocketIO.on("get_AskBuy", function(data) {
+                    // alert(data.name);
                     const tbody = document.getElementById('tableBody');
                     var newRow = tbody.insertRow(0); // Inserts at the top, index 0 would be the header row
                     var cell1 = newRow.insertCell(0);
@@ -314,12 +314,12 @@
                                                 </td>`;
 
                     cell9.innerHTML = `<td class="align-middle">
-                                                    <form action="{{ route('CashStoreDane') }} " method="POST">
+                                                    <form action="{{ route('AskBuyTableDone') }} " method="POST">
                                                         
                                                         @csrf
                                                         <input type="hidden" name="id" value="${data.id}" id="">
                                                         <button type="submit" name="delete"
-                                                            class="mb-0 text-md fa fa-check fa-2x btn btn-success">صرف</button>
+                                                            class="mb-0 text-md fa fa-check fa-2x btn btn-success">شراء</button>
                                                     </form>
                                                    
                                                 </td>`;

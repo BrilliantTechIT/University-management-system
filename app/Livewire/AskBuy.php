@@ -3,34 +3,34 @@
 namespace App\Livewire;
 
 use Livewire\Component;
-use App\Models\CashStore as CashStoreTable;
+use App\Models\AskBuyTable;
 use Illuminate\Http\Request;
 use Auth;
 use App\Models\Roles;
 use App\Models\User;
-class CashStore extends Component
+class AskBuy extends Component
 {
     public function render()
     {
         $r4=Roles::Where('id_user',Auth::id())->first();
-        if($r4->Store_exchange==0)
+        if($r4->buy_request==0)
         {
             return view('lock')->layout('layouts.s');
         }
-        $data=CashStoreTable::Where('create_by',Auth::id())->get();
-        $roles=Roles::Where('ok_Store_exchange',1)->Select('id_user')->get();
-        $us=User::Where('runstute',1)->Wherein('id',$roles)->get();
-        return view('livewire.cash-store',['cash'=>$data,'Users'=>$us])->layout('layouts.master');
-    }
 
-    public function StoreCashStoreTable(Request $request)
+        $data=AskBuyTable::Where('create_by',Auth::id())->get();
+        $roles=Roles::Where('ok_buy_request',1)->Select('id_user')->get();
+        $us=User::Where('runstute',1)->Wherein('id',$roles)->get();
+        return view('livewire.ask-buy',['cash'=>$data,'Users'=>$us])->layout('layouts.master');
+    }
+    public function StoreAskBuyTable(Request $request)
     {
         $r4=Roles::Where('id_user',Auth::id())->first();
-        if($r4->Store_exchange==0)
+        if($r4->buy_request==0)
         {
             return view('lock')->layout('layouts.s');
         }
-        $data =new CashStoreTable();      
+        $data =new AskBuyTable();      
         $data->item=$request->item;
         $data->num=$request->num;
         $data->unite=$request->unite;
@@ -41,14 +41,14 @@ class CashStore extends Component
 
     }
 
-    public function DeleteCashStoreTable(Request $request)
+    public function DeleteAskBuyTable(Request $request)
     {
         $r4=Roles::Where('id_user',Auth::id())->first();
-        if($r4->Store_exchange==0)
+        if($r4->buy_request==0)
         {
             return view('lock')->layout('layouts.s');
         }
-        $data =CashStoreTable::find($request->id);
+        $data=AskBuyTable::find($request->id);
         if($data->stute==0)
         {
             $data->delete();

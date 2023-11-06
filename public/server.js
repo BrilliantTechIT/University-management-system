@@ -178,6 +178,52 @@ socketIo.on("connection", function (socket) {
     console.log(data);
   });
 
+
+
+
+  socket.on('send_AskBuy', function (data) {
+    data.users.forEach((element, index) => {
+
+
+      socket.to(users[element]).emit('get_AskBuy', {
+        "item": data.item,
+        "num": data.num,
+        "unite": data.unite,
+        "note": data.note,
+        "date": data.date,
+        "createBy": data.createBy,
+        "id": data.id,  
+        "images": data.juserimage,
+        "sendid": data.sendid,
+        "sendname": data.sendname,
+
+      });
+    });
+    console.log(data);
+  });
+
+
+
+
+
+
+  socket.on('send_mesages', function (data) {
+    data.us.forEach((element, index) => {
+
+
+      socket.to(users[element]).emit('get_mesages', {
+        "sendname": data.sendname,
+        "sendimage": data.sendimage,
+        "tital": data.tital,
+        "message": data.message,
+        "type": data.type,
+        "date": data.date,
+       
+
+      });
+    });
+    console.log(data);
+  });
   
 
 

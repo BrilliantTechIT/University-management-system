@@ -12,6 +12,11 @@ class ShowAskOff extends Component
 {
     public function render()
     {
+        $r4=Roles::Where('id_user',Auth::id())->first();
+        if($r4->show_vacation_request==0)
+        {
+            return view('lock')->layout('layouts.s');
+        }
         $ok=AskOffTable::Where('stute',1)->orderby('id','desc')->get();
         $cash=AskOffTable::Where('stute',3)->orderby('id','desc')->get();
         return view('livewire.show-ask-off',['ok'=>$ok,'cash'=>$cash])->layout('layouts.master');
@@ -19,6 +24,11 @@ class ShowAskOff extends Component
 
     public function DoneAskOff(Request $request)
     {
+        $r4=Roles::Where('id_user',Auth::id())->first();
+        if($r4->show_vacation_request==0)
+        {
+            return view('lock')->layout('layouts.s');
+        }
         $ask=AskOffTable::find($request->id);
         $ask->stute=3;
         $ask->cash_by=Auth::id();
@@ -31,6 +41,11 @@ class ShowAskOff extends Component
 
     public function BackCashMoney(Request $request)
     {
+        $r4=Roles::Where('id_user',Auth::id())->first();
+        if($r4->show_vacation_request==0)
+        {
+            return view('lock')->layout('layouts.s');
+        }
         $ask=AskOffTable::find($request->id);
         $ask->stute=1;
         $ask->save();

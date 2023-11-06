@@ -18,6 +18,10 @@ use App\Livewire\ShowCashStore;
 use App\Livewire\AskOff;
 use App\Livewire\OkAskOff;
 use App\Livewire\ShowAskOff;
+use App\Livewire\AskBuy;
+use App\Livewire\OKAskBuy;
+use App\Livewire\ShowAskBuy;
+use App\Livewire\Messaging;
 
 // use Auth;
 /*
@@ -82,6 +86,25 @@ Route::middleware('auth')->group(function() {
     Route::Post('DoneAskOff',[ShowAskOff::class,'DoneAskOff'])->name('DoneAskOff');
     Route::Post('BackCashMoney',[ShowAskOff::class,'BackCashMoney'])->name('BackCashMoney');
 
+
+    Route::get('AskBuy',AskBuy::class)->name('AskBuy');
+    Route::Post('StoreAskBuyTable',[AskBuy::class,'StoreAskBuyTable'])->name('StoreAskBuyTable');
+    Route::Post('DeleteAskBuyTable',[AskBuy::class,'DeleteAskBuyTable'])->name('DeleteAskBuyTable');
+
+
+    Route::get('OKAskBuy',OKAskBuy::class)->name('OKAskBuy');
+    Route::Post('StoreOKAskBuy',[OKAskBuy::class,'StoreOKAskBuy'])->name('StoreOKAskBuy');
+    Route::Post('NoOKAskBuy',[OKAskBuy::class,'NoOKAskBuy'])->name('NoOKAskBuy');
+
+
+    Route::get('ShowAskBuy',ShowAskBuy::class)->name('ShowAskBuy');
+    Route::Post('AskBuyTableDone',[ShowAskBuy::class,'AskBuyTable'])->name('AskBuyTableDone');
+    Route::Post('BackAskBuyTable',[ShowAskBuy::class,'BackAskBuyTable'])->name('BackAskBuyTable');
+
+    Route::get('Messaging',Messaging::class)->name('Messaging');
+    Route::Post('SendMessage',[Messaging::class,'SendMessage'])->name('SendMessage');
+    Route::Post('SendFiles',[Messaging::class,'SendFiles'])->name('SendFiles');
+
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/logout', [App\Http\Controllers\HomeController::class, 'logout'])->name('logout');
     Route::post('/d', [App\Http\Controllers\HomeController::class, 'd'])->name('d');
@@ -96,7 +119,7 @@ Route::middleware('auth')->group(function() {
     if(count($d)==0)
     {
         $d=new User();
-        $d->name="admin";
+        $d->name="رئيس النظام";
         $d->email="admin@gmail.com";
         $d->phone="77";
         $d->image="no.png";
@@ -134,7 +157,7 @@ Route::middleware('auth')->group(function() {
 
 
         $d=new User();
-        $d->name="hussam";
+        $d->name="حسام  دومان";
         $d->email="hu@g.com";
         $d->phone="77";
         $d->image="no.png";
@@ -147,9 +170,9 @@ Route::middleware('auth')->group(function() {
         $roles=new Roles();
         $roles->id_user=$id_user;
         $roles->Dashbord=0;
-        $roles->Users=0;
-        $roles->Group=0;
-        $roles->Roles=0;
+        $roles->Users=1;
+        $roles->Group=1;
+        $roles->Roles=1;
         $roles->Financial_exchange=1;
         $roles->Store_exchange=1;
         $roles->vacation_request=1;
@@ -162,15 +185,48 @@ Route::middleware('auth')->group(function() {
         $roles->show_Store_exchange=0;
         $roles->show_vacation_request=0;
         $roles->show_buy_request=0;
-        $roles->send_message=0;
-        $roles->send_file=0;
+        $roles->send_message=1;
+        $roles->send_file=1;
         $roles->new_task=0;
         $roles->save();
 
 
         $d=new User();
-        $d->name="ali";
-        $d->email="a@g.com";
+        $d->name="اثير الحسابات";
+        $d->email="th@g.com";
+        $d->phone="77";
+        $d->image="no.png";
+
+        $d->password=Hash::make("77");
+        $d->save();
+
+        $id_user=User::max('id');
+        $roles=new Roles();
+        $roles->id_user=$id_user;
+        $roles->Dashbord=0;
+        $roles->Users=0;
+        $roles->Group=0;
+        $roles->Roles=0;
+        $roles->Financial_exchange=1;
+        $roles->Store_exchange=1;
+        $roles->vacation_request=1;
+        $roles->buy_request=1;
+        $roles->ok_Financial_exchange=0;
+        $roles->ok_Store_exchange=0;
+        $roles->ok_vacation_request=0;
+        $roles->ok_buy_request=0;
+        $roles->show_Financial_exchange=1;
+        $roles->show_Store_exchange=0;
+        $roles->show_vacation_request=0;
+        $roles->show_buy_request=0;
+        $roles->send_message=1;
+        $roles->send_file=0;
+        $roles->new_task=1;
+        $roles->save();
+
+        $d=new User();
+        $d->name="ريم المخازن";
+        $d->email="rem@g.com";
         $d->phone="77";
         $d->image="no.png";
 
@@ -193,7 +249,7 @@ Route::middleware('auth')->group(function() {
         $roles->ok_vacation_request=0;
         $roles->ok_buy_request=0;
         $roles->show_Financial_exchange=0;
-        $roles->show_Store_exchange=0;
+        $roles->show_Store_exchange=1;
         $roles->show_vacation_request=0;
         $roles->show_buy_request=0;
         $roles->send_message=0;
@@ -202,40 +258,7 @@ Route::middleware('auth')->group(function() {
         $roles->save();
 
         $d=new User();
-        $d->name="mohammed";
-        $d->email="mo@g.com";
-        $d->phone="77";
-        $d->image="no.png";
-
-        $d->password=Hash::make("77");
-        $d->save();
-
-        $id_user=User::max('id');
-        $roles=new Roles();
-        $roles->id_user=$id_user;
-        $roles->Dashbord=0;
-        $roles->Users=0;
-        $roles->Group=0;
-        $roles->Roles=0;
-        $roles->Financial_exchange=1;
-        $roles->Store_exchange=1;
-        $roles->vacation_request=1;
-        $roles->buy_request=1;
-        $roles->ok_Financial_exchange=0;
-        $roles->ok_Store_exchange=0;
-        $roles->ok_vacation_request=0;
-        $roles->ok_buy_request=0;
-        $roles->show_Financial_exchange=0;
-        $roles->show_Store_exchange=0;
-        $roles->show_vacation_request=0;
-        $roles->show_buy_request=0;
-        $roles->send_message=0;
-        $roles->send_file=0;
-        $roles->new_task=0;
-        $roles->save();
-
-        $d=new User();
-        $d->name="suad";
+        $d->name="د سعاد عثمان";
         $d->email="su@g.com";
         $d->phone="77";
         $d->image="no.png";
@@ -262,10 +285,149 @@ Route::middleware('auth')->group(function() {
         $roles->show_Store_exchange=0;
         $roles->show_vacation_request=0;
         $roles->show_buy_request=0;
-        $roles->send_message=0;
+        $roles->send_message=1;
+        $roles->send_file=0;
+        $roles->new_task=1;
+        $roles->save();
+
+
+
+        $d=new User();
+        $d->name="د سعد العتابي";
+        $d->email="sa@g.com";
+        $d->phone="77";
+        $d->image="no.png";
+
+        $d->password=Hash::make("77");
+        $d->save();
+
+        $id_user=User::max('id');
+        $roles=new Roles();
+        $roles->id_user=$id_user;
+        $roles->Dashbord=1;
+        $roles->Users=1;
+        $roles->Group=1;
+        $roles->Roles=1;
+        $roles->Financial_exchange=1;
+        $roles->Store_exchange=1;
+        $roles->vacation_request=1;
+        $roles->buy_request=1;
+        $roles->ok_Financial_exchange=1;
+        $roles->ok_Store_exchange=1;
+        $roles->ok_vacation_request=1;
+        $roles->ok_buy_request=1;
+        $roles->show_Financial_exchange=1;
+        $roles->show_Store_exchange=1;
+        $roles->show_vacation_request=1;
+        $roles->show_buy_request=1;
+        $roles->send_message=1;
+        $roles->send_file=1;
+        $roles->new_task=1;
+        $roles->save();
+
+
+        $d=new User();
+        $d->name="د انتصار الهلالي";
+        $d->email="an@g.com";
+        $d->phone="77";
+        $d->image="no.png";
+
+        $d->password=Hash::make("77");
+        $d->save();
+
+        $id_user=User::max('id');
+        $roles=new Roles();
+        $roles->id_user=$id_user;
+        $roles->Dashbord=0;
+        $roles->Users=0;
+        $roles->Group=0;
+        $roles->Roles=0;
+        $roles->Financial_exchange=1;
+        $roles->Store_exchange=1;
+        $roles->vacation_request=1;
+        $roles->buy_request=1;
+        $roles->ok_Financial_exchange=0;
+        $roles->ok_Store_exchange=0;
+        $roles->ok_vacation_request=0;
+        $roles->ok_buy_request=0;
+        $roles->show_Financial_exchange=0;
+        $roles->show_Store_exchange=0;
+        $roles->show_vacation_request=0;
+        $roles->show_buy_request=0;
+        $roles->send_message=1;
+        $roles->send_file=0;
+        $roles->new_task=1;
+        $roles->save();
+
+
+        $d=new User();
+        $d->name="زكريا";
+        $d->email="zk@g.com";
+        $d->phone="77";
+        $d->image="no.png";
+
+        $d->password=Hash::make("77");
+        $d->save();
+
+        $id_user=User::max('id');
+        $roles=new Roles();
+        $roles->id_user=$id_user;
+        $roles->Dashbord=0;
+        $roles->Users=0;
+        $roles->Group=0;
+        $roles->Roles=0;
+        $roles->Financial_exchange=1;
+        $roles->Store_exchange=1;
+        $roles->vacation_request=1;
+        $roles->buy_request=1;
+        $roles->ok_Financial_exchange=0;
+        $roles->ok_Store_exchange=0;
+        $roles->ok_vacation_request=0;
+        $roles->ok_buy_request=0;
+        $roles->show_Financial_exchange=0;
+        $roles->show_Store_exchange=0;
+        $roles->show_vacation_request=0;
+        $roles->show_buy_request=0;
+        $roles->send_message=1;
         $roles->send_file=0;
         $roles->new_task=0;
         $roles->save();
+
+
+        $d=new User();
+        $d->name="هيام";
+        $d->email="hm@g.com";
+        $d->phone="77";
+        $d->image="no.png";
+
+        $d->password=Hash::make("77");
+        $d->save();
+
+        $id_user=User::max('id');
+        $roles=new Roles();
+        $roles->id_user=$id_user;
+        $roles->Dashbord=0;
+        $roles->Users=0;
+        $roles->Group=0;
+        $roles->Roles=0;
+        $roles->Financial_exchange=1;
+        $roles->Store_exchange=1;
+        $roles->vacation_request=1;
+        $roles->buy_request=1;
+        $roles->ok_Financial_exchange=0;
+        $roles->ok_Store_exchange=0;
+        $roles->ok_vacation_request=0;
+        $roles->ok_buy_request=0;
+        $roles->show_Financial_exchange=0;
+        $roles->show_Store_exchange=0;
+        $roles->show_vacation_request=0;
+        $roles->show_buy_request=0;
+        $roles->send_message=1;
+        $roles->send_file=0;
+        $roles->new_task=0;
+        $roles->save();
+
+
 
     }
 }

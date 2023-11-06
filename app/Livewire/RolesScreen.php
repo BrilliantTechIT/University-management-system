@@ -12,17 +12,32 @@ class RolesScreen extends Component
 {
     public function render()
     {
-        $data=User::get();
+        $r4=Roles::Where('id_user',Auth::id())->first();
+        if($r4->Roles==0)
+        {
+            return view('lock')->layout('layouts.s');
+        }
+        $data=User::Where('runstute',1)->get();
         return view('livewire.roles-screen',['users'=>$data])->layout('layouts.master');
     }
     public function get_Rols(Request $request)
     {
+        $r4=Roles::Where('id_user',Auth::id())->first();
+        if($r4->Roles==0)
+        {
+            return view('lock')->layout('layouts.s');
+        }
         $data=Roles::Find($request->id);
         Session::put('roles',$data);
         return back();
     }
     public function set_rols(Request $request)
     {
+        $r4=Roles::Where('id_user',Auth::id())->first();
+        if($r4->Roles==0)
+        {
+            return view('lock')->layout('layouts.s');
+        }
         // return $request->id_user;
         $data2=Roles::Where('id_user',$request->id_user)->first();
         $data=Roles::find($data2->id);

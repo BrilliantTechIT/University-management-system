@@ -12,14 +12,24 @@ class AskOff extends Component
 {
     public function render()
     {
+        $r4=Roles::Where('id_user',Auth::id())->first();
+        if($r4->vacation_request==0)
+        {
+            return view('lock')->layout('layouts.s');
+        }
         $data=AskOffTable::Where('create_by',Auth::id())->get();
         $roles=Roles::Where('ok_vacation_request',1)->Select('id_user')->get();
-        $us=User::Wherein('id',$roles)->get();
+        $us=User::Where('runstute',1)->Wherein('id',$roles)->get();
         return view('livewire.ask-off',['off'=>$data,'Users'=>$us])->layout('layouts.master');
     }
 
     public function StoreAskoffTable(Request $request)
     {
+        $r4=Roles::Where('id_user',Auth::id())->first();
+        if($r4->vacation_request==0)
+        {
+            return view('lock')->layout('layouts.s');
+        }
         $data =new AskOffTable();
         
         $data->fromDate=$request->fromDate;
@@ -32,6 +42,11 @@ class AskOff extends Component
     }
     public function DeleteAskoffTable(Request $request)
     {
+        $r4=Roles::Where('id_user',Auth::id())->first();
+        if($r4->vacation_request==0)
+        {
+            return view('lock')->layout('layouts.s');
+        }
         $data =AskOffTable::find($request->id);
         if($data->stute==0)
         {

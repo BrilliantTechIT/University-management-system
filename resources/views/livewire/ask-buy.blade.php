@@ -1,13 +1,17 @@
+<div>
+    {{-- In work, do what you enjoy. --}}
+</div>
 <body>
     @php
     if (session('done')) {
-        $c=count($off);
-        $from=$off[$c-1]->fromDate;
-        $to=$off[$c-1]->toDate;
-        $note=$off[$c-1]->note;
-        $date=$off[$c-1]->created_at;
-        $createBy=$off[$c-1]->users->name;
-        $id=$off[$c-1]->id;
+        $c=count($cash);
+        $item=$cash[$c-1]->item;
+        $num=$cash[$c-1]->num;
+        $unite=$cash[$c-1]->unite;
+        $note=$cash[$c-1]->note;
+        $date=$cash[$c-1]->created_at;
+        $createBy=$cash[$c-1]->users->name;
+        $id=$cash[$c-1]->id;
         
         $userid=[];
        
@@ -31,11 +35,12 @@
         <div class="container-fluid py-4">
             <div class="row">
                 <script>
-                     function js_askoff(fromDate, toDate,note,date,createBy,id,juserid,juserimage,sendname,sendid) {
+                     function js_AskBuy(item, num,unite,note,date,createBy,id,juserid,juserimage,sendname,sendid) {
                     
-                    SocketIO.emit("send_askoff", {
-                        "fromDate": fromDate,
-                        "toDate": toDate,
+                    SocketIO.emit("send_AskBuy", {
+                        "item": item,
+                        "num": num,
+                        "unite": unite,
                         "note": note,
                         "date": date,
                         "createBy":createBy,
@@ -54,21 +59,21 @@
                 </script>
                 @if (session('done'))
                 <script>
-                      js_askoff('{{$from}}','{{$to}}','{{$note}}','{{$date}}','{{$createBy}}','{{$id}}',{{$juserid}},'{{$juserimage}}','{{$sendname}}','{{$sendid}}');
+                      js_AskBuy('{{$item}}','{{$num}}','{{$unite}}','{{$note}}','{{$date}}','{{$createBy}}','{{$id}}',{{$juserid}},'{{$juserimage}}','{{$sendname}}','{{$sendid}}');
                 </script>
                     
                 @endif
                 
                 <div class="col-12">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#save1"> اضافة طلب اجازة
-                        
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#save1"> اضافة طلب 
+                        شراء
                         جديد </button>
 
                     <div class="card mb-4">
 
                         <div class="card-header pb-0">
 
-                            <h6>طلبات اجازة</h6>
+                            <h6>طلبات شراء</h6>
 
                         </div>
                         <div class="card-body px-0 pt-0 pb-2">
@@ -78,11 +83,13 @@
                                         <tr>
                                            
                                             <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
-                                                تاريخ البداية </th>
+                                                العنصر </th>
                                             <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
-                                                تاريخ النهاية </th>
+                                                الكمية </th>
                                             <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
-                                                ملاحظة </th>
+                                                الوحدة </th>
+                                                <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
+                                                    ملاحظة </th>
                                                 <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
                                                     حالة الطلب </th>
                                             <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
@@ -97,14 +104,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($off as $item)
+                                        @foreach ($cash as $item)
                                             <tr id="Aid{{ $item->id }}">
                                                 
                                                 <td class="align-middle text-center ">
-                                                    <span class="mb-0 text-sm">{{ $item->fromDate }}</span>
+                                                    <span class="mb-0 text-sm">{{ $item->item }}</span>
                                                 </td>
                                                 <td class="align-middle text-center ">
-                                                    <span class="mb-0 text-sm">{{ $item->toDate }}</span>
+                                                    <span class="mb-0 text-sm">{{ $item->num }}</span>
+                                                </td>
+                                                <td class="align-middle text-center ">
+                                                    <span class="mb-0 text-sm">{{ $item->unite }}</span>
                                                 </td>
                                                 <td class="align-middle text-center ">
                                                     <span class="mb-0 text-sm">{{ $item->note }}</span>
@@ -142,7 +152,7 @@
                                                 <td class="align-middle">
 
 
-                                                    <form action="{{route('DeleteAskoffTable')}}" method="POST">
+                                                    <form action="{{ route('DeleteAskBuyTable') }} " method="POST">
                                                         
                                                         @csrf
                                                         <input type="hidden" name="id" value="{{$item->id}}" id="">
@@ -172,17 +182,22 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form id ="addccollage" action="{{ route('StoreAskoffTable') }}" method="post">
+                            <form id ="addccollage" action="{{ route('StoreAskBuyTable') }}" method="post">
                                 @csrf
                                
                                 <div class="form-group">
-                                    <label for="name1" class="col-form-label">تاريخ البداية </label>
-                                    <input class="form-control" type="date" name="fromDate" type="number" id="name1" required>
+                                    <label for="name1" class="col-form-label">العنصر</label>
+                                    <input class="form-control" name="item"  id="name1" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="name1" class="col-form-label">تاريخ النهاية </label>
-                                    <input class="form-control" type="date" name="toDate" id="name1" required>
+                                    <label for="name1" class="col-form-label">الكمية</label>
+                                    <input class="form-control" type="number" name="num" id="name1" required>
                                 </div>
+                                <div class="form-group">
+                                    <label for="name1" class="col-form-label">الوحدة</label>
+                                    <input class="form-control" name="unite" id="name1" required>
+                                </div>  
+
                                 <div class="form-group">
                                     <label for="name1" class="col-form-label">ملاحظة</label>
                                     <input class="form-control" name="note" id="name1" required>

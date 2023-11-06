@@ -7,6 +7,13 @@ use App\Models\User;
 use Auth;
 use App\Models\Roles;
 use App\Models\tasking_users;
+use App\Models\AskBuyTable;
+use App\Models\AskOffTable;
+use App\Models\CashMoneyTable;
+use App\Models\CashStore;
+use App\Models\MessagingTable;
+
+
 
 use App\Models\tasking;
 class HomeController extends Controller
@@ -35,9 +42,18 @@ class HomeController extends Controller
             // return $data;
             
             $t=tasking_users::Where('user_id',Auth::id())->Where('stute',0)->orderby('id','desc')->get();
-
             
-            return view('index',['ro'=>$data,'task'=>$t]);
+            $okmoney=count(CashMoneyTable::Where('stute',0)->get());
+            $okstore=count(CashStore::Where('stute',0)->get());
+            $okaskbuy=count(AskBuyTable::Where('stute',0)->get());
+            $okaskoff=count(AskOffTable::Where('stute',0)->get());
+
+            $showmoney=count(CashMoneyTable::Where('stute',1)->get());
+            $showstore=count(CashStore::Where('stute',1)->get());
+            $showaskbuy=count(AskBuyTable::Where('stute',1)->get());
+            $showaskoff=count(AskOffTable::Where('stute',1)->get());
+            
+            return view('index',['ro'=>$data,'task'=>$t,'okmoney'=>$okmoney,'okstore'=>$okstore,'okaskbuy'=>$okaskbuy,'okaskoff'=>$okaskoff,'showmoney'=>$showmoney,'showstore'=>$showstore,'showaskbuy'=>$showaskbuy,'showaskoff'=>$showaskoff]);
 
         }
         else{

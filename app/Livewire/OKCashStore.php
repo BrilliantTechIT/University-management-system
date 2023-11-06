@@ -13,17 +13,27 @@ class OKCashStore extends Component
 {
     public function render()
     {
+        $r4=Roles::Where('id_user',Auth::id())->first();
+        if($r4->ok_Store_exchange==0)
+        {
+            return view('lock')->layout('layouts.s');
+        }
         $wait=CashStore::Where('stute',0)->orderby('id','desc')->get();
         $ok=CashStore::Where('stute',1)->orderby('id','desc')->get();
         $no=CashStore::Where('stute',2)->orderby('id','desc')->get();
         $cash=CashStore::Where('stute',3)->orderby('id','desc')->get();
         $roles=Roles::Where('show_Financial_exchange',1)->Select('id_user')->get();
-        $us=User::Wherein('id',$roles)->get();
+        $us=User::Where('runstute',1)->Wherein('id',$roles)->get();
         return view('livewire.o-k-cash-store',['wait'=>$wait,'ok'=>$ok,'no'=>$no,'cash'=>$cash,'us'=>$us])->layout('layouts.master');
     }
 
     public function StoreOkCashstore(Request $request)
     {
+        $r4=Roles::Where('id_user',Auth::id())->first();
+        if($r4->ok_Store_exchange==0)
+        {
+            return view('lock')->layout('layouts.s');
+        }
        $ask=CashStore::find($request->id);
        $ask->stute=1;
        $ask->accept_by=Auth::id();
@@ -34,6 +44,11 @@ class OKCashStore extends Component
 
     public function NoOkCashstore(Request $request)
     {
+        $r4=Roles::Where('id_user',Auth::id())->first();
+        if($r4->ok_Store_exchange==0)
+        {
+            return view('lock')->layout('layouts.s');
+        }
        
        $ask=CashStore::find($request->id);
        if($ask->stute!=3)
