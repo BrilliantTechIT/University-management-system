@@ -12,7 +12,9 @@ use App\Models\AskOffTable;
 use App\Models\CashMoneyTable;
 use App\Models\CashStore;
 use App\Models\MessagingTable;
+use App\Models\gruops;
 
+use App\Models\ConnectGruopUser;
 
 
 use App\Models\tasking;
@@ -38,23 +40,9 @@ class HomeController extends Controller
         $id=User::find(Auth::id());
         if($id->runstute==1)
         {
-            $data=Roles::Where('id_user',Auth::id())->first();
-            // return $data;
-            
-            $t=tasking_users::Where('user_id',Auth::id())->Where('stute',0)->orderby('id','desc')->get();
-            
-            $okmoney=count(CashMoneyTable::Where('stute',0)->get());
-            $okstore=count(CashStore::Where('stute',0)->get());
-            $okaskbuy=count(AskBuyTable::Where('stute',0)->get());
-            $okaskoff=count(AskOffTable::Where('stute',0)->get());
-
-            $showmoney=count(CashMoneyTable::Where('stute',1)->get());
-            $showstore=count(CashStore::Where('stute',1)->get());
-            $showaskbuy=count(AskBuyTable::Where('stute',1)->get());
-            $showaskoff=count(AskOffTable::Where('stute',1)->get());
-            
-            return view('index',['ro'=>$data,'task'=>$t,'okmoney'=>$okmoney,'okstore'=>$okstore,'okaskbuy'=>$okaskbuy,'okaskoff'=>$okaskoff,'showmoney'=>$showmoney,'showstore'=>$showstore,'showaskbuy'=>$showaskbuy,'showaskoff'=>$showaskoff]);
-
+            $data=gruops::get();
+            $con=ConnectGruopUser::get();
+            return view('Mian',['g'=>$data,'con'=>$con]);
         }
         else{
             Auth::logout();
@@ -78,4 +66,34 @@ class HomeController extends Controller
         // return $output;
         return back();
     }
+    public function ind(Request $request)
+    {
+        // $con=ConnectGruopUser::Where('group_id',$request->sendidg)->Where('user_id',Auth::id())->get();
+        // if(count($con)<=0)
+        // {
+        //     return view('lock')->layout('layouts.s');
+        // }
+        $data=Roles::Where('id_user',Auth::id())->first();
+            // return $data;
+            
+            $t=tasking_users::Where('user_id',Auth::id())->Where('stute',0)->orderby('id','desc')->get();
+            
+            $okmoney=count(CashMoneyTable::Where('stute',0)->get());
+            $okstore=count(CashStore::Where('stute',0)->get());
+            $okaskbuy=count(AskBuyTable::Where('stute',0)->get());
+            $okaskoff=count(AskOffTable::Where('stute',0)->get());
+
+            $showmoney=count(CashMoneyTable::Where('stute',1)->get());
+            $showstore=count(CashStore::Where('stute',1)->get());
+            $showaskbuy=count(AskBuyTable::Where('stute',1)->get());
+            $showaskoff=count(AskOffTable::Where('stute',1)->get());
+            
+            return view('index',['ro'=>$data,'task'=>$t,'okmoney'=>$okmoney,'okstore'=>$okstore,'okaskbuy'=>$okaskbuy,'okaskoff'=>$okaskoff,'showmoney'=>$showmoney,'showstore'=>$showstore,'showaskbuy'=>$showaskbuy,'showaskoff'=>$showaskoff]);
+
+    }
 }
+
+
+/*
+
+ */

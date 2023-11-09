@@ -1,0 +1,1 @@
+GET http://192.168.0.124:3000/socket.io/?EIO=4&transport=polling&t=Okp6U5z net::ERR_CONNECTION_TIMED_OUT

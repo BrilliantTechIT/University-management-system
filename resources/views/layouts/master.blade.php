@@ -47,14 +47,29 @@
     <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="../assets/css/soft-ui-dashboard.css?v=1.0.3" rel="stylesheet" />
-    
+
+    <link rel="stylesheet" href="selection/select2.min.css">
+
+    <!-- Bootstrap CSS -->
+    {{-- <link rel="stylesheet" href="selection/bootstrap.min.css"> --}}
+
+    <!-- Style -->
+    {{-- <link rel="stylesheet" href="selection/style.css"> --}}
+    <style>
+        .scroll-container {
+            height: 100vh;
+            /* Set your desired height */
+            overflow: auto;
+            /* This makes it scrollable */
+        }
+    </style>
 </head>
 
-<body class="g-sidenav-show rtl bg-gray-100">
-    <audio id="not_sound" style="display: none;"  controls>
-        <source src="n.mp3"  type="audio/mpeg" >
+<body class="g-sidenav-show rtl bg-gray-100" >
+    <audio id="not_sound" style="display: none;" controls>
+        <source src="n.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
-      </audio>
+    </audio>
     <aside
         class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-end me-3 rotate-caret"
         id="sidenav-main">
@@ -256,9 +271,9 @@
         </div>
 
     </aside>
-    <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg overflow-hidden">
+    <main class="main-content position-relative  h-100 mt-1 border-radius-lg overflow-hidden scroll-container">
         <!-- Navbar -->
-        
+
         <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
             navbar-scroll="true">
             <div class="container-fluid py-1 px-3">
@@ -333,11 +348,11 @@
         </nav>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
-            <div>
+            <div >
                 <script src="assets/js/lobsocket.io.js"></script>
 
                 <script>
-var SocketIO = io("http://localhost:3000");
+                    var SocketIO = io("http://192.168.0.131:3000");
                 </script>
                 @yield('contain')
 
@@ -467,7 +482,7 @@ var SocketIO = io("http://localhost:3000");
     <!--   Core JS Files   -->
     <script src="../assets/js/core/popper.min.js"></script>
     <script src="../assets/js/core/bootstrap.min.js"></script>
-    
+
     <script src="../assets/js/plugins/fullcalendar.min.js"></script>
     <script src="../assets/js/plugins/chartjs.min.js"></script>
     <script src="../assets/js/soft-ui-dashboard.min.js?v=1.0.3"></script>
@@ -652,16 +667,16 @@ var SocketIO = io("http://localhost:3000");
             Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
         }
     </script>
-   
+
 
     <!-- Github buttons -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-    
+
     <script>
         var id = {{ Auth::id() }};
         //  alert(id);
-        
+
 
         SocketIO.emit("connected", id);
         //    alert('s');
@@ -702,18 +717,18 @@ var SocketIO = io("http://localhost:3000");
 
 
 
-//Task
-SocketIO.on("get_task", function(data) {
-    alert(data.id);
+        //Task
+        SocketIO.on("get_task", function(data) {
+            alert(data.id);
 
-    
 
-    const ul = document.getElementById("not_list");
 
-    // Create a new <li> element
-    const li = document.createElement("li");
-    li.className = "mb-2";
-    li.innerHTML = `
+            const ul = document.getElementById("not_list");
+
+            // Create a new <li> element
+            const li = document.createElement("li");
+            li.className = "mb-2";
+            li.innerHTML = `
 <a class="dropdown-item border-radius-md" href="javascript:;">
 <div class="d-flex py-1">
     <div class="my-auto">
@@ -732,35 +747,35 @@ SocketIO.on("get_task", function(data) {
 </a>
 `;
 
-    // Append the <li> to the <ul>
-    ul.appendChild(li);
+            // Append the <li> to the <ul>
+            ul.appendChild(li);
 
-    if ('Notification' in window) {
-        // Check if the Notification API is supported by the browser
+            if ('Notification' in window) {
+                // Check if the Notification API is supported by the browser
 
-        Notification.requestPermission().then((permission) => {
-            if (permission === 'granted') {
-                // Permission to show notifications is granted
-                var audio = document.getElementById("not_sound");
-                 audio.play();
-                const notification = new Notification(`مهمة جديدة من ${data.send} `, {
-                    body: data.name,
-                    icon: `/users_image/${data.image}`, // You can specify an icon here
+                Notification.requestPermission().then((permission) => {
+                    if (permission === 'granted') {
+                        // Permission to show notifications is granted
+                        var audio = document.getElementById("not_sound");
+                        audio.play();
+                        const notification = new Notification(`مهمة جديدة من ${data.send} `, {
+                            body: data.name,
+                            icon: `/users_image/${data.image}`, // You can specify an icon here
+                        });
+
+                        // Handle notification click event
+                        notification.onclick = () => {
+                            // Code to execute when the user clicks the notification
+                            window.open('https://localhost:8000/home.com');
+                        }
+                    }
                 });
-
-                // Handle notification click event
-                notification.onclick = () => {
-                    // Code to execute when the user clicks the notification
-                    window.open('https://localhost:8000/home.com');
-                }
+            } else {
+                console.log('Notifications not supported in this browser.');
             }
+
+
         });
-    } else {
-        console.log('Notifications not supported in this browser.');
-    }
-   
-
-});
 
 
 
@@ -775,17 +790,17 @@ SocketIO.on("get_task", function(data) {
 
 
 
-SocketIO.on("get_CashMoney", function(data) {
-    
+        SocketIO.on("get_CashMoney", function(data) {
 
-    
 
-    const ul = document.getElementById("not_list");
 
-    // Create a new <li> element
-    const li = document.createElement("li");
-    li.className = "mb-2";
-    li.innerHTML = `
+
+            const ul = document.getElementById("not_list");
+
+            // Create a new <li> element
+            const li = document.createElement("li");
+            li.className = "mb-2";
+            li.innerHTML = `
 <a class="dropdown-item border-radius-md" href="javascript:;">
 <div class="d-flex py-1">
     <div class="my-auto">
@@ -804,35 +819,35 @@ SocketIO.on("get_CashMoney", function(data) {
 </a>
 `;
 
-    // Append the <li> to the <ul>
-    ul.appendChild(li);
+            // Append the <li> to the <ul>
+            ul.appendChild(li);
 
-    if ('Notification' in window) {
-        // Check if the Notification API is supported by the browser
+            if ('Notification' in window) {
+                // Check if the Notification API is supported by the browser
 
-        Notification.requestPermission().then((permission) => {
-            if (permission === 'granted') {
-                // Permission to show notifications is granted
-                var audio = document.getElementById("not_sound");
-                 audio.play();
-                const notification = new Notification(` طلب صرف مالي جديد من ${data.sendname} `, {
-                    body: data.name,
-                    icon: `/users_image/${data.image}`, // You can specify an icon here
+                Notification.requestPermission().then((permission) => {
+                    if (permission === 'granted') {
+                        // Permission to show notifications is granted
+                        var audio = document.getElementById("not_sound");
+                        audio.play();
+                        const notification = new Notification(` طلب صرف مالي جديد من ${data.sendname} `, {
+                            body: data.name,
+                            icon: `/users_image/${data.image}`, // You can specify an icon here
+                        });
+
+                        // Handle notification click event
+                        notification.onclick = () => {
+                            // Code to execute when the user clicks the notification
+                            window.open('https://localhost:8000/home.com');
+                        }
+                    }
                 });
-
-                // Handle notification click event
-                notification.onclick = () => {
-                    // Code to execute when the user clicks the notification
-                    window.open('https://localhost:8000/home.com');
-                }
+            } else {
+                console.log('Notifications not supported in this browser.');
             }
+
+
         });
-    } else {
-        console.log('Notifications not supported in this browser.');
-    }
-   
-
-});
 
 
 
@@ -842,17 +857,17 @@ SocketIO.on("get_CashMoney", function(data) {
 
 
 
-SocketIO.on("get_result_asker_money_cash", function(data) {
-    
+        SocketIO.on("get_result_asker_money_cash", function(data) {
 
-    
 
-    const ul = document.getElementById("not_list");
 
-    // Create a new <li> element
-    const li = document.createElement("li");
-    li.className = "mb-2";
-    li.innerHTML = `
+
+            const ul = document.getElementById("not_list");
+
+            // Create a new <li> element
+            const li = document.createElement("li");
+            li.className = "mb-2";
+            li.innerHTML = `
 <a class="dropdown-item border-radius-md" href="javascript:;">
 <div class="d-flex py-1">
     <div class="my-auto">
@@ -872,47 +887,47 @@ SocketIO.on("get_result_asker_money_cash", function(data) {
 </a>
 `;
 
-    // Append the <li> to the <ul>
-    ul.appendChild(li);
+            // Append the <li> to the <ul>
+            ul.appendChild(li);
 
-    if ('Notification' in window) {
-        // Check if the Notification API is supported by the browser
+            if ('Notification' in window) {
+                // Check if the Notification API is supported by the browser
 
-        Notification.requestPermission().then((permission) => {
-            if (permission === 'granted') {
-                // Permission to show notifications is granted
-                var audio = document.getElementById("not_sound");
-                 audio.play();
-                const notification = new Notification(`تم الرد على طلب  لك من قبل  ${data.send} `, {
-                    body: data.message,
-                    icon: `/users_image/${data.image}`, // You can specify an icon here
+                Notification.requestPermission().then((permission) => {
+                    if (permission === 'granted') {
+                        // Permission to show notifications is granted
+                        var audio = document.getElementById("not_sound");
+                        audio.play();
+                        const notification = new Notification(`تم الرد على طلب  لك من قبل  ${data.send} `, {
+                            body: data.message,
+                            icon: `/users_image/${data.image}`, // You can specify an icon here
+                        });
+
+                        // Handle notification click event
+                        notification.onclick = () => {
+                            // Code to execute when the user clicks the notification
+                            window.open('https://localhost:8000/home.com');
+                        }
+                    }
                 });
-
-                // Handle notification click event
-                notification.onclick = () => {
-                    // Code to execute when the user clicks the notification
-                    window.open('https://localhost:8000/home.com');
-                }
+            } else {
+                console.log('Notifications not supported in this browser.');
             }
+
+
         });
-    } else {
-        console.log('Notifications not supported in this browser.');
-    }
-   
-
-});
 
 
 
 
-SocketIO.on("get_cashstore", function(data) {
-    // alert(data.id);
-    const ul = document.getElementById("not_list");
+        SocketIO.on("get_cashstore", function(data) {
+            // alert(data.id);
+            const ul = document.getElementById("not_list");
 
-    // Create a new <li> element
-    const li = document.createElement("li");
-    li.className = "mb-2";
-    li.innerHTML = `
+            // Create a new <li> element
+            const li = document.createElement("li");
+            li.className = "mb-2";
+            li.innerHTML = `
 <a class="dropdown-item border-radius-md" href="javascript:;">
 <div class="d-flex py-1">
     <div class="my-auto">
@@ -931,48 +946,48 @@ SocketIO.on("get_cashstore", function(data) {
 </a>
 `;
 
-    // Append the <li> to the <ul>
-    ul.appendChild(li);
+            // Append the <li> to the <ul>
+            ul.appendChild(li);
 
-    if ('Notification' in window) {
-        // Check if the Notification API is supported by the browser
+            if ('Notification' in window) {
+                // Check if the Notification API is supported by the browser
 
-        Notification.requestPermission().then((permission) => {
-            if (permission === 'granted') {
-                // Permission to show notifications is granted
-                var audio = document.getElementById("not_sound");
-                 audio.play();
-                const notification = new Notification(` طلب صرف مخزني جديد من ${data.sendname} `, {
-                    body: data.name,
-                    icon: `/users_image/${data.image}`, // You can specify an icon here
+                Notification.requestPermission().then((permission) => {
+                    if (permission === 'granted') {
+                        // Permission to show notifications is granted
+                        var audio = document.getElementById("not_sound");
+                        audio.play();
+                        const notification = new Notification(` طلب صرف مخزني جديد من ${data.sendname} `, {
+                            body: data.name,
+                            icon: `/users_image/${data.image}`, // You can specify an icon here
+                        });
+
+                        // Handle notification click event
+                        notification.onclick = () => {
+                            // Code to execute when the user clicks the notification
+                            window.open('https://localhost:8000/home.com');
+                        }
+                    }
                 });
-
-                // Handle notification click event
-                notification.onclick = () => {
-                    // Code to execute when the user clicks the notification
-                    window.open('https://localhost:8000/home.com');
-                }
+            } else {
+                console.log('Notifications not supported in this browser.');
             }
+
+
         });
-    } else {
-        console.log('Notifications not supported in this browser.');
-    }
-   
-
-});
 
 
 
 
 
-SocketIO.on("get_askoff", function(data) {
-    // alert(data.id);
-    const ul = document.getElementById("not_list");
+        SocketIO.on("get_askoff", function(data) {
+            // alert(data.id);
+            const ul = document.getElementById("not_list");
 
-    // Create a new <li> element
-    const li = document.createElement("li");
-    li.className = "mb-2";
-    li.innerHTML = `
+            // Create a new <li> element
+            const li = document.createElement("li");
+            li.className = "mb-2";
+            li.innerHTML = `
 <a class="dropdown-item border-radius-md" href="javascript:;">
 <div class="d-flex py-1">
     <div class="my-auto">
@@ -991,46 +1006,46 @@ SocketIO.on("get_askoff", function(data) {
 </a>
 `;
 
-    // Append the <li> to the <ul>
-    ul.appendChild(li);
+            // Append the <li> to the <ul>
+            ul.appendChild(li);
 
-    if ('Notification' in window) {
-        // Check if the Notification API is supported by the browser
+            if ('Notification' in window) {
+                // Check if the Notification API is supported by the browser
 
-        Notification.requestPermission().then((permission) => {
-            if (permission === 'granted') {
-                // Permission to show notifications is granted
-                var audio = document.getElementById("not_sound");
-                 audio.play();
-                const notification = new Notification(`طلب اجازة جديد من ${data.sendname} `, {
-                    body: data.name,
-                    icon: `/users_image/${data.image}`, // You can specify an icon here
+                Notification.requestPermission().then((permission) => {
+                    if (permission === 'granted') {
+                        // Permission to show notifications is granted
+                        var audio = document.getElementById("not_sound");
+                        audio.play();
+                        const notification = new Notification(`طلب اجازة جديد من ${data.sendname} `, {
+                            body: data.name,
+                            icon: `/users_image/${data.image}`, // You can specify an icon here
+                        });
+
+                        // Handle notification click event
+                        notification.onclick = () => {
+                            // Code to execute when the user clicks the notification
+                            window.open('https://localhost:8000/home.com');
+                        }
+                    }
                 });
-
-                // Handle notification click event
-                notification.onclick = () => {
-                    // Code to execute when the user clicks the notification
-                    window.open('https://localhost:8000/home.com');
-                }
+            } else {
+                console.log('Notifications not supported in this browser.');
             }
+
+
         });
-    } else {
-        console.log('Notifications not supported in this browser.');
-    }
-   
-
-});
 
 
 
-SocketIO.on("get_AskBuy", function(data) {
-    // alert(data.id);
-    const ul = document.getElementById("not_list");
+        SocketIO.on("get_AskBuy", function(data) {
+            // alert(data.id);
+            const ul = document.getElementById("not_list");
 
-    // Create a new <li> element
-    const li = document.createElement("li");
-    li.className = "mb-2";
-    li.innerHTML = `
+            // Create a new <li> element
+            const li = document.createElement("li");
+            li.className = "mb-2";
+            li.innerHTML = `
 <a class="dropdown-item border-radius-md" href="javascript:;">
 <div class="d-flex py-1">
     <div class="my-auto">
@@ -1049,35 +1064,35 @@ SocketIO.on("get_AskBuy", function(data) {
 </a>
 `;
 
-    // Append the <li> to the <ul>
-    ul.appendChild(li);
+            // Append the <li> to the <ul>
+            ul.appendChild(li);
 
-    if ('Notification' in window) {
-        // Check if the Notification API is supported by the browser
+            if ('Notification' in window) {
+                // Check if the Notification API is supported by the browser
 
-        Notification.requestPermission().then((permission) => {
-            if (permission === 'granted') {
-                // Permission to show notifications is granted
-                var audio = document.getElementById("not_sound");
-                 audio.play();
-                const notification = new Notification(`طلب شراء جديد من ${data.sendname} `, {
-                    body: data.name,
-                    icon: `/users_image/${data.image}`, // You can specify an icon here
+                Notification.requestPermission().then((permission) => {
+                    if (permission === 'granted') {
+                        // Permission to show notifications is granted
+                        var audio = document.getElementById("not_sound");
+                        audio.play();
+                        const notification = new Notification(`طلب شراء جديد من ${data.sendname} `, {
+                            body: data.name,
+                            icon: `/users_image/${data.image}`, // You can specify an icon here
+                        });
+
+                        // Handle notification click event
+                        notification.onclick = () => {
+                            // Code to execute when the user clicks the notification
+                            window.open('https://localhost:8000/home.com');
+                        }
+                    }
                 });
-
-                // Handle notification click event
-                notification.onclick = () => {
-                    // Code to execute when the user clicks the notification
-                    window.open('https://localhost:8000/home.com');
-                }
+            } else {
+                console.log('Notifications not supported in this browser.');
             }
+
+
         });
-    } else {
-        console.log('Notifications not supported in this browser.');
-    }
-   
-
-});
 
 
 
@@ -1088,14 +1103,14 @@ SocketIO.on("get_AskBuy", function(data) {
 
 
 
-SocketIO.on("get_mesages", function(data) {
-    // alert(data.id);
-    const ul = document.getElementById("not_list");
+        SocketIO.on("get_mesages", function(data) {
+            // alert(data.id);
+            const ul = document.getElementById("not_list");
 
-    // Create a new <li> element
-    const li = document.createElement("li");
-    li.className = "mb-2";
-    li.innerHTML = `
+            // Create a new <li> element
+            const li = document.createElement("li");
+            li.className = "mb-2";
+            li.innerHTML = `
 <a class="dropdown-item border-radius-md" href="javascript:;">
 <div class="d-flex py-1">
     <div class="my-auto">
@@ -1114,42 +1129,42 @@ SocketIO.on("get_mesages", function(data) {
 </a>
 `;
 
-    // Append the <li> to the <ul>
-    ul.appendChild(li);
+            // Append the <li> to the <ul>
+            ul.appendChild(li);
 
-    if ('Notification' in window) {
-        // Check if the Notification API is supported by the browser
+            if ('Notification' in window) {
+                // Check if the Notification API is supported by the browser
 
-        Notification.requestPermission().then((permission) => {
-            if (permission === 'granted') {
-                // Permission to show notifications is granted
-                var audio = document.getElementById("not_sound");
-                 audio.play();
-                const notification = new Notification(`رسالة جديدة من ${data.sendname} `, {
-                    body: data.name,
-                    icon: `/users_image/${data.sendimage}`, // You can specify an icon here
+                Notification.requestPermission().then((permission) => {
+                    if (permission === 'granted') {
+                        // Permission to show notifications is granted
+                        var audio = document.getElementById("not_sound");
+                        audio.play();
+                        const notification = new Notification(`رسالة جديدة من ${data.sendname} `, {
+                            body: data.name,
+                            icon: `/users_image/${data.sendimage}`, // You can specify an icon here
+                        });
+
+                        // Handle notification click event
+                        notification.onclick = () => {
+                            // Code to execute when the user clicks the notification
+                            window.open('https://localhost:8000/home.com');
+                        }
+                    }
                 });
-
-                // Handle notification click event
-                notification.onclick = () => {
-                    // Code to execute when the user clicks the notification
-                    window.open('https://localhost:8000/home.com');
-                }
+            } else {
+                console.log('Notifications not supported in this browser.');
             }
+
+
         });
-    } else {
-        console.log('Notifications not supported in this browser.');
-    }
-   
-
-});
 
 
 
-//end Task
+        //end Task
     </script>
 
-    
+
 
 </body>
 

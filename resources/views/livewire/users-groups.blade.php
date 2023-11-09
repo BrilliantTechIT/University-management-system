@@ -6,6 +6,10 @@
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#save1"> اضافة مجموعة
                         جديده </button>
 
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#connect"> اضافة
+                        مجموعة
+                        موظفي الهئية </button>
+
                     <div class="card mb-4">
 
                         <div class="card-header pb-0">
@@ -28,7 +32,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($groups as $groups)
+                                        @foreach ($groups2 as $groups)
                                             <tr id="Aid{{ $groups->id }}">
                                                 <td class="align-middle text-center ">
                                                     <span class="badge badge-sm bg-gradient-info">{{ $groups->name }}</span>
@@ -56,6 +60,33 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+
+
+                            </div>
+
+                            <div style="padding:20px">
+                                @foreach ($groups2 as $item)
+                                <details>
+                                
+                                    <summary class="fa fa-folder">{{$item->name}}</summary>
+                                   
+                                    <ul>
+                                        @foreach ($ConnectGruopUser->Where('group_id',$item->id) as $item2)
+                                        <li>
+                                            {{$item2->users->name}}
+                                            <form action="{{route('Delete_connect')}}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{$item2->id}}">
+                                                <button type="submit" class="btn btn-danger">حذف</button>
+                                            </form>
+                                        </li>
+                                        @endforeach
+                                        
+                                    </ul>
+
+
+                                </details>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -79,6 +110,61 @@
                                 <div class="form-group">
                                     <label for="name" class="col-form-label1">اسم المجموعة</label>
                                     <input class="form-control " id="name" name="name" required>
+
+                                </div>
+
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">اغلاق</button>
+                            <input type="submit" class="btn btn-primary" value="حفظ">
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="modal fade" id="connect" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"> جــــــديـــــد </h5>
+                            <button type="button" class="close text-danger" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form  action="{{ route('Store_connect') }}" method="post">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="name" class="col-form-label1"> المجموعة</label>
+                                    
+                                        <select class="form-control" name="group">
+                                            @foreach ($groups2 as $item)
+                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                            @endforeach
+
+                                        </select>
+
+
+                                </div>
+
+
+                                <div class="form-group" >
+                                    <label for="name" class="col-form-label1">المستخدمين</label>
+                                    
+                                        <select style="width: 100%" class="js-multiple-select form-control" multiple name="usersID[]">
+                                            @foreach ($user as $item)
+                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                            @endforeach
+
+                                        </select>
+
 
                                 </div>
 
@@ -124,5 +210,11 @@
                     </div>
                 </div>
             </div>
+
+            <script src="selection/jquery-3.3.1.min.js"></script>
+            <script src="selection/popper.min.js"></script>
+            <script src="selection/bootstrap.min.js"></script>
+            <script src="selection/select2.min.js"></script>
+            <script src="selection/main.js"></script>
         @endsection
 </body>

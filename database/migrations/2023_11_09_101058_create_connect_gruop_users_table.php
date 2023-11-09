@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('gruops', function (Blueprint $table) {
+        Schema::create('connect_gruop_users', function (Blueprint $table) {
             $table->id();
-            $table->String('name');
-            // $table->String('Work');
-            
-            $table->String('create_by');
+            $table->integer('user_id');
+            $table->integer('group_id');
 
             $table->timestamps();
         });
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('gruops');
+        Schema::dropIfExists('connect_gruop_users');
     }
 };

@@ -7,6 +7,8 @@ use App\Models\gruops;
 use Illuminate\Http\Request;
 use Auth;
 use App\Models\Roles;
+use App\Models\User;
+use App\Models\ConnectGruopUser;
 
 class UsersGroups extends Component
 {
@@ -18,7 +20,10 @@ class UsersGroups extends Component
             return view('lock')->layout('layouts.s');
         }
         $data=gruops::all();
-        return view('livewire.users-groups',['groups'=>$data])->layout('layouts.master');
+        $user=User::all();
+        $ConnectGruopUser=ConnectGruopUser::all();
+
+        return view('livewire.users-groups',['groups2'=>$data,'user'=>$user,'ConnectGruopUser'=>$ConnectGruopUser])->layout('layouts.master');
     }
     public function Store_gruops(Request $request)
     {
@@ -31,6 +36,27 @@ class UsersGroups extends Component
         $data->name=$request->name;
         $data->create_by=Auth::id();
         $data->save();
+        return back();
+    }
+
+
+    public function Store_connect(Request $request)
+    {
+        // return $request->usersID;
+        foreach ($request->usersID as $key => $value) {
+            $data =new ConnectGruopUser();
+            $data->user_id=$value;
+            $data->group_id=$request->group;
+            $data->save();
+            
+        }
+        return back();
+    }
+    public function Delete_connect(Request $request)
+    {
+        // return $request->id;
+        $data=ConnectGruopUser::find($request->id);
+        $data->delete(); 
         return back();
     }
 }

@@ -104,6 +104,9 @@ Route::middleware('auth')->group(function() {
     Route::get('Messaging',Messaging::class)->name('Messaging');
     Route::Post('SendMessage',[Messaging::class,'SendMessage'])->name('SendMessage');
     Route::Post('SendFiles',[Messaging::class,'SendFiles'])->name('SendFiles');
+    Route::Post('Store_connect',[UsersGroups::class,'Store_connect'])->name('Store_connect');
+    Route::Post('Delete_connect',[UsersGroups::class,'Delete_connect'])->name('Delete_connect');
+    Route::get('/oprations', [App\Http\Controllers\HomeController::class, 'ind'])->name('oprations');
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/logout', [App\Http\Controllers\HomeController::class, 'logout'])->name('logout');

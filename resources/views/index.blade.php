@@ -1,8 +1,8 @@
 @extends('layouts.master')
 @section('contain')
-    <div>
+    
 
-        <div>
+       
 
 
             <div class="row">
@@ -540,11 +540,11 @@
                 {{-- <script src="assets/js/testnodejs.js"></script> --}}
 
             </div>
-        </div>
+        
 
 
 
-    </div>
+   
     <script>
         SocketIO.on("get_task", function(data) {
             // alert(data.name);
