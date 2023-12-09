@@ -446,6 +446,32 @@
                     </div>
                 @endif
 
+                <div class="col-lg-3 col-sm-6 mb-lg-0 mb-4" style="margin-top: 30px">
+                    <a href="{{ route('Archef') }}">
+                        <div class="card">
+                            <div class="card-body p-3">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <div class="numbers">
+                                            <p class="text-sm mb-0 text-capitalize font-weight-bold">ارشيفي</p>
+                                            <h5 class="font-weight-bolder mb-0" style="font-size: 12px">
+                                                هذه الشاشة تعتبر ارشيف كل موظف يستطيع حفظ ملفاتة ووثائقة بأمان ولا احد يمكن الاطلع عليها الا من يملك كلمة السر
+                                                <span class="text-success text-sm font-weight-bolder">متاح</span>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 text-start">
+                                        <div
+                                            class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                            <i class="ni ni-check-bold text-lg opacity-10" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
 
                 <div class="col-lg-12 col-md-12 mb-md-0 mb-4" style="margin-top: 50px">
                     <div class="card">

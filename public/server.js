@@ -230,7 +230,7 @@ socketIo.on("connection", function (socket) {
 
 });
 
-httpServer.listen(process.env.PORT || 3000,'192.168.0.131', function () {
+httpServer.listen(process.env.PORT || 4000, function () {
   console.log("server is started:"+httpServer.address().address);
 });
 

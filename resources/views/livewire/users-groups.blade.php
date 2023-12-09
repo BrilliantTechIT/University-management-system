@@ -1,4 +1,4 @@
-<body>
+<main>
     @section('contain')
         <div class="container-fluid py-4">
             <div class="row">
@@ -49,9 +49,10 @@
                                                 <td class="align-middle">
 
 
-                                                    <form action="" method="POST">
+                                                    <form action="{{ route('Delete_group') }}" method="POST">
                                                         {{-- {{ route('', $groups->id) }} --}}
                                                         @csrf
+                                                        <input type="hidden" name="id" value="{{ $groups->id }}">
                                                         <button type="submit" name="delete"
                                                             class="mb-0 text-md fa fa-times fa-2x text-danger"></button>
                                                     </form>
@@ -66,26 +67,26 @@
 
                             <div style="padding:20px">
                                 @foreach ($groups2 as $item)
-                                <details>
-                                
-                                    <summary class="fa fa-folder">{{$item->name}}</summary>
-                                   
-                                    <ul>
-                                        @foreach ($ConnectGruopUser->Where('group_id',$item->id) as $item2)
-                                        <li>
-                                            {{$item2->users->name}}
-                                            <form action="{{route('Delete_connect')}}" method="post">
-                                                @csrf
-                                                <input type="hidden" name="id" value="{{$item2->id}}">
-                                                <button type="submit" class="btn btn-danger">حذف</button>
-                                            </form>
-                                        </li>
-                                        @endforeach
-                                        
-                                    </ul>
+                                    <details>
+
+                                        <summary class="fa fa-folder">{{ $item->name }}</summary>
+
+                                        <ul>
+                                            @foreach ($ConnectGruopUser->Where('group_id', $item->id) as $item2)
+                                                <li>
+                                                    {{ $item2->users->name }}
+                                                    <form action="{{ route('Delete_connect') }}" method="post">
+                                                        @csrf
+                                                        <input type="hidden" name="id" value="{{ $item2->id }}">
+                                                        <button type="submit" class="btn btn-danger">حذف</button>
+                                                    </form>
+                                                </li>
+                                            @endforeach
+
+                                        </ul>
 
 
-                                </details>
+                                    </details>
                                 @endforeach
                             </div>
                         </div>
@@ -139,31 +140,32 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form  action="{{ route('Store_connect') }}" method="post">
+                            <form action="{{ route('Store_connect') }}" method="post">
                                 @csrf
                                 <div class="form-group">
                                     <label for="name" class="col-form-label1"> المجموعة</label>
-                                    
-                                        <select class="form-control" name="group">
-                                            @foreach ($groups2 as $item)
-                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                            @endforeach
 
-                                        </select>
+                                    <select class="form-control" name="group">
+                                        @foreach ($groups2 as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endforeach
+
+                                    </select>
 
 
                                 </div>
 
 
-                                <div class="form-group" >
+                                <div class="form-group">
                                     <label for="name" class="col-form-label1">المستخدمين</label>
-                                    
-                                        <select style="width: 100%" class="js-multiple-select form-control" multiple name="usersID[]">
-                                            @foreach ($user as $item)
-                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                            @endforeach
 
-                                        </select>
+                                    <select style="width: 100%" class="js-multiple-select form-control" multiple
+                                        name="usersID[]">
+                                        @foreach ($user as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endforeach
+
+                                    </select>
 
 
                                 </div>
@@ -217,4 +219,4 @@
             <script src="selection/select2.min.js"></script>
             <script src="selection/main.js"></script>
         @endsection
-</body>
+</main>

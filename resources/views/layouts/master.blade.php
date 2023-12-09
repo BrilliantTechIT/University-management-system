@@ -352,7 +352,7 @@
                 <script src="assets/js/lobsocket.io.js"></script>
 
                 <script>
-                    var SocketIO = io("http://192.168.0.131:3000");
+                    var SocketIO = io("https://api.ehsanadminpanel.com/");
                 </script>
                 @yield('contain')
 

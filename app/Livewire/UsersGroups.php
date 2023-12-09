@@ -59,5 +59,13 @@ class UsersGroups extends Component
         $data->delete(); 
         return back();
     }
+
+    public function Delete_group(Request $request)
+    {
+        // return $request->id;
+        $data=gruops::find($request->id);
+        $data->delete(); 
+        return back();
+    }
 }
 

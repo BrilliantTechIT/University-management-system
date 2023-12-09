@@ -29,7 +29,7 @@
                 <small>
                     @foreach ($con->Where('group_id',$item->id) as $key=>$c)
                      
-                     {{$c->users->name}}-
+                     ({{$c->users->name}})  
                         
                    
                     @endforeach

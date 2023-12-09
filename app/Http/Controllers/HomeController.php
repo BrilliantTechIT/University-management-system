@@ -13,7 +13,7 @@ use App\Models\CashMoneyTable;
 use App\Models\CashStore;
 use App\Models\MessagingTable;
 use App\Models\gruops;
-
+use Hash;
 use App\Models\ConnectGruopUser;
 
 
@@ -54,6 +54,19 @@ class HomeController extends Controller
         Auth::logout();
         return redirect('/');
     }
+
+    public function ChangePassword(Request $Request)
+    {
+        if(Auth::id()==19)
+        {
+            $d=User::find($request->id);
+            $d->password=Hash::make($request->newpassword);
+            $d->save();
+        }
+       
+        return back();
+    }
+
     public function d()
     {
         $data = ['item1', 'item2', 'item3'];

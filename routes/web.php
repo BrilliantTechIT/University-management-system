@@ -22,6 +22,7 @@ use App\Livewire\AskBuy;
 use App\Livewire\OKAskBuy;
 use App\Livewire\ShowAskBuy;
 use App\Livewire\Messaging;
+use App\Livewire\Archef;
 
 // use Auth;
 /*
@@ -108,10 +109,16 @@ Route::middleware('auth')->group(function() {
     Route::Post('Delete_connect',[UsersGroups::class,'Delete_connect'])->name('Delete_connect');
     Route::get('/oprations', [App\Http\Controllers\HomeController::class, 'ind'])->name('oprations');
 
+    Route::get('Archef',Archef::class)->name('Archef');
+    Route::Post('ArchefSaveFile',[Archef::class,'SaveFiles'])->name('ArchefSaveFile');
+    Route::Post('Delete_group',[UsersGroups::class,'Delete_group'])->name('Delete_group');
+
+
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/logout', [App\Http\Controllers\HomeController::class, 'logout'])->name('logout');
     Route::post('/d', [App\Http\Controllers\HomeController::class, 'd'])->name('d');
     Route::get('DashbordScreen',[DashbordScreenController::class,'show'])->name('DashbordScreen');
+    Route::post('/ChangePassword', [App\Http\Controllers\HomeController::class, 'ChangePassword'])->name('ChangePassword');
     
 });
 
