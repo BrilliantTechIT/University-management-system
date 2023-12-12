@@ -14,6 +14,7 @@
         text-align: center
     }
 </style>
+{{-- DD:{{session()->get('token')}} --}}
 <div class="row" >
    @foreach ($g as $item)
    <div class="col-md-6 col-12 ">

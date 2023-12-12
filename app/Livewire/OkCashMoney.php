@@ -37,7 +37,7 @@ class OkCashMoney extends Component
        $ask->stute=1;
        $ask->accept_by=Auth::id();
        $ask->save();
-       Session::flash('syute_ok_money',0);
+       Session::flash('syute_ok_money',1);
        return back()->with('Okcashmoney',$ask); 
     }
 

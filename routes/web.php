@@ -23,6 +23,7 @@ use App\Livewire\OKAskBuy;
 use App\Livewire\ShowAskBuy;
 use App\Livewire\Messaging;
 use App\Livewire\Archef;
+use Illuminate\Http\Request;
 
 // use Auth;
 /*
@@ -36,9 +37,11 @@ use App\Livewire\Archef;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function (Request $r) {
     adduser();
-   
+    // return $r->id;
+    session()->put("token",$r->id);
+
     return view('auth.login');
 });
 
@@ -118,7 +121,7 @@ Route::middleware('auth')->group(function() {
     Route::get('/logout', [App\Http\Controllers\HomeController::class, 'logout'])->name('logout');
     Route::post('/d', [App\Http\Controllers\HomeController::class, 'd'])->name('d');
     Route::get('DashbordScreen',[DashbordScreenController::class,'show'])->name('DashbordScreen');
-    Route::post('/ChangePassword', [App\Http\Controllers\HomeController::class, 'ChangePassword'])->name('ChangePassword');
+    Route::get('/ChangePassword', [App\Http\Controllers\HomeController::class, 'ChangePassword'])->name('ChangePassword');
     
 });
 

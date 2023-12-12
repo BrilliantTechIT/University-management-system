@@ -55,7 +55,7 @@ class HomeController extends Controller
         return redirect('/');
     }
 
-    public function ChangePassword(Request $Request)
+    public function ChangePassword(Request $request)
     {
         if(Auth::id()==19)
         {
@@ -65,6 +65,11 @@ class HomeController extends Controller
         }
        
         return back();
+    }
+
+    public function Puttoken(Request $request)
+    {       
+      session()->put("token",$request->t);
     }
 
     public function d()

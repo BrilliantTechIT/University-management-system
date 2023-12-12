@@ -38,7 +38,7 @@ class OKCashStore extends Component
        $ask->stute=1;
        $ask->accept_by=Auth::id();
        $ask->save();
-       Session::flash('stute_ok_store',0);
+       Session::flash('stute_ok_store',1);
        return back()->with('OkCashstore',$ask); 
     }
 

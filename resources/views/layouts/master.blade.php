@@ -65,7 +65,7 @@
     </style>
 </head>
 
-<body class="g-sidenav-show rtl bg-gray-100" >
+<body class="g-sidenav-show rtl bg-gray-100">
     <audio id="not_sound" style="display: none;" controls>
         <source src="n.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
@@ -78,7 +78,7 @@
                 aria-hidden="true" id="iconSidenav"></i>
             <a class="navbar-brand m-0" href="https://demos.creative-tim.com/soft-ui-dashboard/pages/dashboard.html"
                 target="_blank">
-                <img src="../assets/img/logo.png" class="navbar-brand-img h-100" alt="main_logo">
+                <img src="../users_image/{{ Auth::user()->image }}" class="navbar-brand-img h-100" alt="main_logo">
                 <span class="me-1 font-weight-bold"> {{ Auth::user()->name }}</span>
             </a>
         </div>
@@ -348,11 +348,12 @@
         </nav>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
-            <div >
+            <div>
                 <script src="assets/js/lobsocket.io.js"></script>
 
                 <script>
-                    var SocketIO = io("https://api.ehsanadminpanel.com/");
+                    // var SocketIO = io("node.civilization-unversity.com");
+                    var SocketIO = io("192.168.0.123:4000");
                 </script>
                 @yield('contain')
 
@@ -675,10 +676,15 @@
 
     <script>
         var id = {{ Auth::id() }};
-        //  alert(id);
+        var token = '{!!session()->get('token')!!}';
+        //  alert(token);
 
 
-        SocketIO.emit("connected", id);
+        SocketIO.emit("connected", {
+            "id":id,
+            "t":token
+        });
+        // SocketIO.emit("connected", id);
         //    alert('s');
         function sendevent(form) {
             event.preventDefault();
@@ -697,31 +703,31 @@
             // alert('ss');
         }
 
-        function sendevent2() {
-            event.preventDefault();
-            var m = prompt("enter the message");
-            SocketIO.emit('touser', {
-                "id": 2,
-                "m": m
-            });
-        }
+        // function sendevent2() {
+        //     event.preventDefault();
+        //     var m = prompt("enter the message");
+        //     SocketIO.emit('touser', {
+        //         "id": 2,
+        //         "m": m
+        //     });
+        // }
 
-        SocketIO.on("alls", function(data) {
-            alert(data);
-        });
+        // SocketIO.on("alls", function(data) {
+        //     alert(data);
+        // });
 
-        SocketIO.on("postoneuser", function(data) {
-            alert(data);
-        });
+        // SocketIO.on("postoneuser", function(data) {
+        //     alert(data);
+        // });
 
 
 
 
         //Task
         SocketIO.on("get_task", function(data) {
-            alert(data.id);
+            // alert(data.id);
 
-
+           
 
             const ul = document.getElementById("not_list");
 
@@ -755,9 +761,7 @@
 
                 Notification.requestPermission().then((permission) => {
                     if (permission === 'granted') {
-                        // Permission to show notifications is granted
-                        var audio = document.getElementById("not_sound");
-                        audio.play();
+
                         const notification = new Notification(`مهمة جديدة من ${data.send} `, {
                             body: data.name,
                             icon: `/users_image/${data.image}`, // You can specify an icon here
@@ -766,7 +770,7 @@
                         // Handle notification click event
                         notification.onclick = () => {
                             // Code to execute when the user clicks the notification
-                            window.open('https://localhost:8000/home.com');
+                            window.open('http://localhost:8000/home.com');
                         }
                     }
                 });
@@ -774,7 +778,8 @@
                 console.log('Notifications not supported in this browser.');
             }
 
-
+            var audio = document.getElementById("not_sound");
+            audio.play();
         });
 
 
@@ -794,7 +799,7 @@
 
 
 
-
+           
             const ul = document.getElementById("not_list");
 
             // Create a new <li> element
@@ -819,6 +824,7 @@
 </a>
 `;
 
+
             // Append the <li> to the <ul>
             ul.appendChild(li);
 
@@ -828,8 +834,7 @@
                 Notification.requestPermission().then((permission) => {
                     if (permission === 'granted') {
                         // Permission to show notifications is granted
-                        var audio = document.getElementById("not_sound");
-                        audio.play();
+
                         const notification = new Notification(` طلب صرف مالي جديد من ${data.sendname} `, {
                             body: data.name,
                             icon: `/users_image/${data.image}`, // You can specify an icon here
@@ -846,7 +851,8 @@
                 console.log('Notifications not supported in this browser.');
             }
 
-
+            var audio = document.getElementById("not_sound");
+            audio.play();
         });
 
 
@@ -858,10 +864,6 @@
 
 
         SocketIO.on("get_result_asker_money_cash", function(data) {
-
-
-
-
             const ul = document.getElementById("not_list");
 
             // Create a new <li> element
@@ -887,6 +889,7 @@
 </a>
 `;
 
+
             // Append the <li> to the <ul>
             ul.appendChild(li);
 
@@ -896,8 +899,7 @@
                 Notification.requestPermission().then((permission) => {
                     if (permission === 'granted') {
                         // Permission to show notifications is granted
-                        var audio = document.getElementById("not_sound");
-                        audio.play();
+
                         const notification = new Notification(`تم الرد على طلب  لك من قبل  ${data.send} `, {
                             body: data.message,
                             icon: `/users_image/${data.image}`, // You can specify an icon here
@@ -914,6 +916,10 @@
                 console.log('Notifications not supported in this browser.');
             }
 
+            var audio = document.getElementById("not_sound");
+                        audio.play();
+
+
 
         });
 
@@ -922,6 +928,7 @@
 
         SocketIO.on("get_cashstore", function(data) {
             // alert(data.id);
+           
             const ul = document.getElementById("not_list");
 
             // Create a new <li> element
@@ -955,8 +962,7 @@
                 Notification.requestPermission().then((permission) => {
                     if (permission === 'granted') {
                         // Permission to show notifications is granted
-                        var audio = document.getElementById("not_sound");
-                        audio.play();
+
                         const notification = new Notification(` طلب صرف مخزني جديد من ${data.sendname} `, {
                             body: data.name,
                             icon: `/users_image/${data.image}`, // You can specify an icon here
@@ -973,7 +979,8 @@
                 console.log('Notifications not supported in this browser.');
             }
 
-
+            var audio = document.getElementById("not_sound");
+            audio.play();
         });
 
 
@@ -982,6 +989,7 @@
 
         SocketIO.on("get_askoff", function(data) {
             // alert(data.id);
+           
             const ul = document.getElementById("not_list");
 
             // Create a new <li> element
@@ -1015,8 +1023,7 @@
                 Notification.requestPermission().then((permission) => {
                     if (permission === 'granted') {
                         // Permission to show notifications is granted
-                        var audio = document.getElementById("not_sound");
-                        audio.play();
+
                         const notification = new Notification(`طلب اجازة جديد من ${data.sendname} `, {
                             body: data.name,
                             icon: `/users_image/${data.image}`, // You can specify an icon here
@@ -1033,12 +1040,14 @@
                 console.log('Notifications not supported in this browser.');
             }
 
-
+            var audio = document.getElementById("not_sound");
+            audio.play();
         });
 
 
 
         SocketIO.on("get_AskBuy", function(data) {
+           
             // alert(data.id);
             const ul = document.getElementById("not_list");
 
@@ -1073,8 +1082,7 @@
                 Notification.requestPermission().then((permission) => {
                     if (permission === 'granted') {
                         // Permission to show notifications is granted
-                        var audio = document.getElementById("not_sound");
-                        audio.play();
+
                         const notification = new Notification(`طلب شراء جديد من ${data.sendname} `, {
                             body: data.name,
                             icon: `/users_image/${data.image}`, // You can specify an icon here
@@ -1090,8 +1098,8 @@
             } else {
                 console.log('Notifications not supported in this browser.');
             }
-
-
+            var audio = document.getElementById("not_sound");
+            audio.play();
         });
 
 
@@ -1104,6 +1112,7 @@
 
 
         SocketIO.on("get_mesages", function(data) {
+            
             // alert(data.id);
             const ul = document.getElementById("not_list");
 
@@ -1138,8 +1147,7 @@
                 Notification.requestPermission().then((permission) => {
                     if (permission === 'granted') {
                         // Permission to show notifications is granted
-                        var audio = document.getElementById("not_sound");
-                        audio.play();
+
                         const notification = new Notification(`رسالة جديدة من ${data.sendname} `, {
                             body: data.name,
                             icon: `/users_image/${data.sendimage}`, // You can specify an icon here
@@ -1155,7 +1163,8 @@
             } else {
                 console.log('Notifications not supported in this browser.');
             }
-
+            var audio = document.getElementById("not_sound");
+            audio.play();
 
         });
 

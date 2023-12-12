@@ -69,7 +69,7 @@
                             '{{ $sendname }}', '{{ $sendid }}', '{{ $snderOfaskname }}');
                     </script>
                 @endif
-{{session('stute_ok_off')}}
+                {{ session('stute_ok_off') }}
                 @if (session('stute_ok_off'))
                     @if (session()->get('stute_ok_off') == 1)
                         <script>
