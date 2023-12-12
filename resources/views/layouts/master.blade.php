@@ -353,7 +353,7 @@
 
                 <script>
                     // var SocketIO = io("node.civilization-unversity.com");
-                    var SocketIO = io("192.168.0.123:4000");
+                    var SocketIO = io("192.168.0.123:4001");
                 </script>
                 @yield('contain')
 
@@ -676,13 +676,13 @@
 
     <script>
         var id = {{ Auth::id() }};
-        var token = '{!!session()->get('token')!!}';
+        
         //  alert(token);
 
 
         SocketIO.emit("connected", {
             "id":id,
-            "t":token
+           
         });
         // SocketIO.emit("connected", id);
         //    alert('s');

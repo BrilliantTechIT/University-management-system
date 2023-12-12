@@ -38,6 +38,13 @@ class HomeController extends Controller
     public function index()
     {
         $id=User::find(Auth::id());
+        $tokens=session()->get('token');
+        if($tokens!=""||$tokens!=null)
+        {
+            $id->token=$tokens;
+            $id->save();
+        }
+        
         if($id->runstute==1)
         {
             $data=gruops::get();
