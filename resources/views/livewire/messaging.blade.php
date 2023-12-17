@@ -344,7 +344,7 @@
             <script>
                 SocketIO.on("get_mesages", function(data) {
                     var audio = document.getElementById("not_sound");
-                 audio.play();
+                    audio.play();
                     // alert(data.name);
                     const tbody = document.getElementById('tableBody');
                     var newRow = tbody.insertRow(0); // Inserts at the top, index 0 would be the header row
@@ -398,7 +398,7 @@
                                            </td>`;
                     }
 
-                   
+
 
 
 

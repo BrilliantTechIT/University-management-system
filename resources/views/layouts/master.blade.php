@@ -353,7 +353,7 @@
 
                 <script>
                     // var SocketIO = io("node.civilization-unversity.com");
-                    var SocketIO = io("192.168.0.123:4001");
+                    var SocketIO = io("127.0.0.1:4001");
                 </script>
                 @yield('contain')
 
