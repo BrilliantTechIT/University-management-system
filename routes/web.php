@@ -122,6 +122,7 @@ Route::middleware('auth')->group(function() {
     Route::post('/d', [App\Http\Controllers\HomeController::class, 'd'])->name('d');
     Route::get('DashbordScreen',[DashbordScreenController::class,'show'])->name('DashbordScreen');
     Route::get('/ChangePassword', [App\Http\Controllers\HomeController::class, 'ChangePassword'])->name('ChangePassword');
+    Route::get('/chatok', [App\Http\Controllers\HomeController::class, 'chatok'])->name('chatok');
     
 });
 

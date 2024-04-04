@@ -13,6 +13,7 @@ use App\Models\CashMoneyTable;
 use App\Models\CashStore;
 use App\Models\MessagingTable;
 use App\Models\gruops;
+use App\Models\ChatingTable;
 use Hash;
 use App\Models\ConnectGruopUser;
 
@@ -115,6 +116,34 @@ class HomeController extends Controller
             
             return view('index',['ro'=>$data,'task'=>$t,'okmoney'=>$okmoney,'okstore'=>$okstore,'okaskbuy'=>$okaskbuy,'okaskoff'=>$okaskoff,'showmoney'=>$showmoney,'showstore'=>$showstore,'showaskbuy'=>$showaskbuy,'showaskoff'=>$showaskoff]);
 
+    }
+
+    public function chatok(Request $request) {
+        // $data;
+        if($request->ad=='ad')
+        {
+            $r4=Roles::Where('id_user',Auth::id())->first();
+            if($r4->ok_Financial_exchange==0)
+            {
+                // return 'ss';
+                return view('lock')->layout('layouts.s');
+            }
+            // $data=ChatingTable::Where('id_order',$request->id)->get();
+            
+        }
+        else
+        {
+            $d=CashMoneyTable::Where('id',$request->id)->first();
+            if($d->create_by!=Auth::id())
+            {
+                // return 'ss';
+                return back(); 
+            }
+           
+
+        }
+        $data=ChatingTable::Where('id_order',$request->id)->get();
+        return view('chat',['m'=>$data,'orid'=>$request->id]);
     }
 }
 

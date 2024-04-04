@@ -43,79 +43,38 @@
 
                         </div>
                         <div class="card-body px-0 pt-0 pb-2">
-                            <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0" id="S_table">
-                                    <thead>
-                                        <tr>
-
-                                            <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
-                                                المرسل </th>
-                                            <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
-                                                العنوان </th>
-                                            <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
-                                                الرسالة </th>
-                                            <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
-                                                نوع الرسالة </th>
-                                            <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
-                                                تاريخ </th>
-                                            <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
-                                                عرض </th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tableBody">
-                                        @foreach ($MYmessage as $item)
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex px-2 py-1">
-                                                        <div>
-                                                            <img src="users_image/{{ $item->users_send->image }}"
-                                                                class="avatar avatar-sm me-3" alt="user1">
-                                                        </div>
-                                                        <div class="d-flex flex-column justify-content-center">
-                                                            <h6 class="mb-0 text-sm">{{ $item->users_send->name }}</h6>
-                                                        </div>
-
-                                                    </div>
-                                                </td>
-                                                <td class="align-middle text-center ">
-                                                    <span class="mb-0 text-sm">{{ $item->tital }}</span>
-                                                </td>
-                                                <td class="align-middle text-center ">
+                            <section class="articles" id="massageidsection">
+                                @foreach ($MYmessage as $item)
+                                    <article>
+                                        <div class="article-wrapper">
+                                            <figure>
+                                                <img src="users_image/{{ $item->users_send->image }}" alt="" />
+                                            </figure>
+                                            <center>
+                                                <h1>{{ $item->users_send->name }}</h1>
+                                            </center>
+                                            <center>
+                                                <h6>{{ $item->created_at }}</h6>
+                                            </center>
+                                            <div class="article-body">
+                                                <h2 style="text-align: center">{{ $item->tital }}</h2>
+                                                <p>
                                                     @if ($item->type == 1)
-                                                        <span class="mb-0 text-sm fa fa-lock">ملف للعرض</span>
+                                                        <center><a href="system/files/{{ $item->message }}"
+                                                                class="btn btn-primary">الرسالة ملف انقر لعرض الملف</a>
+                                                        </center>
                                                     @else
-                                                        <span class="mb-0 text-sm">{{ $item->message }}</span>
+                                                        <center>{{ $item->message }}</center>
                                                     @endif
-                                                </td>
-                                                <td class="align-middle text-center ">
-                                                    @if ($item->type == 1)
-                                                        <span class="mb-0 text-sm">ملف</span>
-                                                    @else
-                                                        <span class="mb-0 text-sm">رسالة</span>
-                                                    @endif
-                                                </td>
+                                                </p>
 
-                                                <td class="align-middle text-center ">
-                                                    <span class="mb-0 text-sm">{{ $item->created_at }}</span>
-                                                </td>
+                                            </div>
+                                        </div>
+                                    </article>
+                                @endforeach
 
-                                                <td class="align-middle text-center">
-                                                    @if ($item->type == 0)
-                                                        <button class="btn btn-primary"
-                                                            onclick="show('{{ $item->tital }}','{{ $item->message }}')"
-                                                            data-bs-toggle="modal" data-bs-target="#show">عرض</button>
-                                                    @else
-                                                        <a class="btn btn-primary"
-                                                            href="system/files/{{ $item->message }}">عرض</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                        @endforeach
-
-                                    </tbody>
-                                </table>
-                            </div>
+                            </section>
+                            {{ $MYmessage->links() }}
                         </div>
                     </div>
 
@@ -129,81 +88,38 @@
 
                         </div>
                         <div class="card-body px-0 pt-0 pb-2">
-                            <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0" id="S_table">
-                                    <thead>
-                                        <tr>
-
-                                            <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
-                                                المستلمين </th>
-                                            <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
-                                                العنوان </th>
-                                            <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
-                                                الرسالة </th>
-                                            <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
-                                                نوع الرسالة </th>
-                                            <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
-                                                تاريخ </th>
-                                            <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
-                                                عرض </th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        @foreach ($MYsendedmessage as $item)
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex px-2 py-1">
-                                                        <div>
-                                                            <img src="users_image/{{ $item->users_get->image }}"
-                                                                class="avatar avatar-sm me-3" alt="user1">
-                                                        </div>
-                                                        <div class="d-flex flex-column justify-content-center">
-                                                            <h6 class="mb-0 text-sm">{{ $item->users_get->name }}</h6>
-                                                        </div>
-
-                                                    </div>
-                                                </td>
-                                                <td class="align-middle text-center ">
-                                                    <span class="mb-0 text-sm">{{ $item->tital }}</span>
-                                                </td>
-                                                <td class="align-middle text-center ">
+                            <section class="articles">
+                                @foreach ($MYsendedmessage as $item)
+                                    <article style="background: rgb(237, 189, 189)">
+                                        <div  class="article-wrapper">
+                                            <figure>
+                                                <img src="users_image/{{ $item->users_get->image }}" alt="" />
+                                            </figure>
+                                            <center>
+                                                <h1>{{ $item->users_get->name }}</h1>
+                                            </center>
+                                            <center>
+                                                <h6>{{ $item->created_at }}</h6>
+                                            </center>
+                                            <div class="article-body">
+                                                <h2 style="text-align: center">{{ $item->tital }}</h2>
+                                                <p>
                                                     @if ($item->type == 1)
-                                                        <span class="mb-0 text-sm fa fa-lock">ملف للعرض</span>
+                                                        <center><a href="system/files/{{ $item->message }}"
+                                                                class="btn btn-primary">الرسالة ملف انقر لعرض الملف</a>
+                                                        </center>
                                                     @else
-                                                        <span class="mb-0 text-sm">{{ $item->message }}</span>
+                                                        <center>{{ $item->message }}</center>
                                                     @endif
-                                                </td>
+                                                </p>
 
-                                                <td class="align-middle text-center ">
-                                                    @if ($item->type == 1)
-                                                        <span class="mb-0 text-sm">ملف</span>
-                                                    @else
-                                                        <span class="mb-0 text-sm">رسالة</span>
-                                                    @endif
-                                                </td>
-                                                <td class="align-middle text-center ">
-                                                    <span class="mb-0 text-sm">{{ $item->created_at }}</span>
-                                                </td>
+                                            </div>
+                                        </div>
+                                    </article>
+                                @endforeach
 
-                                                <td class="align-middle text-center">
-                                                    @if ($item->type == 0)
-                                                        <button class="btn btn-primary"
-                                                            onclick="show('{{ $item->tital }}','{{ $item->message }}')"
-                                                            data-bs-toggle="modal" data-bs-target="#show">عرض</button>
-                                                    @else
-                                                        <a class="btn btn-primary"
-                                                            href="system/files/{{ $item->message }}">عرض</a>
-                                                    @endif
-                                                </td>
-
-                                            </tr>
-                                        @endforeach
-
-                                    </tbody>
-                                </table>
-                            </div>
+                            </section>
+                            {{ $MYsendedmessage->links() }}
                         </div>
                     </div>
                 </div>
@@ -315,7 +231,7 @@
             <!-- =================Edit modal======================= -->
 
 
-            <div class="modal fade" id="show" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            <div  class="modal fade" id="show" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -343,83 +259,111 @@
 
             <script>
                 SocketIO.on("get_mesages", function(data) {
-                    var audio = document.getElementById("not_sound");
-                    audio.play();
+                    
+                    var articleHTML = `<article style="background: rgb(184, 255, 214)">
+        <div class="article-wrapper">
+            <figure>
+                <img src="users_image/${data.sendimage}" alt="" />
+            </figure>
+            <center>
+                <h1>${data.sendname}</h1>
+            </center>
+            <center>
+                <h6>${data.date}</h6>
+            </center>
+            <div class="article-body">
+                <h2 style="text-align: center">${data.tital}</h2>
+                <p>
+                    ${data.type == 1 ?
+                        `<center><a href="system/files/${data.message}" class="btn btn-primary">الرسالة ملف انقر لعرض الملف</a></center>` :
+                        `<center>${data.message}</center>`}
+                </p>
+            </div>
+        </div>
+    </article>`;
+    alert('ss');
+
+    var massageSection = document.getElementById('massageidsection');
+
+// Append the new article HTML to the 'massageidsection'
+if (massageSection) {
+    massageSection.insertAdjacentHTML('afterbegin', articleHTML);
+}
                     // alert(data.name);
-                    const tbody = document.getElementById('tableBody');
-                    var newRow = tbody.insertRow(0); // Inserts at the top, index 0 would be the header row
-                    var cell1 = newRow.insertCell(0);
-                    var cell2 = newRow.insertCell(1);
-                    var cell3 = newRow.insertCell(2);
-                    var cell4 = newRow.insertCell(3);
-                    var cell5 = newRow.insertCell(4);
-                    var cell6 = newRow.insertCell(5);
+                    // const tbody = document.getElementById('tableBody');
+                    // var newRow = tbody.insertRow(0); // Inserts at the top, index 0 would be the header row
+                    // var cell1 = newRow.insertCell(0);
+                    // var cell2 = newRow.insertCell(1);
+                    // var cell3 = newRow.insertCell(2);
+                    // var cell4 = newRow.insertCell(3);
+                    // var cell5 = newRow.insertCell(4);
+                    // var cell6 = newRow.insertCell(5);
 
-                    // Create and append cell (td) elements to the new row
+                    // // Create and append cell (td) elements to the new row
 
-                    cell1.innerHTML = `<td>
-                                                    <div class="d-flex px-2 py-1">
-                                                        <div>
-                                                            <img src="users_image/${data.sendimage}"
-                                                                class="avatar avatar-sm me-3" alt="user1">
-                                                        </div>
-                                                        <div class="d-flex flex-column justify-content-center">
-                                                            <h6 class="mb-0 text-sm">${data.sendname}</h6>
-                                                        </div>
+                    // cell1.innerHTML = `<td>
+                    //                                 <div class="d-flex px-2 py-1">
+                    //                                     <div>
+                    //                                         <img src="users_image/${data.sendimage}"
+                    //                                             class="avatar avatar-sm me-3" alt="user1">
+                    //                                     </div>
+                    //                                     <div class="d-flex flex-column justify-content-center">
+                    //                                         <h6 class="mb-0 text-sm">${data.sendname}</h6>
+                    //                                     </div>
 
-                                                    </div>
-                                                </td>`;
-
-
-
-                    cell2.innerHTML = `<td class="align-middle text-center ">
-                                        <span class="mb-0 text-sm">${data.tital}</span>
-                                    </td>`;
+                    //                                 </div>
+                    //                             </td>`;
 
 
 
-                    if (data.type == 1) {
-                        cell3.innerHTML = `<td class="align-middle text-center">
-                            <span class="mb-0 text-sm fa fa-lock">ملف للعرض</span>
-                                                </td>`;
-                    } else {
-                        cell3.innerHTML = `<td class="align-middle text-center">
-                            <span class="mb-0 text-sm">${data.message}</span>
-                                           </td>`;
-                    }
-
-                    if (data.type == 1) {
-                        cell4.innerHTML = `<td class="align-middle text-center">
-                            <span class="mb-0 text-sm">ملف</span>
-                                                </td>`;
-                    } else {
-                        cell4.innerHTML = `<td class="align-middle text-center">
-                            <span class="mb-0 text-sm">رسالة</span>
-                                           </td>`;
-                    }
+                    // cell2.innerHTML = `<td class="align-middle text-center ">
+                    //                     <span class="mb-0 text-sm">${data.tital}</span>
+                    //                 </td>`;
 
 
+
+                    // if (data.type == 1) {
+                    //     cell3.innerHTML = `<td class="align-middle text-center">
+                    //         <span class="mb-0 text-sm fa fa-lock">ملف للعرض</span>
+                    //                             </td>`;
+                    // } else {
+                    //     cell3.innerHTML = `<td class="align-middle text-center">
+                    //         <span class="mb-0 text-sm">${data.message}</span>
+                    //                        </td>`;
+                    // }
+
+                    // if (data.type == 1) {
+                    //     cell4.innerHTML = `<td class="align-middle text-center">
+                    //         <span class="mb-0 text-sm">ملف</span>
+                    //                             </td>`;
+                    // } else {
+                    //     cell4.innerHTML = `<td class="align-middle text-center">
+                    //         <span class="mb-0 text-sm">رسالة</span>
+                    //                        </td>`;
+                    // }
 
 
 
 
-                    cell5.innerHTML = `  <td class="align-middle text-center ">
-                                                    <span class="mb-0 text-sm">${data.date}</span>
-                                                </td>`;
-                    if (data.type == 0) {
-                        cell6.innerHTML = `<td class="align-middle text-center">
+
+
+                    // cell5.innerHTML = `  <td class="align-middle text-center ">
+                    //                                 <span class="mb-0 text-sm">${data.date}</span>
+                    //                             </td>`;
+                    // if (data.type == 0) {
+                    //     cell6.innerHTML = `<td class="align-middle text-center">
                                                    
-                                                        <button class="btn btn-primary"
-                                                            onclick="show('${data.tital}','${data.message}')"
-                                                            data-bs-toggle="modal" data-bs-target="#show">عرض</button>
-                                                </td>`;
-                    } else {
-                        cell6.innerHTML = `<td class="align-middle text-center">
+                    //                                     <button class="btn btn-primary"
+                    //                                         onclick="show('${data.tital}','${data.message}')"
+                    //                                         data-bs-toggle="modal" data-bs-target="#show">عرض</button>
+                    //                             </td>`;
+                    // } else {
+                    //     cell6.innerHTML = `<td class="align-middle text-center">
                                                    
-                            <a class="btn btn-primary"
-                             href="system/files/${data.message}">عرض</a>
-                                           </td>`;
-                    }
+                    //         <a class="btn btn-primary"
+                    //          href="system/files/${data.message}">عرض</a>
+                    //                        </td>`;
+                    // }
 
 
 

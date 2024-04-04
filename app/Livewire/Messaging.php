@@ -17,8 +17,8 @@ class Messaging extends Component
         {
             return view('lock')->layout('layouts.s');
         }
-        $MYmessage=MessagingTable::Where('id_user',Auth::id())->orderby('id','desc')->get();
-        $MYsendedmessage=MessagingTable::Where('create_by',Auth::id())->orderby('id','desc')->get();
+        $MYmessage=MessagingTable::Where('id_user',Auth::id())->orderby('id','desc')->paginate(12);
+        $MYsendedmessage=MessagingTable::Where('create_by',Auth::id())->orderby('id','desc')->paginate(12);
         
         $data=User::Where('runstute',1)->Where('runstute',1)->get();
         return view('livewire.messaging',['users'=>$data,'MYmessage'=>$MYmessage,'MYsendedmessage'=>$MYsendedmessage])->layout('layouts.master');

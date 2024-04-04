@@ -44,6 +44,7 @@
                         "images":juserimage,
                         "sendid":sendid,
                         "sendname":sendname,
+                        "sendim":"{{Auth::user()->image}}"
 
                     });
 
@@ -106,8 +107,8 @@
                                                 <td class="align-middle text-center ">
                                                     <span class="mb-0 text-sm">{{ $item->omlh }}</span>
                                                 </td>
-                                                <td class="align-middle text-center ">
-                                                    <span class="mb-0 text-sm">{{ $item->opposite }}</span>
+                                                <td class="align-middle text-center " style="width: 300px">
+                                                    <span class="mb-0 text-sm" style="white-space: pre-line">{{ $item->opposite }}</span>
                                                 </td>
 
                                                 @if ($item->stute==0)
@@ -149,6 +150,10 @@
                                                         <button type="submit" name="delete"
                                                             class="mb-0 text-md fa fa-times fa-2x btn btn-danger">حذف</button>
                                                     </form>
+                                                    <br>
+                                                    @if ($item->stute==0)
+                                                    <a href="{{route('chatok',['id'=>$item->id])}}" class="btn btn-info">محادثة</a>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
