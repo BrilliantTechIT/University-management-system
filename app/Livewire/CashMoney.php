@@ -37,6 +37,7 @@ class CashMoney extends Component
         $data->opposite=$request->opposite;
         $data->create_by=Auth::id();
         $data->save();
+        
         return back()->with('done','done');
 
     }

@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('chating_tables', function (Blueprint $table) {
             $table->id();
             $table->integer('id_send');
-           
             $table->String('message');
             $table->String('mtype');
             $table->integer('id_order');

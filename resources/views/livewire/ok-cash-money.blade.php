@@ -99,10 +99,10 @@
             }
 
             /*
-        =====================
-        Classes
-        =====================
-        */
+            =====================
+            Classes
+            =====================
+            */
 
             /* LAYOUT */
 
@@ -280,10 +280,10 @@
                                 @foreach ($wait as $item)
                                     <div class="col-md-6 col-12">
                                         <div class="card-container">
-                                            
-                                                <img class="hero-image" src="users_image/{{ $item->users->image }}"
-                                                    alt="Spinning glass cube" />
-                                            
+
+                                            <img class="hero-image" src="users_image/{{ $item->users->image }}"
+                                                alt="Spinning glass cube" />
+
                                             <main class="main-content">
                                                 <h1><a href="#">{{ $item->users->name }}</a></h1>
 
@@ -321,7 +321,8 @@
                                                             </form>
                                                         </div>
                                                         <div class="col-md-3 col-12" style="margin: 10px">
-                                                            <a class="btn btn-info" href="{{route('chatok',['id'=> $item->id,'ad'=>'ad'])}}">محادثة</a>
+                                                            <a class="btn btn-info"
+                                                                href="{{ route('chatok', ['id' => $item->id, 'ad' => 'ad']) }}">محادثة</a>
                                                         </div>
 
                                                     </div>
@@ -354,7 +355,7 @@
 
                         <div class="card-header pb-0">
 
-                            <h6> طلبات الصرف تحت موافقات</h6>
+                            <h6> طلبات الصرف  موافقات</h6>
 
                         </div>
                         <div class="card-body px-0 pt-0 pb-2">
@@ -391,7 +392,7 @@
                                                 <td class="align-middle text-center ">
                                                     <span class="mb-0 text-sm">{{ $item->omlh }}</span>
                                                 </td>
-                                                <td class="align-middle text-center " style="width: 300px;">
+                                                <td class="align-middle text-center " style="width: 200px;">
                                                     <span class="mb-0 text-sm"
                                                         style="white-space: pre-line; ">{{ $item->opposite }}</span>
                                                 </td>
@@ -422,7 +423,8 @@
 
 
                                                 <td class="align-middle text-center ">
-                                                    <span class="mb-0 text-sm">{{ $item->created_at }}
+                                                    <span class="mb-0 text-sm">
+                                                        {{ $item->created_at }}
                                                     </span>
                                                 </td>
                                                 <td class="align-middle">
@@ -647,10 +649,10 @@
             <script>
                 SocketIO.on("get_CashMoney", function(data) {
 
-                var targetRow = document.getElementById("targetRow");
+                    var targetRow = document.getElementById("targetRow");
 
-                // Provided HTML content to be added
-                var htmlContent = `
+                    // Provided HTML content to be added
+                    var htmlContent = `
                 <div class="col-md-6 col-12">
                                         <div class="card-container">
                                             
@@ -695,7 +697,15 @@
                                                             </form>
                                                         </div>
                                                         <div class="col-md-3 col-12" style="margin: 10px">
-                                                            <a class="btn btn-info" href="{{route('chatok',['id'=> '${data.id}','ad'=>'ad'])}}"
+                                                            <form action="{{ route('chatok',['ad' => 'ad']) }} " method="get">
+
+                                                            @csrf
+                                                            <input type="hidden" name="id"
+                                                                    value="${data.id}" id="">
+                                                            <button type="submit" name="delete"
+                                                                class="mb-0 text-md fa fa-times fa-2x btn btn-info">محادثة</button>
+                                                            </form>
+                                                            
                                                         </div>
 
                                                     </div>
@@ -710,11 +720,11 @@
                                     </div>
 `;
 
-                // Append the provided HTML content to the 'row' div
-                targetRow.innerHTML += htmlContent;
-                
+                    // Append the provided HTML content to the 'row' div
+                    targetRow.innerHTML += htmlContent;
 
-               
+
+
 
                 });
             </script>
