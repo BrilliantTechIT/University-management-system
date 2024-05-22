@@ -9,7 +9,7 @@
                 <h3 class="text-هىبخ.">شـــاشات النظام</h3>
                 @if ($ro->Financial_exchange == 1)
                     <div class="col-lg-3 col-sm-6 mb-lg-0 mb-4">
-                        <a href="{{route('CashMoney')}}">
+                        <a href="{{route('NewCashMoney')}}">
                             <div class="card">
                                 <div class="card-body p-3">
                                     <div class="row">

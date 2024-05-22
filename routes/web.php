@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use App\Models\Roles;
-
+use App\Http\Controllers\Showings;
 use App\Http\Controllers\DashbordScreenController;
 use App\Livewire\UsersScreen;
 use App\Livewire\UsersGroups;
@@ -47,6 +47,33 @@ Route::get('/', function (Request $r) {
 
 Auth::routes();
 Route::middleware('auth')->group(function() {
+    Route::get('NewCashMoney',[Showings::class,'CashMoney'])->name('NewCashMoney');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     Route::get('UsersScreen',UsersScreen::class)->name('UsersScreen');
     Route::Post('Store_user',[UsersScreen::class,'Store_user'])->name('Store_user');
     Route::Post('Stop_user',[UsersScreen::class,'Stop_user'])->name('Stop_user');

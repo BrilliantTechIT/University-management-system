@@ -56,13 +56,13 @@
     <!-- Style -->
     {{-- <link rel="stylesheet" href="selection/style.css"> --}}
     <style>
-        
         .scroll-container {
             height: 100vh;
             /* Set your desired height */
             overflow: auto;
             /* This makes it scrollable */
         }
+
         article {
             --img-scale: 1.001;
             --title-color: black;
@@ -154,7 +154,7 @@ Generic layout (demo looks)
             box-sizing: border-box;
         }
 
-       
+
 
         .articles {
             display: grid;
@@ -212,7 +212,7 @@ Generic layout (demo looks)
 </head>
 
 <body class="g-sidenav-show rtl bg-gray-100">
-    <audio id="not_sound" style="display: none;" controls>
+    <audio preload="auto" id="not_sound" style="display: none;" >
         <source src="n.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
@@ -495,12 +495,7 @@ Generic layout (demo looks)
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <div>
-                <script src="assets/js/lobsocket.io.js"></script>
 
-                <script>
-                    // var SocketIO = io("node.civilization-unversity.com");
-                    var SocketIO = io("127.0.0.1:4001");
-                </script>
                 @yield('contain')
 
             </div>
@@ -820,6 +815,14 @@ Generic layout (demo looks)
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
 
+
+
+    <script src="assets/js/lobsocket.io.js"></script>
+
+    <script>
+        var SocketIO = io("127.0.0.1:4001");
+    </script>
+
     <script>
         var id = {{ Auth::id() }};
 
@@ -830,495 +833,78 @@ Generic layout (demo looks)
             "id": id,
 
         });
-        // SocketIO.emit("connected", id);
-        //    alert('s');
-        function sendevent(form) {
-            event.preventDefault();
-            var message = prompt("enter massge");
-            SocketIO.emit("sendEvent", {
-                "myid": "1",
-                "userId": form.id.value,
-                "message": message,
-            });
-
-
-
-
-
-
-            // alert('ss');
-        }
-
-        // function sendevent2() {
-        //     event.preventDefault();
-        //     var m = prompt("enter the message");
-        //     SocketIO.emit('touser', {
-        //         "id": 2,
-        //         "m": m
-        //     });
-        // }
-
-        // SocketIO.on("alls", function(data) {
-        //     alert(data);
-        // });
-
-        // SocketIO.on("postoneuser", function(data) {
-        //     alert(data);
-        // });
-
-
-
-
-        //Task
-        SocketIO.on("get_task", function(data) {
-            // alert(data.id);
-
-
-
-            const ul = document.getElementById("not_list");
-
-            // Create a new <li> element
-            const li = document.createElement("li");
-            li.className = "mb-2";
-            li.innerHTML = `
-<a class="dropdown-item border-radius-md" href="javascript:;">
-<div class="d-flex py-1">
-    <div class="my-auto">
-        <img src="../users_image/${data.image}" class="avatar avatar-sm ms-3">
-    </div>
-    <div class="d-flex flex-column justify-content-center">
-        <h6 class="text-sm font-weight-normal mb-1">
-            <span class="font-weight-bold">مهمة جديدة</span> ${data.name}
-        </h6>
-        <p class="text-xs text-secondary mb-0">
-            <i class="fa fa-clock me-1"></i>
-            ${data.date}
-        </p>
-    </div>
-</div>
-</a>
-`;
-
-            // Append the <li> to the <ul>
-            ul.appendChild(li);
-
-            if ('Notification' in window) {
-                // Check if the Notification API is supported by the browser
-
-                Notification.requestPermission().then((permission) => {
-                    if (permission === 'granted') {
-
-                        const notification = new Notification(`مهمة جديدة من ${data.send} `, {
-                            body: data.name,
-                            icon: `/users_image/${data.image}`, // You can specify an icon here
-                        });
-
-                        // Handle notification click event
-                        notification.onclick = () => {
-                            // Code to execute when the user clicks the notification
-                            window.open('http://localhost:8000/home.com');
-                        }
-                    }
-                });
-            } else {
-                console.log('Notifications not supported in this browser.');
-            }
-
-            var audio = document.getElementById("not_sound");
-            audio.play();
-        });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        SocketIO.on("get_CashMoney", function(data) {
-
-
-
-
-            const ul = document.getElementById("not_list");
-
-            // Create a new <li> element
-            const li = document.createElement("li");
-            li.className = "mb-2";
-            li.innerHTML = `
-<a class="dropdown-item border-radius-md" href="javascript:;">
-<div class="d-flex py-1">
-    <div class="my-auto">
-        <img src="../users_image/${data.image}" class="avatar avatar-sm ms-3">
-    </div>
-    <div class="d-flex flex-column justify-content-center">
-        <h6 class="text-sm font-weight-normal mb-1">
-            <span class="font-weight-bold">طلب صرف مالي جديد من</span> ${data.sendname}
-        </h6>
-        <p class="text-xs text-secondary mb-0">
-            <i class="fa fa-clock me-1"></i>
-            ${data.date}
-        </p>
-    </div>
-</div>
-</a>
-`;
-
-
-            // Append the <li> to the <ul>
-            ul.appendChild(li);
-
-            if ('Notification' in window) {
-                // Check if the Notification API is supported by the browser
-
-                Notification.requestPermission().then((permission) => {
-                    if (permission === 'granted') {
-                        // Permission to show notifications is granted
-
-                        const notification = new Notification(` طلب صرف مالي جديد من ${data.sendname} `, {
-                            body: data.name,
-                            icon: `/users_image/${data.image}`, // You can specify an icon here
-                        });
-
-                        // Handle notification click event
-                        notification.onclick = () => {
-                            // Code to execute when the user clicks the notification
-                            window.open('https://localhost:8000/home.com');
-                        }
-                    }
-                });
-            } else {
-                console.log('Notifications not supported in this browser.');
-            }
-
-            var audio = document.getElementById("not_sound");
-            audio.play();
-        });
-
-
-
-
-
-
-
-
-
-        SocketIO.on("get_result_asker_money_cash", function(data) {
-            const ul = document.getElementById("not_list");
-
-            // Create a new <li> element
-            const li = document.createElement("li");
-            li.className = "mb-2";
-            li.innerHTML = `
-<a class="dropdown-item border-radius-md" href="javascript:;">
-<div class="d-flex py-1">
-    <div class="my-auto">
-        <img src="../users_image/${data.image}" class="avatar avatar-sm ms-3">
-    </div>
-    <div class="d-flex flex-column justify-content-center">
-        <h6 class="text-sm font-weight-normal mb-1">
-            <span class="font-weight-bold">تم الرد على طلب  لك من قبل</span> ${data.send}
-        </h6>
-        <p>${data.message}</P>
-        <p class="text-xs text-secondary mb-0">
-            <i class="fa fa-clock me-1"></i>
-            ${data.date}
-        </p>
-    </div>
-</div>
-</a>
-`;
-
-
-            // Append the <li> to the <ul>
-            ul.appendChild(li);
-
-            if ('Notification' in window) {
-                // Check if the Notification API is supported by the browser
-
-                Notification.requestPermission().then((permission) => {
-                    if (permission === 'granted') {
-                        // Permission to show notifications is granted
-
-                        const notification = new Notification(`تم الرد على طلب  لك من قبل  ${data.send} `, {
-                            body: data.message,
-                            icon: `/users_image/${data.image}`, // You can specify an icon here
-                        });
-
-                        // Handle notification click event
-                        notification.onclick = () => {
-                            // Code to execute when the user clicks the notification
-                            window.open('https://localhost:8000/home.com');
-                        }
-                    }
-                });
-            } else {
-                console.log('Notifications not supported in this browser.');
-            }
-
-            var audio = document.getElementById("not_sound");
-            audio.play();
-
-
-
-        });
-
-
-
-
-        SocketIO.on("get_cashstore", function(data) {
-            // alert(data.id);
-
-            const ul = document.getElementById("not_list");
-
-            // Create a new <li> element
-            const li = document.createElement("li");
-            li.className = "mb-2";
-            li.innerHTML = `
-<a class="dropdown-item border-radius-md" href="javascript:;">
-<div class="d-flex py-1">
-    <div class="my-auto">
-        <img src="../users_image/${data.image}" class="avatar avatar-sm ms-3">
-    </div>
-    <div class="d-flex flex-column justify-content-center">
-        <h6 class="text-sm font-weight-normal mb-1">
-            <span class="font-weight-bold">طلب صرف مخزني جديد من</span> ${data.sendname}
-        </h6>
-        <p class="text-xs text-secondary mb-0">
-            <i class="fa fa-clock me-1"></i>
-            ${data.date}
-        </p>
-    </div>
-</div>
-</a>
-`;
-
-            // Append the <li> to the <ul>
-            ul.appendChild(li);
-
-            if ('Notification' in window) {
-                // Check if the Notification API is supported by the browser
-
-                Notification.requestPermission().then((permission) => {
-                    if (permission === 'granted') {
-                        // Permission to show notifications is granted
-
-                        const notification = new Notification(` طلب صرف مخزني جديد من ${data.sendname} `, {
-                            body: data.name,
-                            icon: `/users_image/${data.image}`, // You can specify an icon here
-                        });
-
-                        // Handle notification click event
-                        notification.onclick = () => {
-                            // Code to execute when the user clicks the notification
-                            window.open('https://localhost:8000/home.com');
-                        }
-                    }
-                });
-            } else {
-                console.log('Notifications not supported in this browser.');
-            }
-
-            var audio = document.getElementById("not_sound");
-            audio.play();
-        });
-
-
-
-
-
-        SocketIO.on("get_askoff", function(data) {
-            // alert(data.id);
-
-            const ul = document.getElementById("not_list");
-
-            // Create a new <li> element
-            const li = document.createElement("li");
-            li.className = "mb-2";
-            li.innerHTML = `
-<a class="dropdown-item border-radius-md" href="javascript:;">
-<div class="d-flex py-1">
-    <div class="my-auto">
-        <img src="../users_image/${data.image}" class="avatar avatar-sm ms-3">
-    </div>
-    <div class="d-flex flex-column justify-content-center">
-        <h6 class="text-sm font-weight-normal mb-1">
-            <span class="font-weight-bold">طلب اجازة جديد من</span> ${data.sendname}
-        </h6>
-        <p class="text-xs text-secondary mb-0">
-            <i class="fa fa-clock me-1"></i>
-            ${data.date}
-        </p>
-    </div>
-</div>
-</a>
-`;
-
-            // Append the <li> to the <ul>
-            ul.appendChild(li);
-
-            if ('Notification' in window) {
-                // Check if the Notification API is supported by the browser
-
-                Notification.requestPermission().then((permission) => {
-                    if (permission === 'granted') {
-                        // Permission to show notifications is granted
-
-                        const notification = new Notification(`طلب اجازة جديد من ${data.sendname} `, {
-                            body: data.name,
-                            icon: `/users_image/${data.image}`, // You can specify an icon here
-                        });
-
-                        // Handle notification click event
-                        notification.onclick = () => {
-                            // Code to execute when the user clicks the notification
-                            window.open('https://localhost:8000/home.com');
-                        }
-                    }
-                });
-            } else {
-                console.log('Notifications not supported in this browser.');
-            }
-
-            var audio = document.getElementById("not_sound");
-            audio.play();
-        });
-
-
-
-        SocketIO.on("get_AskBuy", function(data) {
-
-            // alert(data.id);
-            const ul = document.getElementById("not_list");
-
-            // Create a new <li> element
-            const li = document.createElement("li");
-            li.className = "mb-2";
-            li.innerHTML = `
-<a class="dropdown-item border-radius-md" href="javascript:;">
-<div class="d-flex py-1">
-    <div class="my-auto">
-        <img src="../users_image/${data.image}" class="avatar avatar-sm ms-3">
-    </div>
-    <div class="d-flex flex-column justify-content-center">
-        <h6 class="text-sm font-weight-normal mb-1">
-            <span class="font-weight-bold">طلب شراء جديد من</span> ${data.sendname}
-        </h6>
-        <p class="text-xs text-secondary mb-0">
-            <i class="fa fa-clock me-1"></i>
-            ${data.date}
-        </p>
-    </div>
-</div>
-</a>
-`;
-
-            // Append the <li> to the <ul>
-            ul.appendChild(li);
-
-            if ('Notification' in window) {
-                // Check if the Notification API is supported by the browser
-
-                Notification.requestPermission().then((permission) => {
-                    if (permission === 'granted') {
-                        // Permission to show notifications is granted
-
-                        const notification = new Notification(`طلب شراء جديد من ${data.sendname} `, {
-                            body: data.name,
-                            icon: `/users_image/${data.image}`, // You can specify an icon here
-                        });
-
-                        // Handle notification click event
-                        notification.onclick = () => {
-                            // Code to execute when the user clicks the notification
-                            window.open('https://localhost:8000/home.com');
-                        }
-                    }
-                });
-            } else {
-                console.log('Notifications not supported in this browser.');
-            }
-            var audio = document.getElementById("not_sound");
-            audio.play();
-        });
-
-
-
-
-
-
-
-
-
-
-        SocketIO.on("get_mesages", function(data) {
-
-            // alert(data.id);
-            const ul = document.getElementById("not_list");
-
-            // Create a new <li> element
-            const li = document.createElement("li");
-            li.className = "mb-2";
-            li.innerHTML = `
-<a class="dropdown-item border-radius-md" href="javascript:;">
-<div class="d-flex py-1">
-    <div class="my-auto">
-        <img src="../users_image/${data.sendimage}" class="avatar avatar-sm ms-3">
-    </div>
-    <div class="d-flex flex-column justify-content-center">
-        <h6 class="text-sm font-weight-normal mb-1">
-            <span class="font-weight-bold"> رسالة جديدة من</span> ${data.sendname}
-        </h6>
-        <p class="text-xs text-secondary mb-0">
-            <i class="fa fa-clock me-1"></i>
-            ${data.date}
-        </p>
-    </div>
-</div>
-</a>
-`;
-
-            // Append the <li> to the <ul>
-            ul.appendChild(li);
-
-            if ('Notification' in window) {
-                // Check if the Notification API is supported by the browser
-
-                Notification.requestPermission().then((permission) => {
-                    if (permission === 'granted') {
-                        // Permission to show notifications is granted
-
-                        const notification = new Notification(`رسالة جديدة من ${data.sendname} `, {
-                            body: data.name,
-                            icon: `/users_image/${data.sendimage}`, // You can specify an icon here
-                        });
-
-                        // Handle notification click event
-                        notification.onclick = () => {
-                            // Code to execute when the user clicks the notification
-                            window.open('https://localhost:8000/home.com');
-                        }
-                    }
-                });
-            } else {
-                console.log('Notifications not supported in this browser.');
-            }
-            var audio = document.getElementById("not_sound");
-            audio.play();
-
-        });
-
 
 
         //end Task
     </script>
 
+    @yield('jscon')
+
+
+   
+    <script>
+        SocketIO.on("get_CashMoney", function(users) {
+           Na(`طلب صرف مالي جديد من ${users.name}`,users.image)
+        });
+
+
+        function Na(body,icon) {
+            const notificationSound = new Audio("n.mp3");
+notificationSound.play();
+
+            
+            if ("Notification" in window) {
+
+// Check whether notification permissions have already been granted
+if (Notification.permission === "granted") {
+
+    // If it's okay, let's create a notification
+    showNotification();
+} else if (Notification.permission !== "denied") {
+    // Otherwise, we need to ask the user for permission
+    Notification.requestPermission().then(function(permission) {
+        // If the user accepts, let's create a notification
+        if (permission === "granted") {
+            showNotification();
+        }
+    });
+}
+} else {
+console.log("This browser does not support notifications.");
+}
+
+// Function to show the notification
+function showNotification() {
+const options = {
+    body:body,
+    icon: `users_image/${icon}` // optional, can be a URL or a path to an icon
+};
+
+const notification = new Notification("نظام عبدالحميد ", options);
+
+var audio = document.getElementById("not_sound");
+            audio.play();
+
+// Optional: Add event listeners to the notification
+notification.onclick = function() {
+    window.open(window.location.origin); // example action on click
+};
+
+notification.onshow = function() {
+    console.log("Notification shown");
+};
+
+notification.onclose = function() {
+    console.log("Notification closed");
+};
+
+notification.onerror = function() {
+    console.log("Notification error");
+};
+}
+
+        }
+    </script>
 
 
 </body>
