@@ -142,7 +142,8 @@ class HomeController extends Controller
            
 
         }
-        $data=ChatingTable::Where('id_order',$request->id)->get();
+        // dd($request->mtype);
+        $data=ChatingTable::Where('id_order',$request->id)->where('mtype',$request->mtype)->get();
         return view('chat',['m'=>$data,'orid'=>$request->id]);
     }
 

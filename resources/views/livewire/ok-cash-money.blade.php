@@ -322,7 +322,7 @@
                                                         </div>
                                                         <div class="col-md-3 col-12" style="margin: 10px">
                                                             <a class="btn btn-info"
-                                                                href="{{ route('chatok', ['id' => $item->id, 'ad' => 'ad']) }}">محادثة</a>
+                                                                href="{{ route('chatok', ['id' => $item->id, 'ad' => 'ad','mtype' => '1']) }}">محادثة</a>
                                                         </div>
 
                                                     </div>

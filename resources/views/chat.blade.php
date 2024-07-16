@@ -181,14 +181,14 @@
                     event.preventDefault();
 
                     // Get the value entered in the price input field
-                    var enteredPrice = document.getElementById("priceInput").value;
+                    var enteredmessage = document.getElementById("priceInput").value;
 
                     // Display the result
                     SocketIO.emit('sendm', {
                         'id':'{{ Auth::id() }}',
                         "name": '{{ Auth::user()->name }}',
                         "im": '{{ Auth::user()->image }}',
-                        "m": enteredPrice,
+                        "m": enteredmessage,
                         't':1,
                         'ordid':{{$orid}}
                     });

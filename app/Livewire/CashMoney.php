@@ -30,7 +30,7 @@ class CashMoney extends Component
         {
             return view('lock')->layout('layouts.s');
         }
-        $data=CashMoneyTable::Where('create_by',Auth::id())->get();
+        $data=CashMoneyTable::Where('create_by',Auth::id())->orderby('id','desc')->get();
         $roles=Roles::Where('ok_Financial_exchange',1)->Select('id_user')->get();
         $us=User::Where('runstute',1)->Wherein('id',$roles)->Select('id','name','image')->get();
         
@@ -70,19 +70,19 @@ class CashMoney extends Component
 
     }
 
-    public function DeleteCashMoneyTable(Request $request)
+    public function DeleteCashMoneyTable($id)
     {
         $r4=Roles::Where('id_user',Auth::id())->first();
         if($r4->Financial_exchange==0)
         {
             return view('lock')->layout('layouts.s');
         }
-        $data =CashMoneyTable::find($request->id);
+        $data =CashMoneyTable::find($id);
         if($data->stute==0)
         {
             $data->delete();
         }
-        return back();
+        // return back();
     }
     // public  function ClearMaxid()
     // {

@@ -10,6 +10,12 @@ use App\Models\Roles;
 use App\Models\User;
 class CashStore extends Component
 {
+    public $item;
+    public $num;
+    public $unite;
+    public $note;
+    public $roles=[];
+
     public function render()
     {
         $r4=Roles::Where('id_user',Auth::id())->first();
@@ -17,13 +23,15 @@ class CashStore extends Component
         {
             return view('lock')->layout('layouts.s');
         }
-        $data=CashStoreTable::Where('create_by',Auth::id())->get();
+        $data=CashStoreTable::Where('create_by',Auth::id())->orderby('id','desc')->get();
         $roles=Roles::Where('ok_Store_exchange',1)->Select('id_user')->get();
-        $us=User::Where('runstute',1)->Wherein('id',$roles)->get();
+        $us=User::Where('runstute',1)->Wherein('id',$roles)->Select('id','name','image')->get();
+        $this->roles=$us;
+
         return view('livewire.cash-store',['cash'=>$data,'Users'=>$us])->layout('layouts.master');
     }
 
-    public function StoreCashStoreTable(Request $request)
+    public function StoreCashStoreTable()
     {
         $r4=Roles::Where('id_user',Auth::id())->first();
         if($r4->Store_exchange==0)
@@ -31,25 +39,26 @@ class CashStore extends Component
             return view('lock')->layout('layouts.s');
         }
         $data =new CashStoreTable();      
-        $data->item=$request->item;
-        $data->num=$request->num;
-        $data->unite=$request->unite;
-        $data->note=$request->note;
+        $data->item=$this->item;
+        $data->num=$this->num;
+        $data->unite=$this->unite;
+        $data->note=$this->note;
         $data->create_by=Auth::id();
         $data->save();
-        return back()->with('done','done');
+        // return back()->with('done','done');
+        $this->dispatch('SendResult', $this->roles,Auth::user());
 
     }
 
-    public function DeleteCashStoreTable(Request $request)
+    public function DeleteCashStoreTable($id)
     {
         $r4=Roles::Where('id_user',Auth::id())->first();
         if($r4->Store_exchange==0)
         {
             return view('lock')->layout('layouts.s');
         }
-        $data =CashStoreTable::find($request->id);
-        if($data->stute==0)
+        $data =CashStoreTable::find($id);
+        if($data->stute==0 && $data->create_by==Auth::id())
         {
             $data->delete();
         }

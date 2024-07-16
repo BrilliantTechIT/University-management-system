@@ -8,7 +8,13 @@ class Showings extends Controller
 {
     public function CashMoney()
     {
-        return view('admins/cashmoney');
+        return view('admins.cashmoney');
+        
+    }
+
+    public function CashStore()
+    {
+        return view('admins.cashStore');
         
     }
 }

@@ -48,6 +48,7 @@ Route::get('/', function (Request $r) {
 Auth::routes();
 Route::middleware('auth')->group(function() {
     Route::get('NewCashMoney',[Showings::class,'CashMoney'])->name('NewCashMoney');
+    Route::get('NewStoreMoney',[Showings::class,'CashStore'])->name('NewStoreMoney');
 
 
 

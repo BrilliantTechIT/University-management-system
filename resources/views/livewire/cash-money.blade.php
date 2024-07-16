@@ -74,7 +74,7 @@
     
                     </tr>
                 </thead>
-                <tbody wire:poll.5s>
+                <tbody wire:poll.15s>
                     @foreach ($cash as $item)
                         <tr id="Aid{{ $item->id }}">
                             
@@ -120,16 +120,14 @@
                             <td class="align-middle">
     
     
-                                <form action="{{ route('DeleteCashMoneyTable') }} " method="POST">
+                                
                                     
-                                    @csrf
-                                    <input type="hidden" name="id" value="{{$item->id}}" id="">
-                                    <button type="submit" name="delete"
+                                    <button type="button" wire:confirm="هل حقا تريد الحذف" wire:click="DeleteCashMoneyTable({{$item->id}})" name="delete"
                                         class="mb-0 text-md fa fa-times fa-2x btn btn-danger">حذف</button>
-                                </form>
+                                
                                 <br>
                                 @if ($item->stute==0)
-                                <a href="{{route('chatok',['id'=>$item->id])}}" class="btn btn-info">محادثة</a>
+                                <a href="{{route('chatok',['id'=>$item->id,'mtype'=>1])}}" class="btn btn-info">محادثة</a>
                                 @endif
                             </td>
                         </tr>
