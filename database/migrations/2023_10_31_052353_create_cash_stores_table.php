@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->String('item');
             $table->String('num');
+            $table->String('uid');
+
             $table->String('unite');
             $table->String('note',3000)->nullable();
             $table->String('create_by');

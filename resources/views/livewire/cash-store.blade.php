@@ -91,6 +91,7 @@
 
                                                 <button type="button" wire:confirm="هل حقا تريد الحذف" wire:click="DeleteCashStoreTable({{$item->id}})" name="delete"
                                                     class="mb-0 text-md fa fa-times fa-2x btn btn-danger">حذف</button>
+                                                    <a class="btn btn-info" href="{{route('CashStoreInformaion',['id'=>$item->uid])}}">فتح الطلب</a>
 
                                             </td>
                                         </tr>

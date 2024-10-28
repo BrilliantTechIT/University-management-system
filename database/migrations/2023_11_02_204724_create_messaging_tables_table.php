@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('messaging_tables', function (Blueprint $table) {
             $table->id();
             $table->Integer('id_user');
+            // $table->String('uid');
+
             $table->String('tital',500);
             $table->String('message',5000);
             $table->Integer('type');//0message/1file;

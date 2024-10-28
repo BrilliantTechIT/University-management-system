@@ -16,8 +16,8 @@ return new class extends Migration
             $table->integer('id_send');
             $table->String('message');
             $table->String('mtype');
-            $table->integer('id_order');
-            $table->integer('stute');
+            $table->String('id_order');
+            $table->integer('stute')->default(0);
             $table->timestamps();
         });
     }

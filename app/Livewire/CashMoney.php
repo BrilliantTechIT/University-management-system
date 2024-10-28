@@ -11,7 +11,7 @@ use App\Models\Roles;
 use App\Models\User;
 use App\Models\ImageForCashMoney;
 use Livewire\WithFileUploads;
-
+use Str;
 class CashMoney extends Component
 {
     use WithFileUploads;
@@ -31,6 +31,11 @@ class CashMoney extends Component
             return view('lock')->layout('layouts.s');
         }
         $data=CashMoneyTable::Where('create_by',Auth::id())->orderby('id','desc')->get();
+        // $data2=CashMoneyTable::orderby('id','desc')->get();
+        // foreach ($data2 as $key => $value) {
+        //    $value->uid=Str::uuid();
+        //    $value->save();
+        // }
         $roles=Roles::Where('ok_Financial_exchange',1)->Select('id_user')->get();
         $us=User::Where('runstute',1)->Wherein('id',$roles)->Select('id','name','image')->get();
         
@@ -49,10 +54,12 @@ class CashMoney extends Component
         $data->money=$this->money;
         $data->omlh=$this->omlh;
         $data->opposite=$this->note;
+        $uuid=Str::uuid();
+        $data->uid=$uuid;
         
         $data->create_by=Auth::id();
         $data->save();
-        $maxCashID=CashMoneyTable::max('id');
+        // $maxCashID=CashMoneyTable::max('id');
         
         foreach ($this->file??[] as $key => $value) {
             
@@ -60,7 +67,7 @@ class CashMoney extends Component
             $value->storeAs(path: 'public/ImageForCash/', name:$f);
             $im=new ImageForCashMoney();
             $im->file=$f;
-            $im->id_Cash=$maxCashID;
+            $im->id_Cash=$uuid;
             $im->save();
 
         }
@@ -68,6 +75,12 @@ class CashMoney extends Component
         $this->dispatch('SendResultMoney', $this->roles,Auth::user());
        
 
+    }
+
+    public function getorder()
+    {
+        //select * from CashMoneyTable order by (id)  desc
+        return CashMoneyTable::orderby('id','desc')->get();
     }
 
     public function DeleteCashMoneyTable($id)

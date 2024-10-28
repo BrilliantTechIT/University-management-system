@@ -16,6 +16,7 @@ return new class extends Migration
            
             $table->String('money');
             $table->String('omlh');
+            $table->String('uid');
             $table->String('opposite');
             $table->String('create_by');
             $table->Integer('stute')->default(0);// 0 or 1

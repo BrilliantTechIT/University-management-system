@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('image_for_cash_money', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_Cash');
+            $table->String('id_Cash');
             $table->String('file');
             $table->timestamps();
         });

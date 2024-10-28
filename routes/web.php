@@ -23,6 +23,7 @@ use App\Livewire\OKAskBuy;
 use App\Livewire\ShowAskBuy;
 use App\Livewire\Messaging;
 use App\Livewire\Archef;
+// use App\Livewire\CashMoneyInformaion;
 use Illuminate\Http\Request;
 
 // use Auth;
@@ -89,10 +90,11 @@ Route::middleware('auth')->group(function() {
     Route::get('CashMoney',CashMoney::class)->name('CashMoney');
     Route::Post('StoreCashMoneyTable',[CashMoney::class,'StoreCashMoneyTable'])->name('StoreCashMoneyTable');
     Route::Post('DeleteCashMoneyTable',[CashMoney::class,'DeleteCashMoneyTable'])->name('DeleteCashMoneyTable');
-    Route::get('OkCashMoney',OkCashMoney::class)->name('OkCashMoney');
+    // Route::get('OkCashMoney',OkCashMoney::class)->name('OkCashMoney');
+    Route::get('OkCashMoney',[Showings::class,'OKCashmoney'])->name('OkCashMoney');
     Route::Post('StoreOkCashMoney',[OkCashMoney::class,'StoreOkCashMoney'])->name('StoreOkCashMoney');
     Route::Post('NoOkCashMoney',[OkCashMoney::class,'NoOkCashMoney'])->name('NoOkCashMoney');
-    Route::get('ShowMoneyCash',ShowMoneyCash::class)->name('ShowMoneyCash');
+    // Route::get('ShowMoneyCash',ShowMoneyCash::class)->name('ShowMoneyCash');
     Route::Post('CashMoney',[ShowMoneyCash::class,'CashMoney'])->name('CashMoney');
     Route::Post('BackCashMoney',[ShowMoneyCash::class,'BackCashMoney'])->name('BackCashMoney');
 
@@ -151,6 +153,15 @@ Route::middleware('auth')->group(function() {
     Route::get('DashbordScreen',[DashbordScreenController::class,'show'])->name('DashbordScreen');
     Route::get('/ChangePassword', [App\Http\Controllers\HomeController::class, 'ChangePassword'])->name('ChangePassword');
     Route::get('/chatok', [App\Http\Controllers\HomeController::class, 'chatok'])->name('chatok');
+    Route::get('/CashMoneyInformaion/{id}',[Showings::class,'CashMoneyInformation'])->name('CashMoneyInformaion');
+    Route::get('/CashStoreInformaion/{id}',[Showings::class,'CashStoreInformation'])->name('CashStoreInformaion');
+    Route::get('/ShowMoneyCash',[Showings::class,'ShowMoneyCash'])->name('ShowMoneyCash');
+    Route::get('/okcashstore',[Showings::class,'okcashstore'])->name('okcashstore');
+    Route::get('/showcahstore',[Showings::class,'showcahstore'])->name('showcahstore');
+    Route::get('/OffType',[Showings::class,'OffType'])->name('OffType');
+    Route::get('/Pepers',[Showings::class,'Pepers'])->name('Pepers');
+
+
     
 });
 

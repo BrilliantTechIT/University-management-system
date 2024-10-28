@@ -117,17 +117,12 @@
                                 <span class="mb-0 text-sm">{{ $item->created_at }}
                                 </span>
                             </td>
-                            <td class="align-middle">
-    
-    
-                                
-                                    
+                            <td class="align-middle">     
                                     <button type="button" wire:confirm="هل حقا تريد الحذف" wire:click="DeleteCashMoneyTable({{$item->id}})" name="delete"
                                         class="mb-0 text-md fa fa-times fa-2x btn btn-danger">حذف</button>
-                                
                                 <br>
                                 @if ($item->stute==0)
-                                <a href="{{route('chatok',['id'=>$item->id,'mtype'=>1])}}" class="btn btn-info">محادثة</a>
+                                 <a href="{{route('CashMoneyInformaion',['id'=>$item->uid])}}" class="btn btn-info m-2">فتح الطلب</a>
                                 @endif
                             </td>
                         </tr>

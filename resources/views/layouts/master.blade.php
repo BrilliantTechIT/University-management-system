@@ -27,8 +27,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {{-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> --}}
-    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{asset('assets/img/apple-icon.png')}}">
+    <link rel="icon" type="image/png" href="{{asset('assets/img/favicon.png')}}">
     <title>
         {{ Auth::user()->name }}
     </title>
@@ -38,17 +38,19 @@
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <!-- Nucleo Icons -->
-    <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
-    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+    <link href="{{asset('assets/css/nucleo-icons.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/css/nucleo-svg.css')}}" rel="stylesheet" />
     <!-- Font Awesome Icons -->
-    <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
-    <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+    <script src="{{asset('assets/js/plugins/perfect-scrollbar.min.js')}}"></script>
+    <script src="{{asset('assets/js/plugins/smooth-scrollbar.min.js')}}"></script>
+    {{-- <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script> --}}
+    <link href="{{asset('assets/css/nucleo-svg.css')}}" rel="stylesheet" />
     <!-- CSS Files -->
-    <link id="pagestyle" href="../assets/css/soft-ui-dashboard.css?v=1.0.3" rel="stylesheet" />
+    <link id="pagestyle" href="{{asset('assets/css/soft-ui-dashboard.css?v=1.0.3')}}" rel="stylesheet" />
 
-    <link rel="stylesheet" href="selection/select2.min.css">
+    <link rel="stylesheet" href="{{asset('selection/select2.min.css')}}">
+    @livewireStyles
+ 
 
     <!-- Bootstrap CSS -->
     {{-- <link rel="stylesheet" href="selection/bootstrap.min.css"> --}}
@@ -208,12 +210,13 @@ Generic layout (demo looks)
             white-space: nowrap;
             width: 1px;
         }
+        
     </style>
 </head>
 
 <body class="g-sidenav-show rtl bg-gray-100">
     <audio preload="auto" id="not_sound" style="display: none;" >
-        <source src="n.mp3" type="audio/mpeg">
+        <source src="{{asset('n.mp3')}}" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
     <aside
@@ -224,7 +227,7 @@ Generic layout (demo looks)
                 aria-hidden="true" id="iconSidenav"></i>
             <a class="navbar-brand m-0" href="https://demos.creative-tim.com/soft-ui-dashboard/pages/dashboard.html"
                 target="_blank">
-                <img src="../users_image/{{ Auth::user()->image }}" class="navbar-brand-img h-100" alt="main_logo">
+                <img src="{{asset('users_image/'. Auth::user()->image )}}" class="navbar-brand-img h-100" alt="main_logo">
                 <span class="me-1 font-weight-bold"> {{ Auth::user()->name }}</span>
             </a>
         </div>
@@ -343,6 +346,37 @@ Generic layout (demo looks)
                                 </svg>
                             </div>
                             <span class="nav-link-text me-1">ادارة المستخدمين</span>
+                        </a>
+                    </li>
+                @endif
+
+
+                @if ($rol->show_vacation_request == 1)
+                    <li class="nav-item">
+                        <a class="nav-link " href="{{ route('OffType') }}">
+                            <div
+                                class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center ms-2 d-flex align-items-center justify-content-center">
+                                <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1"
+                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                    <title>office</title>
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <g transform="translate(-1869.000000, -293.000000)" fill="#FFFFFF"
+                                            fill-rule="nonzero">
+                                            <g transform="translate(1716.000000, 291.000000)">
+                                                <g transform="translate(153.000000, 2.000000)">
+                                                    <path class="color-background opacity-6"
+                                                        d="M12.25,17.5 L8.75,17.5 L8.75,1.75 C8.75,0.78225 9.53225,0 10.5,0 L31.5,0 C32.46775,0 33.25,0.78225 33.25,1.75 L33.25,12.25 L29.75,12.25 L29.75,3.5 L12.25,3.5 L12.25,17.5 Z">
+                                                    </path>
+                                                    <path class="color-background"
+                                                        d="M40.25,14 L24.5,14 C23.53225,14 22.75,14.78225 22.75,15.75 L22.75,38.5 L19.25,38.5 L19.25,22.75 C19.25,21.78225 18.46775,21 17.5,21 L1.75,21 C0.78225,21 0,21.78225 0,22.75 L0,40.25 C0,41.21775 0.78225,42 1.75,42 L40.25,42 C41.21775,42 42,41.21775 42,40.25 L42,15.75 C42,14.78225 41.21775,14 40.25,14 Z M12.25,36.75 L7,36.75 L7,33.25 L12.25,33.25 L12.25,36.75 Z M12.25,29.75 L7,29.75 L7,26.25 L12.25,26.25 L12.25,29.75 Z M35,36.75 L29.75,36.75 L29.75,33.25 L35,33.25 L35,36.75 Z M35,29.75 L29.75,29.75 L29.75,26.25 L35,26.25 L35,29.75 Z M35,22.75 L29.75,22.75 L29.75,19.25 L35,19.25 L35,22.75 Z">
+                                                    </path>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </svg>
+                            </div>
+                            <span class="nav-link-text me-1">ادارة ايام الاجازة</span>
                         </a>
                     </li>
                 @endif
@@ -471,7 +505,7 @@ Generic layout (demo looks)
                                     <a class="dropdown-item border-radius-md" href="javascript:;">
                                         <div class="d-flex py-1">
                                             <div class="my-auto">
-                                                <img src="../assets/img/team-2.jpg" class="avatar avatar-sm  ms-3 ">
+                                                <img src="{{asset('')}}assets/img/team-2.jpg" class="avatar avatar-sm  ms-3 ">
                                             </div>
                                             <div class="d-flex flex-column justify-content-center">
                                                 <h6 class="text-sm font-weight-normal mb-1">
@@ -586,12 +620,14 @@ Generic layout (demo looks)
         </div>
     </div>
     <!--   Core JS Files   -->
-    <script src="../assets/js/core/popper.min.js"></script>
-    <script src="../assets/js/core/bootstrap.min.js"></script>
+    @livewireScripts
 
-    <script src="../assets/js/plugins/fullcalendar.min.js"></script>
-    <script src="../assets/js/plugins/chartjs.min.js"></script>
-    <script src="../assets/js/soft-ui-dashboard.min.js?v=1.0.3"></script>
+    <script src="{{asset('assets/js/core/popper.min.js')}}"></script>
+    <script src="{{asset('assets/js/core/bootstrap.min.js')}}"></script>
+
+    <script src="{{asset('assets/js/plugins/fullcalendar.min.js')}}"></script>
+    <script src="{{asset('assets/js/plugins/chartjs.min.js')}}"></script>
+    <script src="{{asset('assets/js/soft-ui-dashboard.min.js?v=1.0.3')}}"></script>
 
     <script>
         var ctx = document.getElementById("chart-bars").getContext("2d");
@@ -763,7 +799,7 @@ Generic layout (demo looks)
             },
         });
     </script>
-    <script src="../assets/js/plugins/choices.min.js"></script>
+    <script src="{{asset('assets/js/plugins/choices.min.js')}}"></script>
     <script>
         var win = navigator.platform.indexOf('Win') > -1;
         if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -776,12 +812,12 @@ Generic layout (demo looks)
 
 
     <!-- Github buttons -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    {{-- <script async defer src="https://buttons.github.io/buttons.js"></script> --}}
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
 
 
 
-    <script src="assets/js/lobsocket.io.js"></script>
+    <script src="{{asset('assets/js/lobsocket.io.js')}}"></script>
 
     <script>
         var SocketIO = io("127.0.0.1:4001");
@@ -874,7 +910,6 @@ notification.onerror = function() {
 
         }
     </script>
-
 
 </body>
 

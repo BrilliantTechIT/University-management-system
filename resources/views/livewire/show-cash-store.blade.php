@@ -1,5 +1,32 @@
-<body>
-    @section('contain')
+<div>
+
+    <div class="card mb-4">
+        <div class="card-header pb-0">
+
+            <h6> البحث</h6>
+
+        </div>
+        <div class="card-body px-0 pt-0 pb-2 ">
+            <div class="row p-2 ">
+                <div class="col-md-6 col-12">
+                    <label for="">البحث ب المبلغ او العملة او المقابل</label>
+                    <input style="width: 70%" type="text" wire:model.live='se' class="form-control"
+                        name="" id="">
+
+                </div>
+                <div class="col-md-6 col-12">
+                    <label for="">البحث ب المستخدم</label>
+                    <select class="form-control" wire:model.live='id_user_select' id="">
+                        <option value="0">اختيار</option>
+                        @foreach ($usall as $item)
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+        </div>
+    </div>
         <div class="container-fluid py-4">
             <div class="row">
 
@@ -95,20 +122,17 @@
                                                     </span>
                                                 </td>
                                                 <td class="align-middle">
-                                                    <form action="{{ route('CashStoreDane') }} " method="POST">
-
-                                                        @csrf
-                                                        <input type="hidden" name="id" value="{{ $item->id }}"
-                                                            id="">
-                                                        <button type="submit" name="delete"
+                                                    
+                                                        <button type="button" wire:click='CashStore({{$item->id}})' name="delete"
                                                             class="mb-0 text-md fa fa-check fa-2x btn btn-success">صرف</button>
-                                                    </form>
+                                                   
 
                                                 </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
+                                {{$ok->links()}}
                             </div>
                         </div>
                     </div>
@@ -218,20 +242,17 @@
                                                     </span>
                                                 </td>
                                                 <td class="align-middle">
-                                                    <form action="{{ route('BackCashStore') }} " method="POST">
-
-                                                        @csrf
-                                                        <input type="hidden" name="id" value="{{ $item->id }}"
-                                                            id="">
-                                                        <button type="submit" name="delete"
+                                                    
+                                                        <button type="button" wire:click='BackCashStore({{$item->id}})'  name="delete"
                                                             class="mb-0 text-md fa fa-times fa-2x btn btn-danger">رد
                                                             الصرف</button>
-                                                    </form>
+                                                    
                                                 </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
+                                {{$cash->links()}}
                             </div>
                         </div>
                     </div>
@@ -328,5 +349,4 @@
 
                 });
             </script>
-        @endsection
-</body>
+       </div>

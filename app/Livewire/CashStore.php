@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Models\Roles;
 use App\Models\User;
+use Str;
+
 class CashStore extends Component
 {
     public $item;
@@ -27,7 +29,7 @@ class CashStore extends Component
         $roles=Roles::Where('ok_Store_exchange',1)->Select('id_user')->get();
         $us=User::Where('runstute',1)->Wherein('id',$roles)->Select('id','name','image')->get();
         $this->roles=$us;
-
+         
         return view('livewire.cash-store',['cash'=>$data,'Users'=>$us])->layout('layouts.master');
     }
 
@@ -43,6 +45,7 @@ class CashStore extends Component
         $data->num=$this->num;
         $data->unite=$this->unite;
         $data->note=$this->note;
+        $data->uid=$uid=Str::uuid();
         $data->create_by=Auth::id();
         $data->save();
         // return back()->with('done','done');

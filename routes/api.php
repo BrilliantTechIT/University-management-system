@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Livewire\CashMoney;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,5 +18,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/Puttoken', [App\Http\Controllers\HomeController::class, 'Puttoken']);
-
+// Route::post('/Puttoken', [App\Http\Controllers\HomeController::class, 'Puttoken']);
+// Route::get('get_order_api',[CashMoney::class,'getorder']);

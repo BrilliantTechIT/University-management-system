@@ -9,8 +9,13 @@ use Auth;
 use App\Models\Roles;
 use App\Models\User;
 use Session;
+use Livewire\WithoutUrlPagination;
+use Livewire\WithPagination;
 class OKCashStore extends Component
 {
+    public $se='';
+    public $id_user_select=0;
+    use WithPagination, WithoutUrlPagination; 
     public function render()
     {
         $r4=Roles::Where('id_user',Auth::id())->first();
@@ -18,31 +23,65 @@ class OKCashStore extends Component
         {
             return view('lock')->layout('layouts.s');
         }
+        
+        $searchTerm=$this->se;
+        $search_user=[];
+        if ($this->id_user_select<=0) {
+            $search_user=User::Select('id')->get();
+            # code...
+        } else {
+            $search_user=User::Select('id')->Where('id',$this->id_user_select)->get();
+            
+            # code...
+        }
         $wait=CashStore::Where('stute',0)->orderby('id','desc')->get();
-        $ok=CashStore::Where('stute',1)->orderby('id','desc')->get();
-        $no=CashStore::Where('stute',2)->orderby('id','desc')->get();
-        $cash=CashStore::Where('stute',3)->orderby('id','desc')->get();
+        $ok=CashStore::Where('stute',1) ->where(function($query) use ($searchTerm) {
+            $query->where('item', 'like', '%' . $searchTerm . '%')
+                  ->orWhere('num', 'like', '%' . $searchTerm . '%')
+                  ->orWhere('unite', 'like', '%' . $searchTerm . '%')
+                  ->orWhere('note', 'like', '%' . $searchTerm . '%');
+        })
+        ->whereIn('create_by', $search_user)
+        ->orderby('id','desc')->paginate(5);
+        $no=CashStore::Where('stute',2)->where(function($query) use ($searchTerm) {
+            $query->where('item', 'like', '%' . $searchTerm . '%')
+                  ->orWhere('num', 'like', '%' . $searchTerm . '%')
+                  ->orWhere('unite', 'like', '%' . $searchTerm . '%')
+                  ->orWhere('note', 'like', '%' . $searchTerm . '%');
+        })
+        ->whereIn('create_by', $search_user)
+        ->orderby('id','desc')->paginate(5);
+        $cash=CashStore::Where('stute',3)->where(function($query) use ($searchTerm) {
+            $query->where('item', 'like', '%' . $searchTerm . '%')
+                  ->orWhere('num', 'like', '%' . $searchTerm . '%')
+                  ->orWhere('unite', 'like', '%' . $searchTerm . '%')
+                  ->orWhere('note', 'like', '%' . $searchTerm . '%');
+        })
+        ->whereIn('create_by', $search_user)
+        ->orderby('id','desc')->paginate(5);
         $roles=Roles::Where('show_Financial_exchange',1)->Select('id_user')->get();
         $us=User::Where('runstute',1)->Wherein('id',$roles)->get();
-        return view('livewire.o-k-cash-store',['wait'=>$wait,'ok'=>$ok,'no'=>$no,'cash'=>$cash,'us'=>$us])->layout('layouts.master');
+        $usall=User::Where('runstute',1)->get();
+
+        return view('livewire.o-k-cash-store',['wait'=>$wait,'ok'=>$ok,'no'=>$no,'cash'=>$cash,'us'=>$us,'usall'=>$usall])->layout('layouts.master');
     }
 
-    public function StoreOkCashstore(Request $request)
+    public function StoreOkCashstore($id)
     {
         $r4=Roles::Where('id_user',Auth::id())->first();
         if($r4->ok_Store_exchange==0)
         {
             return view('lock')->layout('layouts.s');
         }
-       $ask=CashStore::find($request->id);
+       $ask=CashStore::find($id);
        $ask->stute=1;
        $ask->accept_by=Auth::id();
        $ask->save();
-       Session::flash('stute_ok_store',1);
-       return back()->with('OkCashstore',$ask); 
+    //    Session::flash('stute_ok_store',1);
+    //    return back()->with('OkCashstore',$ask); 
     }
 
-    public function NoOkCashstore(Request $request)
+    public function NoOkCashstore($id)
     {
         $r4=Roles::Where('id_user',Auth::id())->first();
         if($r4->ok_Store_exchange==0)
@@ -50,13 +89,13 @@ class OKCashStore extends Component
             return view('lock')->layout('layouts.s');
         }
        
-       $ask=CashStore::find($request->id);
+       $ask=CashStore::find($id);
        if($ask->stute!=3)
        {
         $ask->stute=2;
         $ask->save();
-        Session::flash('stute_ok_store',0);
-        return back()->with('NoOkCashstore',$ask);  
+        // Session::flash('stute_ok_store',0);
+        // return back()->with('NoOkCashstore',$ask);  
         
        }
        return back();

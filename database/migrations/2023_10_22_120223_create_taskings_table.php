@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('taskings', function (Blueprint $table) {
             $table->id();
             $table->String('name');
+            $table->String('uid');
             $table->Integer('create_by');
             
             $table->timestamps();
