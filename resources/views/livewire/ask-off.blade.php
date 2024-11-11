@@ -1,4 +1,182 @@
-<body>
+<div>
+    <div class="container-fluid py-4">
+        <div class="row">
+
+            <div class="col-12">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#save1"> اضافة طلب
+                    اجازة
+
+                    جديد </button>
+
+                <div class="card mb-4">
+
+                    <div class="card-header pb-0">
+
+                        <h6>طلبات اجازة</h6>
+
+                    </div>
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <table class="table align-items-center mb-0" id="S_table">
+                                <thead>
+                                    <tr>
+
+                                        <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
+                                            تاريخ البداية </th>
+                                        <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
+                                            تاريخ النهاية </th>
+                                        <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
+                                            ملاحظة </th>
+                                        <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
+                                            حالة الطلب </th>
+                                        <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
+                                            تم الانشاء بواسطة</th>
+
+                                        <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
+                                            تاريخ</th>
+
+                                        <th class="text-center text-uppercase text-primary text-md font-weight-bolder">
+                                            حذف</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody wire:poll.2s>
+                                    @foreach ($off as $item)
+                                        <tr id="Aid{{ $item->id }}">
+
+                                            <td class="align-middle text-center ">
+                                                <span class="mb-0 text-sm">{{ $item->fromDate }}</span>
+                                            </td>
+                                            <td class="align-middle text-center ">
+                                                <span class="mb-0 text-sm">{{ $item->toDate }}</span>
+                                            </td>
+                                            <td class="align-middle text-center ">
+                                                <span class="mb-0 text-sm">{{ $item->note }}</span>
+                                            </td>
+
+                                            @if ($item->stute == 0)
+                                                <td class="align-middle text-center ">
+                                                    <span class="mb-0 text-sm text-info">انتظار</span>
+                                                </td>
+                                            @elseif($item->stute == 1)
+                                                <td class="align-middle text-center text-success ">
+                                                    <span class="mb-0 text-sm">مقبولة</span>
+                                                </td>
+                                            @elseif($item->stute == 2)
+                                                <td class="align-middle text-center text-danger ">
+                                                    <span class="mb-0 text-sm">مرفوضة</span>
+                                                </td>
+                                            @elseif($item->stute == 3)
+                                                <td class="align-middle text-center text-primary ">
+                                                    <span class="mb-0 text-sm">مصروفة</span>
+                                                </td>
+                                            @endif
+
+
+                                            <td class="align-middle text-center ">
+                                                <span class="mb-0 text-sm">{{ $item->users->name }}
+                                                </span>
+                                            </td>
+
+
+                                            <td class="align-middle text-center ">
+                                                <span class="mb-0 text-sm">{{ $item->created_at }}
+                                                </span>
+                                            </td>
+                                            <td class="align-middle">
+
+
+                                               
+                                                    <button type="button" wire:confirm="هل انت متاكد من حذف الطلب" wire:click="DeleteAskoffTable({{ $item->id }})" name="delete"
+                                                        class="mb-0 text-md fa fa-times fa-2x btn btn-danger">حذف</button>
+                                                        <a href="{{route('ShowOff',$item->uid)}}"   
+                                                        class="mb-0 text-md fa fa-eye fa-2x btn btn-primary">عرض</a>
+                                               
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="modal fade" wire:ignore.self id="save1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"> جــــــديـــــد </h5>
+                        <button type="button" class="close text-danger" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        @if (session('error'))
+                            <div class="alert alert-danger">
+                                {{ session('error') }}
+                            </div>
+                        @endif
+                        <form id ="addccollage" wire:submit="StoreAskoffTable" method="post">
+                            
+
+                            <div class="form-group">
+                                <label for="name1" class="col-form-label">تاريخ البداية </label>
+                                <input wire:model="fromDate" class="form-control" type="date" name="fromDate" type="number" id="name1"
+                                    required>
+                                    @error('fromDate')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="name1" class="col-form-label">تاريخ النهاية </label>
+                                <input wire:model="toDate" class="form-control" type="date" name="toDate" id="name1" required>
+                                @error('toDate')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="name1" class="col-form-label">نوع الاجازة</label>
+                                <select wire:model="type" class="form-control" name="type" id="name1" required>
+                                    <option value="0" selected>نواع اخر</option>
+                                    @foreach ($types as $item)
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="name1" class="col-form-label">ملاحظة</label>
+                                <input wire:model="note" class="form-control" name="note" id="name1" required>
+                                @error('note')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="name1" class="col-form-label">وثائق تثبت  سبب الاجازة</label>
+                                <input wire:model="file" type="file" class="form-control" name="file" id="name1" multiple>
+                            </div>
+
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">اغلاق</button>
+                        <input type="submit"   class="btn btn-primary" value="حفظ">
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- <body>
     @php
     if (session('done')) {
         $c=count($off);
@@ -58,7 +236,7 @@
                 </script>
                     
                 @endif
-                
+                </div>                
                 <div class="col-12">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#save1"> اضافة طلب اجازة
                         
@@ -110,7 +288,7 @@
                                                     <span class="mb-0 text-sm">{{ $item->note }}</span>
                                                 </td>
 
-                                                @if ($item->stute==0)
+                                                @if ($item->stute == 0)
                                                 <td class="align-middle text-center ">
                                                     <span class="mb-0 text-sm text-info">انتظار</span>
                                                 </td>
@@ -157,7 +335,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+
             </div>
 
 
@@ -230,4 +408,4 @@
                 </div>
             </div>
         @endsection
-</body>
+</body> --}}

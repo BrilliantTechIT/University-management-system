@@ -65,7 +65,7 @@
 
                 @if ($ro->vacation_request == 1)
                     <div class="col-lg-3 col-sm-6 mb-lg-0 mb-4">
-                        <a href="{{route('AskOff')}}">
+                        <a href="{{route('askoff')}}">
                             <div class="card">
                                 <div class="card-body p-3">
                                     <div class="row">
@@ -188,7 +188,7 @@
 
                 @if ($ro->ok_vacation_request == 1)
                     <div class="col-lg-3 col-sm-6 mb-lg-0 mb-4" style="margin-top: 30px">
-                        <a href="{{route('OkAskOff')}}">
+                        <a href="{{route('Okaskoff')}}">
                             <div class="card">
                                 <div class="card-body p-3">
                                     <div class="row">

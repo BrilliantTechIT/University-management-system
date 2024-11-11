@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pepers_tables', function (Blueprint $table) {
+        Schema::create('ask_off_files', function (Blueprint $table) {
             $table->id();
-            $table->text('contain',100000);
-            $table->string('name');
-            $table->string('uid');
-            $table->Integer('id_sends');
+            $table->String('id_askoff');
+            $table->String('file');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pepers_tables');
+        Schema::dropIfExists('ask_off_files');
     }
 };

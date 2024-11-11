@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('password');
             $table->string('image');
             $table->string('token',880)->nullable();
-
+            $table->integer('year_balance')->default(0);
+            $table->integer('max_balance')->default(0);
             $table->Integer('runstute')->default(1);
             $table->rememberToken();
             $table->timestamps();

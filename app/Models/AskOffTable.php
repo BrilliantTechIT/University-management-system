@@ -22,4 +22,9 @@ class AskOffTable extends Model
     {
         return $this->belongsTo(User::class,'cash_by');
     }
+
+    public function type()
+    {
+        return $this->belongsTo(OffTypes::class,'type');
+    }
 }

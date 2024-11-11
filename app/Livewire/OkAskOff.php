@@ -11,6 +11,7 @@ use App\Models\User;
 use Session;
 class OkAskOff extends Component
 {
+
     public function render()
     {
       $r4=Roles::Where('id_user',Auth::id())->first();
@@ -27,40 +28,40 @@ class OkAskOff extends Component
         return view('livewire.ok-ask-off',['wait'=>$wait,'ok'=>$ok,'no'=>$no,'cash'=>$cash,'us'=>$us])->layout('layouts.master');
     }
 
-    public function StoreOkAskoff(Request $request)
+    public function StoreOkAskoff($id)
     {
       $r4=Roles::Where('id_user',Auth::id())->first();
         if($r4->ok_vacation_request==0)
         {
             return view('lock')->layout('layouts.s');
         }
-       $ask=AskOffTable::find($request->id);
-    //    return $ask;
+       $ask=AskOffTable::find($id);
        $ask->stute=1;
        $ask->accept_by=Auth::id();
        $ask->save();
-       Session::flash('stute_ok_off',1);
-       return back()->with('OkAskoff',$ask); 
+      session()->flash('success','تم الموافقة على الطلب');
     }
 
-    public function NoOkAskoff(Request $request)
+    public function NoOkAskoff($id)
     {
       $r4=Roles::Where('id_user',Auth::id())->first();
       if($r4->ok_vacation_request==0)
       {
           return view('lock')->layout('layouts.s');
       }
-       $ask=AskOffTable::find($request->id);
+        $ask=AskOffTable::find($id);
+        if($ask->create_by==Auth::id())
+        {
+             session()->flash('error','لا يمكنك رفض طلبك');
+             return;
+        }
        if($ask->stute!=3)
        {
         $ask->stute=2;
         $ask->save();
-        Session::flash('stute_ok_off',0);
-        return back()->with('NoOkAskoff',$ask);  
+        
         
        }
-       return back();
-      
-
+      session()->flash('success','تم رفض الطلب');
     }
 }

@@ -23,6 +23,8 @@ use App\Livewire\OKAskBuy;
 use App\Livewire\ShowAskBuy;
 use App\Livewire\Messaging;
 use App\Livewire\Archef;
+use App\Livewire\Pepers;
+use App\Http\Controllers\ShowReports;
 // use App\Livewire\CashMoneyInformaion;
 use Illuminate\Http\Request;
 
@@ -108,15 +110,15 @@ Route::middleware('auth')->group(function() {
     Route::Post('CashStoreDane',[ShowCashStore::class,'CashStore'])->name('CashStoreDane');
     Route::Post('BackCashStore',[ShowCashStore::class,'BackCashStore'])->name('BackCashStore');
 
-    Route::get('AskOff',AskOff::class)->name('AskOff');
+    // Route::get('AskOff',AskOff::class)->name('AskOff');
     Route::Post('StoreAskoffTable',[AskOff::class,'StoreAskoffTable'])->name('StoreAskoffTable');
     Route::Post('DeleteAskoffTable',[AskOff::class,'DeleteAskoffTable'])->name('DeleteAskoffTable');
 
-    Route::get('OkAskOff',OkAskOff::class)->name('OkAskOff');
+    // Route::get('OkAskOff',OkAskOff::class)->name('OkAskOff');
     Route::Post('StoreOkAskoff',[OkAskOff::class,'StoreOkAskoff'])->name('StoreOkAskoff');
     Route::Post('NoOkAskoff',[OkAskOff::class,'NoOkAskoff'])->name('NoOkAskoff');
 
-    Route::get('ShowAskOff',ShowAskOff::class)->name('ShowAskOff');
+    // Route::get('ShowAskOff',ShowAskOff::class)->name('ShowAskOff');
     Route::Post('DoneAskOff',[ShowAskOff::class,'DoneAskOff'])->name('DoneAskOff');
     Route::Post('BackCashMoney',[ShowAskOff::class,'BackCashMoney'])->name('BackCashMoney');
 
@@ -159,10 +161,13 @@ Route::middleware('auth')->group(function() {
     Route::get('/okcashstore',[Showings::class,'okcashstore'])->name('okcashstore');
     Route::get('/showcahstore',[Showings::class,'showcahstore'])->name('showcahstore');
     Route::get('/OffType',[Showings::class,'OffType'])->name('OffType');
+    Route::get('/askoff',[Showings::class,'askOff'])->name('askoff');
     Route::get('/Pepers',[Showings::class,'Pepers'])->name('Pepers');
-
-
-    
+    Route::post('/pepersstore',[Pepers::class,'Send'])->name('pepersstore');
+    Route::get('/ShowOff/{id}',[Showings::class,'ShowOff'])->name('ShowOff');
+    Route::get('/Okaskoff',[Showings::class,'Okaskoff'])->name('Okaskoff');
+    Route::get('/ShowAskOff',[Showings::class,'ShowAskOff'])->name('ShowAskOff');
+    Route::get('/mainpeper/{id}',[ShowReports::class,'mainpeper'])->name('mainpeper');
 });
 
 

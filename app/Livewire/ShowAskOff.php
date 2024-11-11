@@ -22,36 +22,87 @@ class ShowAskOff extends Component
         return view('livewire.show-ask-off',['ok'=>$ok,'cash'=>$cash])->layout('layouts.master');
     }
 
-    public function DoneAskOff(Request $request)
+    public function DoneAskOffyear($id)
     {
         $r4=Roles::Where('id_user',Auth::id())->first();
         if($r4->show_vacation_request==0)
         {
             return view('lock')->layout('layouts.s');
         }
-        $ask=AskOffTable::find($request->id);
+        $ask=AskOffTable::find($id);
+        $fromDate = \Carbon\Carbon::parse($ask->fromDate);
+        $toDate = \Carbon\Carbon::parse($ask->toDate);
+        $daysDifference = $toDate->diffInDays($fromDate) + 1;
+        // dd($daysDifference);
+        $ask->stute=3;
+        $ask->cash_by=Auth::id();
+        $ask->is_for_year=1;
+        $ask->save();
+        // dd($ask->create_by);
+        $u=User::find($ask->create_by);
+        $u->year_balance=$u->year_balance+$daysDifference;
+        $u->save();
+ 
+       session()->flash('success','تم الموافقة على الطلب');
+
+    }
+    
+    public function DoneAskOff($id)
+    {
+        $r4=Roles::Where('id_user',Auth::id())->first();
+        if($r4->show_vacation_request==0)
+        {
+            return view('lock')->layout('layouts.s');
+        }
+        $ask=AskOffTable::find($id);
         $ask->stute=3;
         $ask->cash_by=Auth::id();
         $ask->save();
         
  
-        return back();  
+       session()->flash('success','تم الموافقة على الطلب');
 
     }
 
-    public function BackCashMoney(Request $request)
+    public function BackCashMoney($id)
     {
         $r4=Roles::Where('id_user',Auth::id())->first();
         if($r4->show_vacation_request==0)
         {
             return view('lock')->layout('layouts.s');
         }
-        $ask=AskOffTable::find($request->id);
+        $ask=AskOffTable::find($id);
         $ask->stute=1;
         $ask->save();
         
- 
-        return back();  
+        session()->flash('success','تم الرجوع عن الطلب');
+     
+
+    }
+
+    public function BackCashMoneyyear($id)
+    {
+        $r4=Roles::Where('id_user',Auth::id())->first();
+        if($r4->show_vacation_request==0)
+        {
+            return view('lock')->layout('layouts.s');
+        }
+        $ask=AskOffTable::find($id);
+        $fromDate = \Carbon\Carbon::parse($ask->fromDate);
+        $toDate = \Carbon\Carbon::parse($ask->toDate);
+        $daysDifference = $toDate->diffInDays($fromDate) + 1;
+        $u=User::find($ask->create_by);
+        if($ask->is_for_year==1)
+        {
+            $u->year_balance=$u->year_balance-$daysDifference;
+            $ask->is_for_year=0;
+        }
+        $u->save();
+        $ask->stute=1;
+        $ask->save();
+        
+        session()->flash('success','تم الرجوع عن الطلب');
+     
 
     }
 }

@@ -62,6 +62,28 @@ class Showings extends Controller
         
     }
 
+    public function askOff()
+    {
+        return view('admins.askoff');
+        
+    }
+
+    public function ShowOff($id)
+    {
+        return view('admins.showOff',['id'=>$id]);
+        
+    }
+    public function Okaskoff()
+    {
+        return view('admins.okaskoff');
+    }
+
+    public function ShowAskOff()
+    {
+        return view('admins.showaskoffall');
+        
+    }
+
     public function Pepers()
     {
         return view('admins.pepers');
