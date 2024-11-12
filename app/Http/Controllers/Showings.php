@@ -84,6 +84,12 @@ class Showings extends Controller
         
     }
 
+    public function YearBlance()
+    {
+        return view('admins.yearblance');
+        
+    }
+
     public function Pepers()
     {
         return view('admins.pepers');

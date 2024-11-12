@@ -55,13 +55,14 @@ class CashStoreInformaion extends Component
     public function SaveEdite()
     {
         $cash=CashStore::where('uid',$this->id)->first();
-
-        $cash->item=$this->item;
-        $cash->unite=$this->unite;
-        $cash->note=$this->note;
-        $cash->num=$this->num;
-        $cash->save();
-        $this->IsEdite=0;
+        if($cash->stute==0){
+            $cash->item=$this->item;
+            $cash->unite=$this->unite;
+            $cash->note=$this->note;
+            $cash->num=$this->num;
+            $cash->save();
+            $this->IsEdite=0;
+        }
     }
 
     public function sm()

@@ -8,8 +8,13 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Models\Roles;
 use App\Models\User;
+use Livewire\WithoutUrlPagination;
+use Livewire\WithPagination;
 class ShowAskOff extends Component
 {
+    public $from_date,$to_date,$user_id;
+    use WithPagination, WithoutUrlPagination;
+   
     public function render()
     {
         $r4=Roles::Where('id_user',Auth::id())->first();
@@ -17,10 +22,29 @@ class ShowAskOff extends Component
         {
             return view('lock')->layout('layouts.s');
         }
-        $ok=AskOffTable::Where('stute',1)->orderby('id','desc')->get();
-        $cash=AskOffTable::Where('stute',3)->orderby('id','desc')->get();
-        return view('livewire.show-ask-off',['ok'=>$ok,'cash'=>$cash])->layout('layouts.master');
+        $u=User::all();
+        $okQuery = AskOffTable::where('stute', 1);
+        $cashQuery = AskOffTable::where('stute', 3);
+    
+        // إضافة فلتر التاريخ إذا تم تحديده
+        if ($this->from_date && $this->to_date) {
+            $okQuery->whereBetween('fromDate', [$this->from_date, $this->to_date]);
+            $cashQuery->whereBetween('fromDate', [$this->from_date, $this->to_date]);
+        }
+    
+        // إضافة فلتر المستخدم إذا تم تحديده
+        if ($this->user_id) {
+            $okQuery->where('create_by', $this->user_id);
+            $cashQuery->where('create_by', $this->user_id);
+        }
+    
+        // تنفيذ الاستعلام مع الترتيب والتقسيم
+        $ok = $okQuery->orderBy('id', 'desc')->paginate(21);
+        $cash = $cashQuery->orderBy('id', 'desc')->paginate(21);
+    
+        return view('livewire.show-ask-off',['ok'=>$ok,'cash'=>$cash,'users'=>$u])->layout('layouts.master');
     }
+  
 
     public function DoneAskOffyear($id)
     {

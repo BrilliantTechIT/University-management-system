@@ -44,7 +44,9 @@ Route::get('/', function (Request $r) {
     adduser();
     // return $r->id;
     session()->put("token",$r->id);
-
+    if(Auth::check()){
+        return redirect()->route('oprations');
+    }
     return view('auth.login');
 });
 
@@ -167,6 +169,7 @@ Route::middleware('auth')->group(function() {
     Route::get('/ShowOff/{id}',[Showings::class,'ShowOff'])->name('ShowOff');
     Route::get('/Okaskoff',[Showings::class,'Okaskoff'])->name('Okaskoff');
     Route::get('/ShowAskOff',[Showings::class,'ShowAskOff'])->name('ShowAskOff');
+    Route::get('/YearBlance',[Showings::class,'YearBlance'])->name('YearBlance');
     Route::get('/mainpeper/{id}',[ShowReports::class,'mainpeper'])->name('mainpeper');
 });
 

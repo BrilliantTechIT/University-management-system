@@ -35,12 +35,13 @@ class CashMoneyInformaion extends Component
     public function SaveEdite()
     {
         $cash=CashMoneyTable::where('uid',$this->id)->first();
-
-        $cash->money=$this->money;
-        $cash->omlh=$this->omlh;
-        $cash->opposite=$this->note;
-        $cash->save();
-        $this->IsEdite=0;
+        if($cash->stute==0){
+            $cash->money=$this->money;
+            $cash->omlh=$this->omlh;
+            $cash->opposite=$this->note;
+            $cash->save();
+            $this->IsEdite=0;
+        }
     }
     public function sm()
     {

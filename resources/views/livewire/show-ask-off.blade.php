@@ -2,6 +2,32 @@
 
     <div class="container-fluid py-4">
         <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <h2>الفلترة بالتاريخ و الحساب</h2>
+                    <div class="row p-3" >
+                        <div class="col-md-6">
+                            <label for="">من تاريخ</label>
+                            <input type="date" wire:model.live="from_date" name="from_date" id="from_date" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="">الى تاريخ</label>
+                            <input type="date" wire:model.live="to_date" name="to_date" id="to_date" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="">الحساب</label>
+                            <select wire:model.live="user_id" name="user_id" id="user_id" class="form-control">
+                                <option value="">اختر الحساب</option>
+                                @foreach ($users as $user)
+                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                       
+                    </div>
+                    </form>
+                </div>
+            </div>
             @if (session()->has('success'))
                 <div class="alert alert-success">
                     {{ session('success') }}
@@ -120,6 +146,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            {{ $ok->links('vendor.livewire.bootstrap') }}
                         </div>
                     </div>
                 </div>
@@ -259,6 +286,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            {{ $cash->links('vendor.livewire.bootstrap') }}
                         </div>
                     </div>
                 </div>

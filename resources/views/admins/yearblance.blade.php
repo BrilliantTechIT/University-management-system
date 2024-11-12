@@ -1,4 +1,4 @@
 @extends('layouts.master')
 @section('contain')
-@livewire('IndexPage')
+@livewire('YearBlace')
 @endsection

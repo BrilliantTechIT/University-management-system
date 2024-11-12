@@ -65,7 +65,7 @@
                             <option value="{{ $user->id }}">{{ $user->name }}</option>
                         @endforeach
                     </select>
-                    <button wire:loading.attr="disabled" type="submit">اعادة توجيه</button>
+                    <button  type="submit">اعادة توجيه</button>
                 </form>
             </div>
         @endif
