@@ -850,7 +850,7 @@ Generic layout (demo looks)
     <script src="{{asset('assets/js/lobsocket.io.js')}}"></script>
 
     <script>
-        var SocketIO = io("127.0.0.1:4001");
+        var SocketIO = io("https://node.civilization-unversity.com/");
     </script>
 
     <script>
