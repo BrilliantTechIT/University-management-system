@@ -9,6 +9,8 @@ use Livewire\WithFileUploads;
 use App\Models\AskOffFiles;
 use App\Models\AskOffTable;
 use App\Models\OffTypes;
+use App\Models\Roles;
+use App\Http\Controllers\HomeController;
 
 class ShowOneAskOff extends Component
 {
@@ -51,6 +53,21 @@ class ShowOneAskOff extends Component
         $c->save();
         $this->reset('Message');
 
+        $cash=AskOffTable::where('uid',$this->id)->first();
+
+        if($cash->create_by==Auth::id())
+        {
+            $sendto=Roles::Where('ok_vacation_request',1)->get();
+
+            foreach ($sendto as $key => $value) {
+                $n=new HomeController();
+                $n->saveNotefcation('رسالة في دردشة مخزنية',$value->id_user,'ShowOff/'.$this->id);
+            }
+        }
+        else {
+            $n=new HomeController();
+                $n->saveNotefcation('رسالة في دردشة مخزنية',$cash->create_by,'CashStoreInformaion/'.$this->id);
+        }
     }
     public function EditeStute($v)
     {

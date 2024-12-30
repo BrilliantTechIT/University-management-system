@@ -9,6 +9,7 @@ use Auth;
 use App\Models\Roles;
 use App\Models\User;
 use Str;
+use App\Http\Controllers\HomeController;
 
 class CashStore extends Component
 {
@@ -49,6 +50,13 @@ class CashStore extends Component
         $data->create_by=Auth::id();
         $data->save();
         // return back()->with('done','done');
+
+        $sendto=Roles::Where('ok_Store_exchange',1)->get();
+
+        foreach ($sendto as $key => $value) {
+            $n=new HomeController();
+            $n->saveNotefcation('طلب صرف مخزني جديد',$value->id_user,'okcashstore');
+        }
         $this->dispatch('SendResult', $this->roles,Auth::user());
 
     }

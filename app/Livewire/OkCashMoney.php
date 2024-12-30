@@ -11,6 +11,8 @@ use App\Models\User;
 use Session;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
+use App\Http\Controllers\HomeController;
+
 class OkCashMoney extends Component
 {
     public $se='';
@@ -88,12 +90,17 @@ class OkCashMoney extends Component
        $ask->stute=1;
        $ask->accept_by=Auth::id();
        $ask->save();
-    //    dd('ddd');
-    $qq= $this->dispatch('SendResultMoney', $ask->create_by,Auth::user(),'تم قبول طلب صرف لك');
-    // dd($qq);
 
-    //    Session::flash('syute_ok_money',1);
-    //    return back()->with('Okcashmoney',$ask); 
+
+       
+       $n=new HomeController();
+       $n->saveNotefcation('تم قبول طلب مالي لك',$ask->create_by,'CashMoneyInformaion/'.$ask->uid);
+       $sendto=Roles::Where('show_Financial_exchange',1)->get();
+        foreach ($sendto as $key => $value) {
+            $n=new HomeController();
+            $n->saveNotefcation('طلب صرف مالي جديد',$value->id_user,'ShowMoneyCash');
+        }
+    $qq= $this->dispatch('SendResultMoney', $ask->create_by,Auth::user(),'تم قبول طلب صرف لك');
     }
 
     public function NoOkCashMoney($id)
@@ -110,11 +117,13 @@ class OkCashMoney extends Component
         $ask->stute=2;
         $ask->save();
         Session::flash('syute_ok_money',0);
-        return back()->with('NoOkcashmoney',$ask);  
+        // return back()->with('NoOkcashmoney',$ask);  
         
        }
-       return back();
+    //    return back();
       
-
+        $n=new HomeController();
+        $n->saveNotefcation('تم رفض طلب مالي لك',$ask->create_by,'CashMoneyInformaion/'.$ask->uid);
+   
     }
 }

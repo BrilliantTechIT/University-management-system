@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Livewire\WithPagination;
 use Livewire\WithoutUrlPagination;
+use App\Http\Controllers\HomeController;
+
 // use Livewire\WithPagination;
 class Pepers extends Component
 {
@@ -97,6 +99,12 @@ class Pepers extends Component
         }
         $users=User::WhereIn('id',$request->users)->get();
         session()->flash('success','تم ارسال النص');
+        $sendto=$request->users??[];
+
+        foreach ($sendto as $key => $value) {
+            $n=new HomeController();
+            $n->saveNotefcation('ورقة رسمية جديدة',$value,'mainpeper/'. $uid);
+        }
         return redirect()->back()->with([
             'get_user' =>$users,
             'success' => 'تم الحفظ بنجاح' // Arabic for "Saved successfully"

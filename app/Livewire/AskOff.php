@@ -12,6 +12,8 @@ use App\Models\OffTypes;
 use App\Models\AskOffFiles;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
+use App\Http\Controllers\HomeController;
+
 class AskOff extends Component
 {
     public $file;
@@ -78,6 +80,13 @@ class AskOff extends Component
            $d->file=$file->store('askoff','public');
            $d->save();
         }
+
+        $sendto=Roles::Where('ok_vacation_request',1)->get();
+        foreach ($sendto as $key => $value) {
+            $n=new HomeController();
+            $n->saveNotefcation('طلب اجازة جديد',$value->id_user,'Okaskoff');
+        }
+
        session()->flash('success','تم اضافة الاجازة بنجاح');
        $this->reset();  
     }

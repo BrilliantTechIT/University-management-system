@@ -8,6 +8,9 @@ use App\Models\CashMoneyTable;
 use App\Models\ImageForCashMoney;
 use App\Models\ChatingTable;
 use Auth;
+use App\Models\Roles;
+use App\Http\Controllers\HomeController;
+
 use Livewire\WithFileUploads;
 class CashMoneyInformaion extends Component
 {
@@ -52,7 +55,23 @@ class CashMoneyInformaion extends Component
         $c->mtype="cmoney";
         $c->id_order=$this->id;
         $c->save();
+
+        $cash=CashMoneyTable::where('uid',$this->id)->first();
+        if($cash->create_by==Auth::id())
+        {
+            $sendto=Roles::Where('ok_Financial_exchange',1)->get();
+
+            foreach ($sendto as $key => $value) {
+                $n=new HomeController();
+                $n->saveNotefcation('رسالة في دردشة مالية',$value->id_user,'CashMoneyInformaion/'.$this->id);
+            }
+        }
+        else {
+            $n=new HomeController();
+                $n->saveNotefcation('رسالة في دردشة مالية',$cash->create_by,'CashMoneyInformaion/'.$this->id);
+        }
         $this->reset('Message');
+        
 
     }
     public function render()

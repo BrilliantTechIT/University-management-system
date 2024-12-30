@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Models\Roles;
 use App\Models\User;
+use App\Models\Notefcation;
+use App\Http\Controllers\HomeController;
 class AskBuy extends Component
 {
     public function render()
@@ -37,6 +39,14 @@ class AskBuy extends Component
         $data->note=$request->note;
         $data->create_by=Auth::id();
         $data->save();
+        
+
+        $sendto=Roles::Where('ok_buy_request',1)->get();
+        foreach ($sendto as $key => $value) {
+            $n=new HomeController();
+            $n->saveNotefcation('طلب شراء جديد',$value->id_user,'OKAskBuy');
+        }
+
         return back()->with('done','done');
 
     }

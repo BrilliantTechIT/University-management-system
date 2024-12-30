@@ -30,7 +30,11 @@ class PeaperManage extends Component
             $r=new peper_gets();
             $r->id_peper=$this->id_peper;
             $r->user_id=$this->user_id;
-            $r->save();
+            $r->save(); 
+            
+            
+            $n=new HomeController();
+            $n->saveNotefcation('ورقة رسمية جديدة',$this->user_id,'mainpeper/'. $this->id_peper);
         }else{
            session()->flash('error','السبب: موجود من قبل لا يمكنك اعادة التوجيه');
         }
@@ -40,6 +44,9 @@ class PeaperManage extends Component
     //    dd($this->reply);
         $r=peper_gets::where('id_peper',$this->id_peper)->where('user_id',auth()->user()->id)->first();
         $r->response=$this->reply;
+         
+        $n=new HomeController();
+        $n->saveNotefcation('صدر قرار بخصوص ورقة رسمية لك',$r->peper->id_sends,'mainpeper/'.$this->id_peper);
         $r->save(); 
       
     }

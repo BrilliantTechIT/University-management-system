@@ -12,6 +12,8 @@ use App\Models\User;
 use App\Models\ImageForCashMoney;
 use Livewire\WithFileUploads;
 use Str;
+use App\Http\Controllers\HomeController;
+
 class CashMoney extends Component
 {
     use WithFileUploads;
@@ -38,6 +40,7 @@ class CashMoney extends Component
         // }
         $roles=Roles::Where('ok_Financial_exchange',1)->Select('id_user')->get();
         $us=User::Where('runstute',1)->Wherein('id',$roles)->Select('id','name','image')->get();
+       
         
         $this->roles=$us;
         return view('livewire.cash-money',['cash'=>$data,'Users'=>$us])->layout('layouts.master');
@@ -71,7 +74,12 @@ class CashMoney extends Component
             $im->save();
 
         }
-      
+        $sendto=Roles::Where('ok_Financial_exchange',1)->get();
+
+        foreach ($sendto as $key => $value) {
+            $n=new HomeController();
+            $n->saveNotefcation('طلب صرف مالي جديد',$value->id_user,'OkCashMoney');
+        }
         $this->dispatch('SendResultMoney', $this->roles,Auth::user());
        
 

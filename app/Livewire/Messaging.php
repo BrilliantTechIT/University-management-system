@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\MessagingTable;
 use Auth;
 use App\Models\Roles;
+use App\Http\Controllers\HomeController;
+
 class Messaging extends Component
 {
     public function render()
@@ -39,7 +41,17 @@ class Messaging extends Component
            $data->create_by=Auth::id();
           $data->Save();
           
+          
         }
+
+        $sendto=$request->users;
+
+          foreach ($sendto as $key => $value) {
+              $n=new HomeController();
+              $n->saveNotefcation('بريد داخلي جديد',$value,'Messaging');
+          }
+
+
         // return $d;
         return back()->with('us_mes',$request->users);
     }

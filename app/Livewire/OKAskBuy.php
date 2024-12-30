@@ -39,6 +39,9 @@ class OKAskBuy extends Component
        $ask->accept_by=Auth::id();
        $ask->save();
        Session::flash('stute_ok_buy',1);
+    //    $n=new HomeController();
+    //    $n->saveNotefcation('تم قبول طلب مالي لك',$ask->create_by,'CashMoneyInformaion/'.$ask->uid);
+
        return back()->with('OKAskBuy',$ask); 
     }
 

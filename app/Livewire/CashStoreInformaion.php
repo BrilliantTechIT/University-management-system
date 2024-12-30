@@ -8,6 +8,9 @@ use App\Models\CashStore;
 use App\Models\ImageForCashMoney;
 use App\Models\ChatingTable;
 use Auth;
+use App\Models\Roles;
+use App\Http\Controllers\HomeController;
+
 use Livewire\WithFileUploads;
 
 class CashStoreInformaion extends Component
@@ -74,6 +77,21 @@ class CashStoreInformaion extends Component
         $c->mtype="cstore";
         $c->id_order=$this->id;
         $c->save();
+        $cash=CashStore::where('uid',$this->id)->first();
+
+        if($cash->create_by==Auth::id())
+        {
+            $sendto=Roles::Where('ok_Store_exchange',1)->get();
+
+            foreach ($sendto as $key => $value) {
+                $n=new HomeController();
+                $n->saveNotefcation('رسالة في دردشة مخزنية',$value->id_user,'CashStoreInformaion/'.$this->id);
+            }
+        }
+        else {
+            $n=new HomeController();
+                $n->saveNotefcation('رسالة في دردشة مخزنية',$cash->create_by,'CashStoreInformaion/'.$this->id);
+        }
         $this->reset('Message');
 
     }

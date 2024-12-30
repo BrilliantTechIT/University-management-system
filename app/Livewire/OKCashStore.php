@@ -11,6 +11,8 @@ use App\Models\User;
 use Session;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
+use App\Http\Controllers\HomeController;
+
 class OKCashStore extends Component
 {
     public $se='';
@@ -77,6 +79,15 @@ class OKCashStore extends Component
        $ask->stute=1;
        $ask->accept_by=Auth::id();
        $ask->save();
+       
+
+       $n=new HomeController();
+       $n->saveNotefcation('تم قبول طلب مخزني لك',$ask->create_by,'CashStoreInformaion/'.$ask->uid);
+       $sendto=Roles::Where('show_Store_exchange',1)->get();
+        foreach ($sendto as $key => $value) {
+            $n=new HomeController();
+            $n->saveNotefcation('طلب صرف مخزني جديد',$value->id_user,'showcahstore');
+        }
     //    Session::flash('stute_ok_store',1);
     //    return back()->with('OkCashstore',$ask); 
     }
@@ -98,7 +109,10 @@ class OKCashStore extends Component
         // return back()->with('NoOkCashstore',$ask);  
         
        }
-       return back();
+
+       $n=new HomeController();
+       $n->saveNotefcation('تم رفض طلب مخزني لك',$ask->create_by,'CashStoreInformaion/'.$ask->uid);
+    //    return back();
       
 
     }

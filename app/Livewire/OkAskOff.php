@@ -39,6 +39,14 @@ class OkAskOff extends Component
        $ask->stute=1;
        $ask->accept_by=Auth::id();
        $ask->save();
+
+       $n=new HomeController();
+       $n->saveNotefcation('تم قبول طلب اجازة لك',$ask->create_by,'ShowOff/'.$ask->uid);
+       $sendto=Roles::Where('show_vacation_request',1)->get();
+        foreach ($sendto as $key => $value) {
+            $n=new HomeController();
+            $n->saveNotefcation('طلب صرف اجازة جديد',$value->id_user,'ShowAskOff');
+        }
       session()->flash('success','تم الموافقة على الطلب');
     }
 
@@ -62,6 +70,8 @@ class OkAskOff extends Component
         
         
        }
+       $n=new HomeController();
+       $n->saveNotefcation('تم رفض طلب اجازة لك',$ask->create_by,'ShowOff/'.$ask->uid);
       session()->flash('success','تم رفض الطلب');
     }
 }

@@ -16,6 +16,7 @@ use App\Models\gruops;
 use App\Models\ChatingTable;
 use Hash;
 use App\Models\ConnectGruopUser;
+use App\Models\Notefcation;
 
 
 use App\Models\tasking;
@@ -146,6 +147,16 @@ class HomeController extends Controller
         $data=ChatingTable::Where('id_order',$request->id)->where('mtype',$request->mtype)->get();
         return view('chat',['m'=>$data,'orid'=>$request->id]);
     }
+    public  function saveNotefcation($m,$r,$rid) {  
+        $not=new Notefcation();
+        $not->user_id=Auth::id();
+        $not->notificationmessage=$m;
+        $not->receiver_id=$r;
+        $not->route=$rid;
+        $not->save();
+    }
+
+    
 
 
    
