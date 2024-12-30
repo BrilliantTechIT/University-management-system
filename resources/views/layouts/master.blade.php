@@ -34,6 +34,8 @@
     </title>
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -511,18 +513,10 @@ Generic layout (demo looks)
                             </a>
                         </li>
                         <li class="nav-item d-xl-none pe-3 d-flex align-items-center">
-                            <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
-                                <div class="sidenav-toggler-inner">
-                                    <i class="sidenav-toggler-line"></i>
-                                    <i class="sidenav-toggler-line"></i>
-                                    <i class="sidenav-toggler-line"></i>
-                                </div>
-                            </a>
+                           
                         </li>
                         <li class="nav-item px-3 d-flex align-items-center">
-                            <a href="javascript:;" class="nav-link text-body p-0">
-                                <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
-                            </a>
+                            
                         </li>
                         <li class="nav-item dropdown ps-2 d-flex align-items-center">
                             <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton"
@@ -531,24 +525,27 @@ Generic layout (demo looks)
                             </a>
                             <ul id="not_list" class="dropdown-menu  px-2 py-3 me-sm-n4"
                                 aria-labelledby="dropdownMenuButton">
-                                {{-- <li class="mb-2">
+                                 <li class="mb-2">
                                     <a class="dropdown-item border-radius-md" href="javascript:;">
                                         <div class="d-flex py-1">
                                             <div class="my-auto">
                                                 <img src="{{asset('')}}assets/img/team-2.jpg" class="avatar avatar-sm  ms-3 ">
                                             </div>
                                             <div class="d-flex flex-column justify-content-center">
+                                           
                                                 <h6 class="text-sm font-weight-normal mb-1">
-                                                    <span class="font-weight-bold">New message</span> from Laur
+                                
+                                                    <span class="font-weight-bold">hhhhhhh</span> from Laur
                                                 </h6>
                                                 <p class="text-xs text-secondary mb-0">
                                                     <i class="fa fa-clock me-1"></i>
                                                     13 minutes ago
                                                 </p>
+                                               
                                             </div>
                                         </div>
                                     </a>
-                                </li> --}}
+                                </li> 
 
                             </ul>
                         </li>
